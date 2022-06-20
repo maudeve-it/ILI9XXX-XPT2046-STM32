@@ -8,8 +8,8 @@
  */
 
 
-#ifndef __Z_DISPL_ILI9488_H
-#define __Z_DISPL_ILI9488_H
+#ifndef __Z_DISPL_ILI9XXX_H
+#define __Z_DISPL_ILI9XXX_H
 
 /******************    STEP 0    *****************
  * which display are you usng?
@@ -289,4 +289,4 @@ uint32_t  Displ_BackLight(uint8_t cmd);
 
 
 
-#endif /* __Z_DISPL_ILI9341_H */
+#endif /* __Z_DISPL_ILI9XXX_H */

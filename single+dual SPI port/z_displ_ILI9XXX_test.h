@@ -1,5 +1,5 @@
 /*
- * z_displ_ILI9488_test.h
+ * z_displ_ILI9XXX_test.h
  *
  *  Created on: 2 giu 2022
  *      Author: mauro
@@ -13,7 +13,7 @@
  *
  *  STEP 1
  *
- *  on main.c (USER CODE BEGIN 2) put:
+ *  on main.c (position: USER CODE BEGIN 2) put:
  *  Displ_Init(Displ_Orientat_180);			// initialize display controller
  *  Displ_CLS(BLACK);						// clear the screen
  *  Displ_BackLight('I');  					// initialize backlight
@@ -27,8 +27,8 @@
  *
  */
 
-#ifndef INC_Z_DISPL_ST7735_TEST_H_
-#define INC_Z_DISPL_ST7735_TEST_H_
+#ifndef INC_Z_DISPL_ILI9XXX_TEST_H_
+#define INC_Z_DISPL_ILI9XXX_TEST_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,4 +42,4 @@ void Displ_PerfTest();
 void Displ_ColorTest();
 void Displ_TestAll ();
 
-#endif /* INC_Z_DISPL_ST7735_TEST_H_ */
+#endif /* INC_Z_DISPL_ILI9XXX_TEST_H_ */
