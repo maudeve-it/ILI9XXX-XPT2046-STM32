@@ -30,22 +30,12 @@ static uint8_t dispBuffer1[SIZEBUF];
 static uint8_t dispBuffer2[SIZEBUF];
 static uint8_t *dispBuffer=dispBuffer1;
 
-Displ_Orientat_e current_orientation;				// indicates the active display orientation. Set by Displ_Orientation
-
-
-
-
-
-
-
-
-
 
 
 
 
 /**********************************
- * @brief	initialization sequence
+ * @brief	ILIXXX initialization sequence
  **********************************/
 void ILI9XXX_Init()
 {
@@ -54,20 +44,20 @@ void ILI9XXX_Init()
 	HAL_GPIO_WritePin(DISPL_RST_GPIO_Port, DISPL_RST_Pin, GPIO_PIN_SET);
 	HAL_Delay(150);
 
-	Displ_WriteCommand(ILI9488_PIXEL_FORMAT);
+	Displ_WriteCommand(ILI9XXX_PIXEL_FORMAT);
 #ifdef RGB666
 	Displ_WriteData((uint8_t *)"\x66",1);		// RGB666
 #endif
 #ifdef RGB565
 	Displ_WriteData((uint8_t *)"\x55",1);		// RGB565
 #endif
-	Displ_WriteCommand(ILI9488_RGB_INTERFACE);
+	Displ_WriteCommand(ILI9XXX_RGB_INTERFACE);
 	Displ_WriteData((uint8_t *)"\x80",1);        // disable MISO pin
 
-	Displ_WriteCommand(ILI9488_SLEEP_OUT);
+	Displ_WriteCommand(ILI9XXX_SLEEP_OUT);
 	HAL_Delay(120);
 
-	Displ_WriteCommand(ILI9488_DISPLAY_ON);
+	Displ_WriteCommand(ILI9XXX_DISPLAY_ON);
 	HAL_Delay(5);
 
 }
@@ -77,23 +67,23 @@ void ILI9XXX_Init()
 /**********************************************
  * @brief	defines the display area involved
  * 			in a writing operation and set
- * 			display ready do receive pixel
+ * 			display ready to receive pixel
  * 			information
  * @param  x1,y1,x2,y2 top left and bottom
  * 					   right corner of the area
  * 					   to write
  **********************************************/
 void Displ_SetAddressWindow(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
- uint8_t data1[] = { x1>>8, x1 & 0xFF, x2>>8, x2 & 0xFF};
+	static uint8_t data[4];
 
- Displ_WriteCommand(ILI9488_COLUMN_ADDR);
- Displ_WriteData(data1, sizeof(data1));
+	((uint32_t *)data)[0]=(((x2 & 0xFF)<<24) | ((x2 & 0xFF00)<<8) | ((x1 & 0xFF)<<8) | ((x1 & 0xFF00)>>8) );
+	Displ_WriteCommand(ILI9XXX_COLUMN_ADDR);
+	Displ_WriteData(data, 4);
 
- uint8_t data2[] = { y1>>8, y1 & 0xFF, y2>>8, y2 & 0xFF};
-
- Displ_WriteCommand(ILI9488_PAGE_ADDR);
- Displ_WriteData(data2, sizeof(data2));
- Displ_WriteCommand(ILI9488_MEMWR);
+	((uint32_t *)data)[0]=(((y2 & 0xFF)<<24) | ((y2 & 0xFF00)<<8) | ((y1 & 0xFF)<<8) | ((y1 & 0xFF00)>>8) );
+	Displ_WriteCommand(ILI9XXX_PAGE_ADDR);
+	Displ_WriteData(data, 4);
+	Displ_WriteCommand(ILI9XXX_MEMWR);
 }
 
 
@@ -113,55 +103,11 @@ void ILI9488_DrawImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t *
 
 
 
-void Displ_setRotation(Displ_Orientat_e m){
-	uint8_t data[1];
-	switch(m) {
-		case Displ_Orientat_0:
-			Displ_WriteCommand(ILI9488_MEMCONTROL);
-			data[0]=ILI9488_MADCTL_MY | ILI9488_MADCTL_BGR;
-			Displ_WriteData(data,1);
-			_height = DISPL_HEIGHT;
-			_width = DISPL_WIDTH;
-//			Touch_setOrientation(1);
-			break;
-		case Displ_Orientat_270:
-			Displ_WriteCommand(ILI9488_MEMCONTROL);
-			data[0]=ILI9488_MADCTL_MV | ILI9488_MADCTL_BGR;
-			Displ_WriteData(data,1);
-			_height = DISPL_WIDTH;
-			_width = DISPL_HEIGHT;
-//			Touch_setOrientation(2);
-			break;
-		case Displ_Orientat_180:
-			Displ_WriteCommand(ILI9488_MEMCONTROL);
-			data[0]=ILI9488_MADCTL_MX | ILI9488_MADCTL_BGR;
-			Displ_WriteData(data,1);
-			_height = DISPL_HEIGHT;
-			_width = DISPL_WIDTH;
-//			Touch_setOrientation(3);
-			break;
-		case Displ_Orientat_90:
-			Displ_WriteCommand(ILI9488_MEMCONTROL);
-			data[0]=ILI9488_MADCTL_MX | ILI9488_MADCTL_MY | ILI9488_MADCTL_MV | ILI9488_MADCTL_BGR;
-			Displ_WriteData(data,1);
-			_height = DISPL_WIDTH;
-			_width = DISPL_HEIGHT;
-//			Touch_setOrientation(4);
-			break;
-	}
-}
 
-
-
-
-
-
-
-
-/*****************
- * @brief	first display initialization.
- * @tion: display orientation
- *****************/
+/*****************************************************
+ * @brief				first display initialization.
+ * @param	orientation	display orientation
+ *****************************************************/
 void Displ_Init(Displ_Orientat_e orientation){
 	ILI9XXX_Init();
 	Displ_Orientation(orientation);
@@ -173,13 +119,42 @@ void Displ_Init(Displ_Orientat_e orientation){
 
 
 
-/*******************************************
- * @brief	set display orientation.
- * @param	orientation: display orientation
- *******************************************/
+/**********************************************
+ * @brief		set orientation of the display
+ * @param  	m	orientation
+ **********************************************/
 void Displ_Orientation(Displ_Orientat_e orientation){
-	current_orientation=orientation;
-	Displ_setRotation(orientation);
+	static uint8_t data[1];
+	switch(m) {
+		case Displ_Orientat_0:
+			Displ_WriteCommand(ILI9XXX_MADCTL);
+			data[0]=ILI9XXX_MADCTL_0DEG;
+			Displ_WriteData(data,1);
+			_height = DISPL_HEIGHT;
+			_width = DISPL_WIDTH;
+			break;
+		case Displ_Orientat_90:
+			Displ_WriteCommand(ILI9XXX_MADCTL);
+			data[0]=ILI9XXX_MADCTL_90DEG;
+			Displ_WriteData(data,1);
+			_height = DISPL_WIDTH;
+			_width = DISPL_HEIGHT;
+			break;
+		case Displ_Orientat_180:
+			Displ_WriteCommand(ILI9XXX_MADCTL);
+			data[0]=ILI9XXX_MADCTL_180DEG;
+			Displ_WriteData(data,1);
+			_height = DISPL_HEIGHT;
+			_width = DISPL_WIDTH;
+			break;
+		case Displ_Orientat_270:
+			Displ_WriteCommand(ILI9XXX_MADCTL);
+			data[0]=ILI9XXX_MADCTL_270DEG;
+			Displ_WriteData(data,1);
+			_height = DISPL_WIDTH;
+			_width = DISPL_HEIGHT;
+			break;
+	}
 }
 
 
@@ -215,9 +190,9 @@ void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi){
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi) {
 	if (hspi->Instance==DISPL_SPI) {
 		Displ_SpiAvailable=1;
-//		HAL_NVIC_ClearPendingIRQ(PENDOWN_IRQ);
-//		HAL_NVIC_EnableIRQ(PENDOWN_IRQ);
-//		HAL_NVIC_ClearPendingIRQ(PENDOWN_IRQ);
+//		HAL_NVIC_ClearPendingIRQ(TOUCH_INT_EXTI_IRQn);
+//		HAL_NVIC_EnableIRQ(TOUCH_INT_EXTI_IRQn);
+//		HAL_NVIC_ClearPendingIRQ(TOUCH_INT_EXTI_IRQn);
 		Touch_PenDown=0;    //reset touch interrupt flag: using display enable it
 	}
 }
@@ -236,27 +211,27 @@ void Displ_Transmit(GPIO_PinState DC_Status, uint8_t* data, uint16_t dataSize ){
 
 while (!Displ_SpiAvailable) {};  // waiting for a free SPI port. Flag is set to 1 by transmission-complete interrupt callback
 
-Displ_Select();
 HAL_GPIO_WritePin(DISPL_DC_GPIO_Port, DISPL_DC_Pin, DC_Status);
-//HAL_NVIC_DisableIRQ(PENDOWN_IRQ);
+Displ_Select();
+//HAL_NVIC_DisableIRQ(TOUCH_INT_EXTI_IRQn);
 
 #ifndef DISPLAY_SPI_INTERRUPT_MODE
 	#ifdef DISPLAY_SPI_DMA_MODE
 	if (dataSize<DISPL_DMA_CUTOFF) {
 	#endif
 		Displ_SpiAvailable=0;
-//		HAL_NVIC_DisableIRQ(PENDOWN_IRQ);
+//		HAL_NVIC_DisableIRQ(TOUCH_INT_EXTI_IRQn);
 		HAL_SPI_Transmit(&DISPL_SPI_PORT , data, dataSize, HAL_MAX_DELAY);
 		Displ_SpiAvailable=1;
-//		HAL_NVIC_ClearPendingIRQ(PENDOWN_IRQ);
-//		HAL_NVIC_EnableIRQ(PENDOWN_IRQ);
-//		HAL_NVIC_ClearPendingIRQ(PENDOWN_IRQ);
+//		HAL_NVIC_ClearPendingIRQ(TOUCH_INT_EXTI_IRQn);
+//		HAL_NVIC_EnableIRQ(TOUCH_INT_EXTI_IRQn);
+//		HAL_NVIC_ClearPendingIRQ(TOUCH_INT_EXTI_IRQn);
 //		Touch_PenDown=0;    //reset touch interrupt flag: using display enable it
 	#ifdef DISPLAY_SPI_DMA_MODE
 	}
 	else {
 		Displ_SpiAvailable=0;
-//		HAL_NVIC_DisableIRQ(PENDOWN_IRQ);
+//		HAL_NVIC_DisableIRQ(TOUCH_INT_EXTI_IRQn);
 		HAL_SPI_Transmit_DMA(&DISPL_SPI_PORT , data, dataSize);
 	}
 	#endif
@@ -264,7 +239,7 @@ HAL_GPIO_WritePin(DISPL_DC_GPIO_Port, DISPL_DC_Pin, DC_Status);
 
 #ifdef DISPLAY_SPI_INTERRUPT_MODE
 	Displ_SpiAvailable=0;
-//	HAL_NVIC_DisableIRQ(PENDOWN_IRQ);
+//	HAL_NVIC_DisableIRQ(TOUCH_INT_EXTI_IRQn);
 	HAL_SPI_Transmit_IT(&DISPL_SPI_PORT , data, dataSize);
 #endif
 
@@ -275,7 +250,7 @@ HAL_GPIO_WritePin(DISPL_DC_GPIO_Port, DISPL_DC_Pin, DC_Status);
 
 
 
-/* using NSS Hardware Device Select
+/* 
  *
  */
 void Displ_WriteCommand(uint8_t cmd){
@@ -288,16 +263,13 @@ void Displ_WriteCommand(uint8_t cmd){
 
 
 
-/* using NSS Hardware Device Select
+/* 
  *
  */
 void Displ_WriteData(uint8_t* buff, size_t buff_size){
 	if (buff_size==0) return;
 	Displ_Transmit(SPI_DATA, buff, buff_size);
 }
-
-
-
 
 
 
@@ -330,31 +302,13 @@ void Displ_CLS(uint16_t bgcolor){
 
 
 
-
-/*****************************
- * @brief	fill a rectangle with a color
- * @param	x, y	top left corner of the rectangle
- * 			w, h 	width and height of the rectangle
- ******************************/
-
-
-
-
-
-
-
-
 /*****************************
  * @brief	fill a rectangle with a color
  * @param	x, y	top left corner of the rectangle
  * 			w, h 	width and height of the rectangle
  ******************************/
 void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
-
 	uint32_t k,x1,y1,area;
-
-
-
 
 	if((x >= _width) || (y >= _height) || (w == 0) || (h == 0)) return;//
 
@@ -432,9 +386,7 @@ void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t col
 	Displ_WriteData(dispBuffer,(area-k*datasize));      //transfer last data frame
 #endif
 
-
 	dispBuffer = (dispBuffer==dispBuffer1 ? dispBuffer2 : dispBuffer1); // swapping buffer
-
 
 }
 
@@ -941,16 +893,6 @@ void Displ_fillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, 
 
 
 
-
-
-
-
-
-
-
-
-
-
 /************************
  * @brief	print a string on display starting from a defined position
  * @params	x, y	top left area-to-print corner
@@ -981,7 +923,6 @@ void Displ_WString(uint16_t x, uint16_t y, const char* str, sFONT font, uint8_t 
             }
         }
  */
-
         Displ_WChar(x, y, *str, font, size, color, bgcolor);
         x += delta;
         str++;
@@ -1036,13 +977,6 @@ void Displ_CString(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, const cha
 	Displ_WString(x, y, str, font, size, color, bgcolor);
 
 }
-
-
-
-
-
-
-
 
 
 

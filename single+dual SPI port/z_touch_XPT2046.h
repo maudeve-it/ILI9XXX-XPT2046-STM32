@@ -13,6 +13,7 @@
 #define __XPT2046_H
 
 
+/***** USER/PROJECT PARAMETERS *****/
 /**************** PORT PARAMETERS *****************
  ** properly set the below the 2 defines to address
  ********  the SPI port defined on CubeMX *********/
@@ -20,6 +21,17 @@
 #define TOUCH_SPI_PORT 	hspi1
 #define TOUCH_SPI 		SPI1
 
+
+/**********************************************************************************
+ * define here interrupt assigned to pendown display signaling.
+ * this interrupt will be disabled during SPI communication with touch device
+ **********************************************************************************/
+#define PENDOWN_IRQ	EXTI15_10_IRQn
+
+/***** END OF "USER/PROJECT PARAMETERS" *****/
+
+
+/***** DEVICE PARAMETERS *****/
 /**************************************************
  * this is the command to send to XPT2046 asking to
  * poll axis and return corresponging value.
@@ -27,7 +39,6 @@
 #define X_AXIS		0xD0
 #define Y_AXIS		0x90
 #define Z_AXIS		0xB0
-
 
 
 /**********************************************************************************
@@ -44,7 +55,6 @@
 #define X_THRESHOLD		0x0500	//below threeshold there is no touch
 #define Z_THRESHOLD		0x0500	//below threeshold there is no touch
 #endif
-
 
 
 /**********************************************************************************
@@ -69,13 +79,12 @@
 #endif
 
 
-
 /**********************************************************************************
  * parameters screen/touch orientation: set the touch orientation to the corresponding
  * screen orientation:
  * on ILI9341 0° on touch correspond to 0° of the screen
  * on ILI9341 0° on touch correspond to 270° of the screen
- * set also the size of a 0° row and a 90° row
+ * set also the size of a 0° row and a 90° row (a 0° height)
  **********************************************************************************/
 #ifdef ILI9341
 #define TOUCH0 			Displ_Orientat_0
@@ -96,19 +105,7 @@
 #endif
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+/***** END OF "DEVICE PARAMETERS" *****/
 
 
 
@@ -117,23 +114,11 @@
  **********************************************************************************/
 
 
-
-
 typedef struct {
 	uint8_t	isTouch;
 	uint16_t Xpos;
 	uint16_t Ypos;
 }sTouchData;
-
-
-
-/**********************************************************************************
- * define here interrupt assigned to pendown display signaling.
- * this interrupt will be disabled during SPI communication with touch device
- **********************************************************************************/
-#define PENDOWN_IRQ	EXTI15_10_IRQn
-
-
 
 
 

@@ -90,10 +90,7 @@ void testFastLines(uint16_t color1, uint16_t color2)
     int           x, y, w = _width, h = _height;
 
     Displ_CLS(BLACK);
-//    for (y = 0; y < h; y += 5) drawFastHLine(0, y, w, color1);
     for (y = 0; y < h; y += 5) Displ_Line(0, y, w-1, y, color1);
-
-//    for (x = 0; x < w; x += 5) drawFastVLine(x, 0, h, color2);
     for (x = 0; x < w; x += 5) Displ_Line(x, 0, x, h-1, color2);
 }
 
@@ -111,7 +108,6 @@ void testRects(uint16_t color)
 	n     = min(_width, _height);
 	for (i = 2; i < n; i += 6) {
 		i2 = i / 2;
-//        drawRect(cx - i2, cy - i2, i, i, color);
 		Displ_Border(cx - i2, cy - i2, i, i, 1, color);
 	}
 }
@@ -129,11 +125,7 @@ void testFilledRects(uint16_t color1, uint16_t color2)
 	n = min(_width, _height);
 	for (i = n; i > 0; i -= 6) {
 		i2    = i / 2;
-
-//       fillRect(cx - i2, cy - i2, i, i, color1);
 		Displ_FillArea(cx - i2, cy - i2, i, i, color1);
-
-//        drawRect(cx - i2, cy - i2, i, i, color2);
 		Displ_Border(cx - i2, cy - i2, i, i, 1, color2);
 	}
 }
@@ -144,7 +136,6 @@ void testFilledRects(uint16_t color1, uint16_t color2)
 void testFilledCircles(uint8_t radius, uint16_t color)
 {
     int x, y, w = _width, h = _height, r2 = radius * 2;
-
     Displ_CLS(BLACK);
     for (x = radius; x < w; x += r2) {
         for (y = radius; y < h; y += r2) {
@@ -163,7 +154,6 @@ void testCircles(uint8_t radius, uint16_t color)
     int           x, y, r2 = radius * 2,
                         w = _width  + radius,
                         h = _height + radius;
-
     // Screen is not cleared for this one -- this is
     // intentional and does not affect the reported time.
     for (x = 0; x < w; x += r2) {
@@ -277,7 +267,6 @@ void TestChar(){
 void wait(uint16_t delay){
 uint16_t time;
 volatile uint32_t dummy1,dummy2;
-//volatile uint32_t *mem = 0x20000000;
 
 	time=HAL_GetTick();
 	dummy1=0;
@@ -339,11 +328,10 @@ void TestHVLine() {
 void Displ_Page(char * str1,char * str2,char * str3, uint8_t mode) {
 const uint16_t bcol0=BLACK, col1=WHITE, col2=WHITE, col3=WHITE, bcol1=BLUE, bcol2=BLACK, bcol3=BLACK;
 	Displ_FillArea(0, 21, _width, 72, bcol0);
-	Displ_CString(0,21, _width, 21+24, str1, Font24, 1, col1,bcol1);
-	Displ_CString(0,54, _width, 54+20, str2, Font20, 1, col2,bcol2);
-	Displ_CString(0,77, _width, 77+20, str3, Font20, 1, col3,bcol3);
+	Displ_CString(1,21, _width-1, 21+24, str1, Font24, 1, col1,bcol1);
+	Displ_CString(1,54, _width-1, 54+24, str2, Font20, 1, col2,bcol2);
+	Displ_CString(1,77, _width-1, 77+24, str3, Font20, 1, col3,bcol3);
 }
-
 
 
 

@@ -37,10 +37,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 void Touch_Select(void) {
 	if (!HAL_GPIO_ReadPin(DISPL_CS_GPIO_Port, DISPL_CS_Pin))
 		HAL_GPIO_WritePin(DISPL_CS_GPIO_Port, DISPL_CS_Pin, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(TOUCH_CS_GPIO_Port, TOUCH_CS_Pin, GPIO_PIN_RESET);
 	if (TOUCH_SPI==DISPL_SPI){
 		SET_SPI_BAUDRATE(TOUCH_PRESCALER);	//change SPI port speed as per touch needs
 	}
+	HAL_GPIO_WritePin(TOUCH_CS_GPIO_Port, TOUCH_CS_Pin, GPIO_PIN_RESET);
 }
 
 
@@ -71,7 +71,7 @@ uint16_t Touch_PollAxis(uint8_t axis) {
 	
 	while (!Displ_SpiAvailable) {};  // waiting for a free SPI port. Flag is set to 1 by transmission-complete interrupt callback
 
-	HAL_NVIC_DisableIRQ(PENDOWN_IRQ);
+	HAL_NVIC_DisableIRQ(TOUCH_INT_EXTI_IRQn);
 	Touch_Select();
 
 	Displ_SpiAvailable=0;
@@ -86,9 +86,9 @@ uint16_t Touch_PollAxis(uint8_t axis) {
 	Displ_SpiAvailable=1;
 	if (poll16!=0)
 		__NOP();
-	HAL_NVIC_ClearPendingIRQ(PENDOWN_IRQ);
-	HAL_NVIC_EnableIRQ(PENDOWN_IRQ);
-	HAL_NVIC_ClearPendingIRQ(PENDOWN_IRQ);
+	HAL_NVIC_ClearPendingIRQ(TOUCH_INT_EXTI_IRQn);
+	HAL_NVIC_EnableIRQ(TOUCH_INT_EXTI_IRQn);
+	HAL_NVIC_ClearPendingIRQ(TOUCH_INT_EXTI_IRQn);
 	Touch_PenDown=0;    //reset interrupt flag
 	return poll16;
 }
@@ -115,6 +115,7 @@ uint32_t touchx,touchy,touch;
 		return XYposition;  // no touch: return 0
 	Touch_PenDown=0;
 
+// device has a touch get the average value (over "pollingLevel" attemptsof X and Y axes
 	touch=0;
 	for (k=0;k<(1<<pollingLevel);k++)
 		touch += Touch_PollAxis(Y_AXIS);
@@ -131,6 +132,7 @@ uint32_t touchx,touchy,touch;
 		return XYposition;	// no touch: return 0
 	touchx=(AX*touch+BX);
 
+//havin X and Y axis average values
 // calculating coordinates as per screen orientation
 	switch (current_orientation) {
 	case TOUCH0:
@@ -150,6 +152,7 @@ uint32_t touchx,touchy,touch;
 		XYposition.Ypos=touchx;
 		break;
 	}
+
 // set flag indicating there was a touch
 	XYposition.isTouch=1;
 	return XYposition;
@@ -185,7 +188,7 @@ uint8_t Touch_WaitForTouch(uint16_t delay) {
 /*************************************************************
  * @brief			wait for the pen left within an assigned time
  * @params	delay	max time (ms) waiting for leaving touch, 0=infinite
- * #return	1 		if display with no touch
+ * #return	1 		if no touch on display
  * 			0		if elapsed time still touching display
  *************************************************************/
 uint8_t Touch_WaitForUntouch(uint16_t delay) {
@@ -198,7 +201,7 @@ uint8_t Touch_WaitForUntouch(uint16_t delay) {
 			return 0;
 		if (Touch_PollAxis(Z_AXIS)<=Z_THRESHOLD)
 			pen_up=1;
-//		if (Touch_PollAxis(Y_AXIS)>=Y_THRESHOLD)     // Y_AXIS no more used since introducing ILI9488
+//		if (Touch_PollAxis(Y_AXIS)>=Y_THRESHOLD)     // check on Y_AXIS no more used since introducing ILI9488
 //			pen_up=1;
 		if (Touch_PollAxis(X_AXIS)<=X_THRESHOLD)
 			pen_up=1;
@@ -217,9 +220,6 @@ uint8_t Touch_WaitForUntouch(uint16_t delay) {
 
 /***********************************************************
  * @brief			check if interrupt registered a touch
- * @params	delay	max time (ms) waiting for a touch, 0=infinite
- * #return	1 		if touched within "delay" period
- * 			0		if elapsed time with no touch
  ***********************************************************/
 uint8_t Touch_GotATouch() {
 
@@ -228,5 +228,30 @@ uint8_t Touch_GotATouch() {
 
 
 
+
+
+
+/***********************************************************
+ * @brief			check if there is a touch inside the
+ * 					display area defined by parameters
+ * @params	xpos,
+ * 			ypos,
+ * 			width,
+ * 			height	display area to be polled for a touch
+ * @return	1		if there is a touche inside area
+ * 			0		if no touch or touch outside area defined
+ ***********************************************************/
+uint8_t Is_Touch_XY_area(uint16_t xpos,uint16_t ypos,uint16_t width,uint16_t height) {
+sTouchData posXY;
+	posXY=Touch_GetXYtouch();
+	if (!posXY.isTouch)
+		return 0;
+	if (posXY.Xpos>=xpos)
+		if (posXY.Xpos<xpos+width)
+			if (posXY.Ypos>=ypos)
+				if (posXY.Ypos<ypos+height)
+					return 1;
+	return 0;
+}
 
 
