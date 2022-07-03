@@ -16,8 +16,8 @@
 /******************    STEP 0    *****************
  * which display are you usng?
  *************************************************/
-#define ILI9341
-//#define ILI9488
+//#define ILI9341
+#define ILI9488
 
 
 
@@ -87,7 +87,7 @@
  * -	10 needed for 1 char in Font24 size
 ***************************************************/
 #define BUFLEVEL 12
-#define SIZEBUF 1<<BUFLEVEL
+#define SIZEBUF (1<<BUFLEVEL)
 
 /*|||||||| END OF USER/PROJECT PARAMETERS ||||||||*/
 
@@ -177,7 +177,7 @@ typedef enum {
 
 
 /**********************************
-/* ILI9XXX LCD family commands
+/ ILI9XXX LCD family commands
  **********************************/
 #define ILI9XXX_SLEEP_OUT			0x11	//wake up display
 #define ILI9XXX_DISPLAY_ON			0x29	// enable display
@@ -192,6 +192,8 @@ typedef enum {
 #define ILI9XXX_MADCTL_180DEG 		0x48	// parameter of MADCTL command
 #define ILI9XXX_MADCTL_270DEG 		0x28	// parameter of MADCTL command
 
+#define ILI9XXX_INIT_SHORT_DELAY	5		// Hal_Delay parameter
+#define ILI9XXX_INIT_LONG_DELAY		150		// Hal_Delay parameter
 
 /**********************************************************
  * macro changing SPI baudrate prescaler

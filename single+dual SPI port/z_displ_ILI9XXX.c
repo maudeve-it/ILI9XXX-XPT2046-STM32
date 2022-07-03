@@ -21,6 +21,7 @@ extern TIM_HandleTypeDef BKLIT_T;
 extern volatile uint8_t Touch_PenDown;						// set to 1 by pendown interrupt callback, reset to 0 by sw
 
 
+Displ_Orientat_e current_orientation;				// stores the active display orientation. Set by Displ_Orientation
 volatile uint8_t Displ_SpiAvailable=1;  			// 0 if SPI is busy or 1 if it is free (transm cplt)
 
 int16_t _width;       								///< (oriented) display width
@@ -125,36 +126,31 @@ void Displ_Init(Displ_Orientat_e orientation){
  **********************************************/
 void Displ_Orientation(Displ_Orientat_e orientation){
 	static uint8_t data[1];
-	switch(m) {
+	switch(orientation) {
 		case Displ_Orientat_0:
-			Displ_WriteCommand(ILI9XXX_MADCTL);
 			data[0]=ILI9XXX_MADCTL_0DEG;
-			Displ_WriteData(data,1);
 			_height = DISPL_HEIGHT;
 			_width = DISPL_WIDTH;
 			break;
 		case Displ_Orientat_90:
-			Displ_WriteCommand(ILI9XXX_MADCTL);
 			data[0]=ILI9XXX_MADCTL_90DEG;
-			Displ_WriteData(data,1);
 			_height = DISPL_WIDTH;
 			_width = DISPL_HEIGHT;
 			break;
 		case Displ_Orientat_180:
-			Displ_WriteCommand(ILI9XXX_MADCTL);
 			data[0]=ILI9XXX_MADCTL_180DEG;
-			Displ_WriteData(data,1);
 			_height = DISPL_HEIGHT;
 			_width = DISPL_WIDTH;
 			break;
 		case Displ_Orientat_270:
-			Displ_WriteCommand(ILI9XXX_MADCTL);
 			data[0]=ILI9XXX_MADCTL_270DEG;
-			Displ_WriteData(data,1);
 			_height = DISPL_WIDTH;
 			_width = DISPL_HEIGHT;
 			break;
 	}
+	Displ_WriteCommand(ILI9XXX_MADCTL);
+	Displ_WriteData(data,1);
+	current_orientation = orientation;  //stores active orientation into a global variable for touch routines
 }
 
 
@@ -308,7 +304,14 @@ void Displ_CLS(uint16_t bgcolor){
  * 			w, h 	width and height of the rectangle
  ******************************/
 void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
-	uint32_t k,x1,y1,area;
+/* four steps:
+ * -	define area size to file and data size to transfer
+ * -	setup data buffer to transfer
+ * -	transfer data to display
+ * -	swap buffers
+ */
+
+	uint32_t k,x1,y1,area,times;
 
 	if((x >= _width) || (y >= _height) || (w == 0) || (h == 0)) return;//
 
@@ -321,10 +324,12 @@ void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t col
 	if (y1 > _height) {
 		y1=_height;
 	}
-#ifdef RGB565
-	// setting up dispBuffer in RGB565 format
 
-	uint32_t times,data32;
+
+// SETUP DISPLAY DATA BUFFER TO TRANSFER
+#ifdef RGB565 // setting up dispBuffer in RGB565 format
+
+	uint32_t data32;
 
 	data32=(color>>8) | (color<<8) | (color<<24); 	// supposing color is 0xABCD, data32 becomes 0xCDABCDAB - set a 32 bit variable with swapped endians
 	area=((y1-y+1)*(x1-x+1)); 						// area to fill in 16bit pixels
@@ -335,13 +340,9 @@ void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t col
 		times=(SIZEBUF>>2);  						// dispBuffer size as 32bit-words
 	for (k = 0; k < times; k++)
 		*(buf32Pos++)=data32; 						// loads buffer moving 32bit-words
-	times=(area>>(BUFLEVEL-1));  					//how many times buffer must be sent via SPI. It is (BUFFLEVEL-1) because area is 16-bit while dispBuffer is 8-bit
 
 #endif
-
-
-#ifdef RGB666
-	// setting up dispBuffer in RGB666 format
+#ifdef RGB666 // setting up dispBuffer in RGB666 format
 	uint32_t datasize;
 
 	uint8_t Rbyte=(color & 0xF800)>>8;
@@ -351,41 +352,39 @@ void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t col
 	area=(((y1-y+1)*(x1-x+1))*3); 		// area to fill in bytes (3 bytes per pixel)
 	uint8_t *buf8Pos=dispBuffer; 		//using a local pointer
 
-	datasize = (area<SIZEBUF ? area : SIZEBUF);
+	datasize = (area<(SIZEBUF-3) ? area : (SIZEBUF-3));  //as buf8Pos receives 3 bytes each cycle we must be sure that SIZEBUF will be not overridden in the next loop
 
 	k=0;
-	while ((k+3)<=datasize){
+	while ((buf8Pos-dispBuffer)<=datasize){
 		*(buf8Pos++)=Rbyte;
 		*(buf8Pos++)=Gbyte;
 		*(buf8Pos++)=Bbyte;
-		k=k+3;
 	}
-	datasize=k;
+	datasize=(buf8Pos-dispBuffer);
 #endif
 
+
+//START WRITING TO DISPLAY
 	Displ_SetAddressWindow(x, y, x1, y1);
 
-#ifdef RGB565
-	// transferring RGB666 format dispBuffer
 
+#ifdef RGB565 // transferring RGB666 format dispBuffer
+	times=(area>>(BUFLEVEL-1));  					//how many times buffer must be sent via SPI. It is (BUFFLEVEL-1) because area is 16-bit while dispBuffer is 8-bit
 	for  (k=0;k<times;k++) {
 		Displ_WriteData(dispBuffer,SIZEBUF);
 	}
 	Displ_WriteData(dispBuffer,(area<<1)-(times<<BUFLEVEL));
 #endif
-
-
-#ifdef RGB666
-	// transferring RGB666 format dispBuffer
-
-	k=0;
-	while (((k+1)*datasize)<area){  				   	//transfer full datasize data frames (using "<" instead of "<=" I know I will have some more data to transmit
+#ifdef RGB666 // transferring RGB666 format dispBuffer
+	times=(area/datasize);  					//how many times buffer must be sent via SPI.
+	for  (k=0;k<times;k++) {
 		Displ_WriteData(dispBuffer,datasize);
-		k=k+1;
 	}
-	Displ_WriteData(dispBuffer,(area-k*datasize));      //transfer last data frame
+	Displ_WriteData(dispBuffer,(area-times*datasize));      //transfer last data frame
 #endif
 
+
+//BUFFER SWAP
 	dispBuffer = (dispBuffer==dispBuffer1 ? dispBuffer2 : dispBuffer1); // swapping buffer
 
 }

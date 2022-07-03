@@ -39,54 +39,6 @@ extern int16_t _height;      								///< (oriented) display height
 
 
 
-
-/*****************************************************
- * makes some polling to touch device and shoe timings
- *****************************************************/
-void Touch_PollingTime(void){
-	uint16_t x_touch,y_touch,time,time1;
-	char text[30];
-
-	Displ_Orientation(Displ_Orientat_90);
-	Displ_CLS(WHITE);
-	time1=HAL_GetTick();
-	time=HAL_GetTick();
-	for (uint16_t k=0;k<5000;k++){
-		x_touch = Touch_PollAxis(X_AXIS);
-	}
-	time=HAL_GetTick()-time;
-	x_touch = x_touch;
-	sprintf(text,"5000 x readings: %d   ",time);
-	Displ_WString(10,30,text,Font16,1,BLUE,WHITE);
-
-	time=HAL_GetTick();
-	for (uint16_t k=0;k<5000;k++){
-		y_touch = Touch_PollAxis(Y_AXIS);
-	}
-	time=HAL_GetTick()-time;
-	y_touch = y_touch;
-	sprintf(text,"5000 y readings: %d   ",time);
-	Displ_WString(10,50,text,Font16,1,BLUE,WHITE);
-
-	time=HAL_GetTick();
-	for (uint16_t k=0;k<5000;k++){
-		x_touch = Touch_PollAxis(X_AXIS);
-		y_touch = Touch_PollAxis(Y_AXIS);
-	}
-	time=HAL_GetTick()-time;
-	time1=HAL_GetTick()-time1;
-	sprintf(text,"5000 x/y readings: %d   ",time);
-	Displ_WString(10,70,text,Font16,1,BLUE,WHITE);
-	sprintf(text,"Total test: %d   ",time1);
-	Displ_WString(10,90,text,Font16,1,BLUE,WHITE);
-
-	Touch_WaitForTouch(0);
-	Displ_Orientation(Displ_Orientat_0);
-}
-
-
-
-
 /*************************************************************
  * used by Touch_TestDrawing() and Touch_TestCalibration()
  *************************************************************/
@@ -139,6 +91,7 @@ void MoveCross(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2,uint16_t fcol,uin
 
 
 
+extern uint16_t Touch_PollAxis(uint8_t axis);
 
 
 /*****************************************************
@@ -162,11 +115,11 @@ void Touch_ShowData(void)
 
 		Displ_FillArea(101,5,40,10,WHITE);
 
-		sprintf(text,"X=%#X      ",x_touch);
+		sprintf(text,"X=%#X      -",x_touch);
 		Displ_WString(10,30,text,Font20,1,BLUE,WHITE);
-		sprintf(text,"Y=%#X      ",y_touch);
+		sprintf(text,"Y=%#X      -",y_touch);
 		Displ_WString(10,50,text,Font20,1,BLUE,WHITE);
-		sprintf(text,"Z=%#X      ",z_touch);
+		sprintf(text,"Z=%#X      -",z_touch);
 		Displ_WString(10,70,text,Font20,1,BLUE,WHITE);
 		HAL_Delay(100);
 	}

@@ -20,8 +20,8 @@ extern Displ_Orientat_e current_orientation;			// indicates the active display o
 volatile uint8_t Touch_PenDown=0;						// set to 1 by pendown interrupt callback, reset to 0 by sw
 
 
-
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin){
+//void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	if (GPIO_Pin==TOUCH_INT_Pin)
 		Touch_PenDown=1;
 
@@ -115,7 +115,7 @@ uint32_t touchx,touchy,touch;
 		return XYposition;  // no touch: return 0
 	Touch_PenDown=0;
 
-// device has a touch get the average value (over "pollingLevel" attemptsof X and Y axes
+// device has a touch get the average value (over "pollingLevel" attempts of X and Y axes readings)
 	touch=0;
 	for (k=0;k<(1<<pollingLevel);k++)
 		touch += Touch_PollAxis(Y_AXIS);
@@ -132,9 +132,10 @@ uint32_t touchx,touchy,touch;
 		return XYposition;	// no touch: return 0
 	touchx=(AX*touch+BX);
 
-//havin X and Y axis average values
+//having X and Y axis average values
 // calculating coordinates as per screen orientation
-	switch (current_orientation) {
+	switch (current_orientation)
+	{
 	case TOUCH0:
 		XYposition.Xpos=touchx;
 		XYposition.Ypos=touchy;

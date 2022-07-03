@@ -18,15 +18,16 @@
  ** properly set the below the 2 defines to address
  ********  the SPI port defined on CubeMX *********/
 
-#define TOUCH_SPI_PORT 	hspi1
-#define TOUCH_SPI 		SPI1
+#define TOUCH_SPI_PORT 	hspi2
+#define TOUCH_SPI 		SPI2
 
 
 /**********************************************************************************
  * define here interrupt assigned to pendown display signaling.
  * this interrupt will be disabled during SPI communication with touch device
  **********************************************************************************/
-#define PENDOWN_IRQ	EXTI15_10_IRQn
+#define PENDOWN_IRQ	EXTI4_15_IRQn
+
 
 /***** END OF "USER/PROJECT PARAMETERS" *****/
 
@@ -72,10 +73,10 @@
 #define BY -39.057f
 #endif
 #ifdef ILI9488
-#define AX 0.0221f
-#define BX -27.2f
-#define AY 0.0163f
-#define BY -31.3f
+#define AX 0.0155f
+#define BX -15.0f
+#define AY 0.0110f
+#define BY -20.0f
 #endif
 
 
@@ -121,14 +122,13 @@ typedef struct {
 }sTouchData;
 
 
+void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin);
+//void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
-
-//uint8_t Touch_IsTouchingNow(void);
+uint8_t Is_Touch_XY_area(uint16_t xpos,uint16_t ypos,uint16_t width,uint16_t height);
 uint8_t Touch_GotATouch();
 uint8_t Touch_WaitForUntouch(uint16_t delay);
 uint8_t Touch_WaitForTouch(uint16_t delay);
-uint16_t Touch_PollAxis(uint8_t cmd);
 sTouchData Touch_GetXYtouch(void);
 
 
