@@ -59,7 +59,8 @@ Youtube video analyzing SPI communication to displays: https://youtu.be/oWx1-WmT
 La repository "ILI9XXX/XPT2046-STM32" contiene il codice relativi ad un set di funzioni per STM32 per la gestione di un display LCD a colori da 1,8 pollici controllato dal driver SPI ST7735S.
 
 Il sowtware sviluppato si basa su HAL attraverso STM32CubeIDE.
-Il software è stato testato su<br>
+|Il software è stato testato su||<br>
+|---|---|
 |STM32F411CE (scheda Weact Studio)|https://github.com/WeActTC/MiniSTM32F4x1|<br>
 |STM32G432KB (scheda STM Nucleo32)|https://www.st.com/en/evaluation-tools/nucleo-g431kb.html|<br>
 |STM32G071RB (scheda STM Nucleo64)|https://www.st.com/en/evaluation-tools/nucleo-g071rb.html|<br>
