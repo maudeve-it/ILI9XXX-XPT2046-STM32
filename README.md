@@ -59,12 +59,14 @@ Youtube video analyzing SPI communication to displays: https://youtu.be/oWx1-WmT
 La repository "ILI9XXX/XPT2046-STM32" contiene il codice relativi ad un set di funzioni per STM32 per la gestione di un display LCD a colori da 1,8 pollici controllato dal driver SPI ST7735S.
 
 Il sowtware sviluppato si basa su HAL attraverso STM32CubeIDE.
-|Il software è stato testato su||<br>
+|Il software è stato testato su||
 |---|---|
-|STM32F411CE (scheda Weact Studio)|https://github.com/WeActTC/MiniSTM32F4x1|<br>
-|STM32G432KB (scheda STM Nucleo32)|https://www.st.com/en/evaluation-tools/nucleo-g431kb.html|<br>
-|STM32G071RB (scheda STM Nucleo64)|https://www.st.com/en/evaluation-tools/nucleo-g071rb.html|<br>
-I display utilizzati sono:<br>
+|STM32F411CE (scheda Weact Studio)|https://github.com/WeActTC/MiniSTM32F4x1|
+|STM32G432KB (scheda STM Nucleo32)|https://www.st.com/en/evaluation-tools/nucleo-g431kb.html|
+|STM32G071RB (scheda STM Nucleo64)|https://www.st.com/en/evaluation-tools/nucleo-g071rb.html|
+
+|I display utilizzati sono:||
+|---|---|
 |2.4 inch touch TFT-LCD 240x320|https://it.aliexpress.com/item/32832952750.html|<br>
 ||https://www.amazon.it/Hiletgo%C2%AE-320-risoluzione-Touch-panel-ILI9341/dp/B0798N2HHW/ref=sr_1_3_sspa|<br>
 |3.5 inch touch TFT-LCD 320x480|https://www.aliexpress.com/item/1005003518881469.html|<br>
@@ -74,7 +76,8 @@ I display utilizzati sono:<br>
 
 ## Cartelle del progetto 
 
-- [Il Codice è qui](./single%2Bdual%20SPI%20port)
+- [Il Codice è qui](./single%2Bdual%20SPI%20port)|---|---|
+
 - [Guida per integrare il software in un progetto con CubeIDE](./HOWTO)
 - [Guida alla gestione della retroilluminazione](./BACKLIGHT)
 - [Guida alla gestione di un semplice menu](./MENU)
