@@ -18,7 +18,7 @@ Displays used:<br>
                                  [Amazon](https://www.amazon.it/Hiletgo%C2%AE-320-risoluzione-Touch-panel-ILI9341/dp/B0798N2HHW/ref=sr_1_3_sspa)<br>
 3.5 inch touch TFT-LCD 320x480:  [Aliexpress](https://www.aliexpress.com/item/1005003518881469.html)<br>
                                  [Amazon](https://www.amazon.it/LOLOVI-pollice-480x320-Seriale-Digitale/dp/B09FJYX7YQ/ref=sr_1_5)<br>
-								<a href="https://www.amazon.it/LOLOVI-pollice-480x320-Seriale-Digitale/dp/B09FJYX7YQ/ref=sr_1_5" target="_blank">Amazon</a>
+								<a href="https://www.amazon.it/LOLOVI-pollice-480x320-Seriale-Digitale/dp/B09FJYX7YQ/ref=sr_1_5" target="_blank" >Amazon</a>
 ---
 
 ## Project Folders

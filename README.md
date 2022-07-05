@@ -6,9 +6,9 @@ _**Below English text you'll find the Italian version</i>**_
 
 # ILI9XXX/XPT2046-STM32
 
-"ILI9XXX/XPT2046-STM32" repository contains the source code for a set of functions for an STM32 microcontroller, handling ILI9341 240x320 and ILI9488 320x480 touch display.
-
-Developed software is based on HAL over STM32CubeIDE.
+"ILI9XXX/XPT2046-STM32" repository contains the source code for a set of functions for an STM32 microcontroller, handling ILI9341 240x320 and ILI9488 320x480 touch display.<br>
+<br>
+Developed software is based on HAL over STM32CubeIDE.<br>
 Software has been tested over<br>
 STM32F411CE (Weact Studio board): https://github.com/WeActTC/MiniSTM32F4x1<br>
 STM32G432KB (Nucleo32 STM board): https://www.st.com/en/evaluation-tools/nucleo-g431kb.html<br>
