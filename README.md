@@ -9,16 +9,18 @@ _**Below English text you'll find the Italian version</i>**_
 "ILI9XXX/XPT2046-STM32" repository contains the source code for a set of functions for an STM32 microcontroller, handling ILI9341 240x320 and ILI9488 320x480 touch display.<br>
 <br>
 Developed software is based on HAL over STM32CubeIDE.<br>
-Software has been tested over<br>
+|Software has been tested over||
+|---|---|
+|STM32F411CE (Weact Studio board)|https://github.com/WeActTC/MiniSTM32F4x1|
+|STM32G432KB (Nucleo32 STM board)|https://www.st.com/en/evaluation-tools/nucleo-g431kb.html|
+|STM32G071RB (Nucleo64 STM board)|https://www.st.com/en/evaluation-tools/nucleo-g071rb.html|
 
-STM32F411CE (Weact Studio board): https://github.com/WeActTC/MiniSTM32F4x1<br>
-STM32G432KB (Nucleo32 STM board): https://www.st.com/en/evaluation-tools/nucleo-g431kb.html<br>
-STM32G071RB (Nucleo64 STM board): https://www.st.com/en/evaluation-tools/nucleo-g071rb.html<br>
-Displays used:<br>
-2.4 inch touch TFT-LCD 240x320:  [Aliexpress](https://it.aliexpress.com/item/32832952750.html)<br>
-                                 [Amazon](https://www.amazon.it/Hiletgo%C2%AE-320-risoluzione-Touch-panel-ILI9341/dp/B0798N2HHW/ref=sr_1_3_sspa)<br>
-3.5 inch touch TFT-LCD 320x480:  [Aliexpress](https://www.aliexpress.com/item/1005003518881469.html)<br>
-				<a href="https://www.amazon.it/LOLOVI-pollice-480x320-Seriale-Digitale/dp/B09FJYX7YQ/ref=sr_1_5" target="_blank" >Amazon</a>
+|Displays used||
+|---|---|
+|2.4 inch touch TFT-LCD 240x320|[AliExpress](https://it.aliexpress.com/item/32832952750.html)|
+||[Amazon](https://www.amazon.it/Hiletgo%C2%AE-320-risoluzione-Touch-panel-ILI9341/dp/B0798N2HHW/ref=sr_1_3_sspa)|
+|3.5 inch touch TFT-LCD 320x480|[AliExpress](https://www.aliexpress.com/item/1005003518881469.html)|
+| |[Amazon](https://www.amazon.it/LOLOVI-pollice-480x320-Seriale-Digitale/dp/B09FJYX7YQ/ref=sr_1_5)|
 				
 ---
 
@@ -67,17 +69,16 @@ Il sowtware sviluppato si basa su HAL attraverso STM32CubeIDE.
 
 |I display utilizzati sono:||
 |---|---|
-|2.4 inch touch TFT-LCD 240x320|[Aliexoress](https://it.aliexpress.com/item/32832952750.html)|
+|2.4 inch touch TFT-LCD 240x320|[AliExpress](https://it.aliexpress.com/item/32832952750.html)|
 ||[Amazon](https://www.amazon.it/Hiletgo%C2%AE-320-risoluzione-Touch-panel-ILI9341/dp/B0798N2HHW/ref=sr_1_3_sspa)|
-|3.5 inch touch TFT-LCD 320x480|[Aliexpress](https://www.aliexpress.com/item/1005003518881469.html)|
+|3.5 inch touch TFT-LCD 320x480|[AliExpress](https://www.aliexpress.com/item/1005003518881469.html)|
 | |[Amazon](https://www.amazon.it/LOLOVI-pollice-480x320-Seriale-Digitale/dp/B09FJYX7YQ/ref=sr_1_5)|
 
 ---
 
 ## Cartelle del progetto 
 
-- [Il Codice è qui](./single%2Bdual%20SPI%20port)|---|---|
-
+- [Il Codice è qui](./single%2Bdual%20SPI%20port)
 - [Guida per integrare il software in un progetto con CubeIDE](./HOWTO)
 - [Guida alla gestione della retroilluminazione](./BACKLIGHT)
 - [Guida alla gestione di un semplice menu](./MENU)
