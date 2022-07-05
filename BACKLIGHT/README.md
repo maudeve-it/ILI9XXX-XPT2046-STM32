@@ -10,13 +10,13 @@ this library can handle display backlight in two different modes:
 - as a switched on-off light
 - as a dimming backlight
 
-The backlight mode is defined by the macro #define "DISPLAY_DIMMER_MODE" in "z_DISPL_st7735.h" file
+The backlight mode is defined by the macro #define "DISPLAY_DIMMER_MODE" in "z_displ_ILI9XXX.h" file
 - If this definition is commented backight is switching on-off
 - Uncomment the macro #define enabling the dimming hendling 
 <br>
 
 # ON-OFF mode Backlight
-("#define DISPLAY_DIMMER_MODE" commented in "z_DISPL_st7735.h" file)
+("#define DISPLAY_DIMMER_MODE" commented in "z_displ_ILI9XXX.h" file)
 ### setup on CubeMX
 Define a GPIO pin in output mode as described in [HOWTO](../HOWTO) page giving it the name DISPL_LED<br>
 connect the LED pin of the display to DISPL_LED<br>
@@ -33,7 +33,7 @@ That's all. Function "Displ_BackLight" provides these commands (function paramet
 <br>
 
 # Dimming mode Backlight
-("#define DISPLAY_DIMMER_MODE" uncommented in "z_DISPL_st7735.h" file)<br>
+("#define DISPLAY_DIMMER_MODE" uncommented in "z_displ_ILI9XXX.h" file)<br>
 Function "Displ_BackLight" handle backlight in PWM.
 <br>
 
@@ -44,7 +44,7 @@ a PWM pin:<br>
 ARR register ("Auto Reload Register" or "Counter period" on CubeMX) defines display light levels number. E.g.: set it to 10 to get 10 light levels available (from 1 10, and level 0="off")<br>
 PSC register(prescaler) value must be not too high: so that ((uC clock / PSC)/ ARR) > 100 Hz, avoiding flickering<br>
 
-### setup z_DISPL_st7735.h
+### setup z_displ_ILI9XXX.h
 align to CubeMX macro parameters:<br>
 #define BKLIT_TIMER 				set used timer (es. TIM3)<br>
 #define bklit_t 					set used timer (es. htim3)<br>
@@ -84,13 +84,13 @@ questa libreria permette di gestire la retroilluminazione del display in due mod
 - con un interruttore acceso/spento<br>
 - con regolazione di luminosità variabile<br>
 <br>
-Il modo di illuminazione è definito dalla macro define "DISPLAY_DIMMER_MODE" nel file "z_DISPL_st7735.h".<br>
+Il modo di illuminazione è definito dalla macro define "DISPLAY_DIMMER_MODE" nel file "z_displ_ILI9XXX.h".<br>
 - Se la definizione è commentata la retroilluminazione è gestita in modalità acceso/spento<br>
 - Togliendo il commento a inizio riga si abilita la gestione con illuminazione regolabile <br>
 <br>
 
 # Modalità acceso/spento
-("con la riga #define DISPLAY_DIMMER_MODE" commentata nel file "z_DISPL_st7735.h")
+("con la riga #define DISPLAY_DIMMER_MODE" commentata nel file "z_displ_ILI9XXX.h")
 
 ### configura su CubeMX
 Definire un pin GPIO in output mode, come spiegato in [HOWTO](../HOWTO) e assegnare il nome "DISPL_LED"<br>
@@ -109,7 +109,7 @@ La funzione "Displ_BackLight" restituisce sempre lo stato del display (0=spento,
 <br>
 
 # Modalità "dimmer"
-("se viene rimosso il commento a #define DISPLAY_DIMMER_MODE" nel file "z_DISPL_st7735.h")<br>
+("se viene rimosso il commento a #define DISPLAY_DIMMER_MODE" nel file "z_displ_ILI9XXX.h")<br>
 la funzione "Displ_BackLight" gestisce la retroilluminazione controllata in PWM.<br>
 <br>
 ### configura su CubeMX
@@ -119,7 +119,7 @@ un pin PWM:<br>
 il registro ARR ("Auto Reload Register", o "Counter period" su CubeMX) definisce il numero di livelli di luminosità del display. Es: impostare a 10 per avere 10 livelli di luminosità disponibili (da 1 a 10, piu' il livello 0="display spento")<br>
 Il valore del registro PSC (prescaler) deve essere impostato in modo non troppo elevato in modo che: ((clock uC / PSC)/ ARR) > 100 Hz per evitare problemi di flickering<br>
 
-### configura z_DISPL_st7735.h
+### configura z_displ_ILI9XXX.h
 
 allineare i parametri:<br>
 #define BKLIT_TIMER 				indicare il timer usato (es. TIM3)<br>
