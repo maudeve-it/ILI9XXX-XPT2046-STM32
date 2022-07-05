@@ -5,6 +5,7 @@ _**Below English text you'll find the Italian version</i>**_
 <br>
 
 ## HOW TO setup a project with this software
+(here using a single SPI port for both: display and touch sensor)
 
 
 ##### CubeMX setup
@@ -15,7 +16,7 @@ _**Below English text you'll find the Italian version</i>**_
 |---|---|
 |mode|Half-Duplex Master|
 |NSS|Hardware NSS Output Signal|
-|(as per ST7735 datasheet) Baud Rate|<= 15 MBit/s|
+|Baud Rate| irrelevant (parameter is set by software)|
   - all other parameter as default:
   
 |Parameter setting field|value|
@@ -37,11 +38,16 @@ _**Below English text you'll find the Italian version</i>**_
 
 |SPI pin|pinname to assign|
 |---|---|
-|NSS|DISPL_CS|
+|MISO|TOUCH_MISO|
 |MOSI|DISPL_MOSI|
 |SCK|DISPL_SCK|
 
-- enable 3 more pins as GPIO_Output:
+- enable 1 EXTI interrupt pin:
+|pinname to assign|
+|---|
+|TOUCH_INT|
+
+- enable 5 more pins as GPIO_Output:
 
 |pin configuration|
 |---|
@@ -53,6 +59,9 @@ _**Below English text you'll find the Italian version</i>**_
 |DISPL_LED|
 |DISPL_DC|
 |DISPL_RST|
+|DISPL_CS|
+|TOUCH_CS|
+
 
 ##### Downloading SW
 - download and install software as described [here](../SOURCE)
@@ -76,9 +85,8 @@ into "z_displ_ST7735.h" file you have to setup this configuration:
 |Parameter setting field|value|
 |---|---|
 |mode|Half-Duplex Master|
-|NSS|Hardware NSS Output Signal|
-|(come da datasheet del driver ST7735) Baud Rate|<= 15 MBit/s|
-  
+|NSS|Disable|
+ 
 |Parameter setting field|value|
 |---|---|
 |Frame format|Motorola|

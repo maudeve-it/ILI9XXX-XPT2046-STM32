@@ -16,7 +16,7 @@ _**Below English text you'll find the Italian version</i>**_
 |---|---|
 |mode|Half-Duplex Master|
 |NSS|Hardware NSS Output Signal|
-|(as per ST7735 datasheet) Baud Rate|<= 15 MBit/s|
+|Baud Rate| irrelevant (parameter is set by software)|
   - all other parameter as default:
   
 |Parameter setting field|value|
@@ -36,24 +36,29 @@ _**Below English text you'll find the Italian version</i>**_
 |NVIC settings|enable SPI global interrupt|
 - assign these names to SPI pins:
 
-|SPI pin|pinname to assign|
-|---|---|
-|NSS|DISPL_CS|
-|MOSI|DISPL_MOSI|
-|SCK|DISPL_SCK|
+|SPI pin|pinname to assign|speed relevance|
+|---|---|---|
+|MISO|TOUCH_MISO|X|
+|MOSI|DISPL_MOSI|X|
+|SCK|DISPL_SCK|X|
 
-- enable 3 more pins as GPIO_Output:
 
-|pin configuration|
-|---|
-|Output push pull|
-|No pull-up/down|
+- enable 1 EXTI interrupt pin:
+|pinname to assign|	Interrupt mode|pull-up/down|
+|---|---|---|
+|TOUCH_INT|External-falling edge|pull-up|
+
+
+- enable 5 more pins as GPIO_Output:
 	
-|pinname to assign|
-|---|
-|DISPL_LED|
-|DISPL_DC|
-|DISPL_RST|
+|pinname to assign|output level|speed relevance|mode|pull-up/down|
+|---|---|---|---|
+|DISPL_LED|low|-|Output push pull|No pull-up/down|
+|DISPL_DC|-|X|Output push pull|No pull-up/down|
+|DISPL_RST|low|-|Output push pull|No pull-up/down|
+|DISPL_CS|high|X|Output push pull|No pull-up/down|
+|TOUCH_CS|hlgh|X|Output push pull|No pull-up/down|
+
 
 ##### Downloading SW
 - download and install software as described [here](../SOURCE)
@@ -78,7 +83,7 @@ into "z_displ_ST7735.h" file you have to setup this configuration:
 |---|---|
 |mode|Half-Duplex Master|
 |NSS|Disable|
-  
+ 
 |Parameter setting field|value|
 |---|---|
 |Frame format|Motorola|
