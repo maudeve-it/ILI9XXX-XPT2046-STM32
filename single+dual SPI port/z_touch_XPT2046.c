@@ -20,13 +20,13 @@ extern Displ_Orientat_e current_orientation;			// indicates the active display o
 volatile uint8_t Touch_PenDown=0;						// set to 1 by pendown interrupt callback, reset to 0 by sw
 
 
-void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin){
-//void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+//void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin){
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	if (GPIO_Pin==TOUCH_INT_Pin)
-		Touch_PenDown=1;
+		if (!HAL_GPIO_ReadPin(TOUCH_INT_GPIO_Port, GPIO_Pin))
+			Touch_PenDown=1;
 
 }
-
 
 
 
@@ -42,6 +42,7 @@ void Touch_Select(void) {
 	}
 	HAL_GPIO_WritePin(TOUCH_CS_GPIO_Port, TOUCH_CS_Pin, GPIO_PIN_RESET);
 }
+
 
 
 
@@ -71,6 +72,7 @@ uint16_t Touch_PollAxis(uint8_t axis) {
 	
 	while (!Displ_SpiAvailable) {};  // waiting for a free SPI port. Flag is set to 1 by transmission-complete interrupt callback
 
+// disable interrupt while enquiring the touch sensor because it triggers the interrupt pin
 	HAL_NVIC_DisableIRQ(TOUCH_INT_EXTI_IRQn);
 	Touch_Select();
 
@@ -84,12 +86,13 @@ uint16_t Touch_PollAxis(uint8_t axis) {
 	}
 	Touch_UnSelect();
 	Displ_SpiAvailable=1;
-	if (poll16!=0)
-		__NOP();
+
+//enable back interrupt after reading the sensor
 	HAL_NVIC_ClearPendingIRQ(TOUCH_INT_EXTI_IRQn);
 	HAL_NVIC_EnableIRQ(TOUCH_INT_EXTI_IRQn);
-	HAL_NVIC_ClearPendingIRQ(TOUCH_INT_EXTI_IRQn);
-	Touch_PenDown=0;    //reset interrupt flag
+//	HAL_NVIC_ClearPendingIRQ(TOUCH_INT_EXTI_IRQn);
+	Touch_PenDown=0;    //reset interrupt flag, anyway.
+
 	return poll16;
 }
 
@@ -108,6 +111,7 @@ sTouchData XYposition;
 uint8_t k;
 
 uint32_t touchx,touchy,touch;
+
 
 // if no PenDown notification, return a no touch
 	XYposition.isTouch=0;
@@ -131,6 +135,7 @@ uint32_t touchx,touchy,touch;
 	if (touch<=X_THRESHOLD)
 		return XYposition;	// no touch: return 0
 	touchx=(AX*touch+BX);
+
 
 //having X and Y axis average values
 // calculating coordinates as per screen orientation

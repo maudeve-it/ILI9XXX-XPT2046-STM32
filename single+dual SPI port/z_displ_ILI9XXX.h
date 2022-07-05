@@ -16,8 +16,8 @@
 /******************    STEP 0    *****************
  * which display are you usng?
  *************************************************/
-//#define ILI9341
-#define ILI9488
+#define ILI9341
+//#define ILI9488
 
 
 
@@ -26,8 +26,8 @@
  ** properly set the below the 2 defines to address
  ********  the SPI port defined on CubeMX *********
  **************************************************/
-#define DISPL_SPI_PORT 	hspi2
-#define DISPL_SPI 		SPI2
+#define DISPL_SPI_PORT 	hspi1
+#define DISPL_SPI 		SPI1
 
 
 
@@ -36,8 +36,8 @@
  * define HERE the prescaler value to assign SPI port 
  * when changing from DISPLAY to TOUCH and viceversa
  ***************************************************/
-#define DISPL_PRESCALER SPI_BAUDRATEPRESCALER_2
-#define TOUCH_PRESCALER SPI_BAUDRATEPRESCALER_128
+#define DISPL_PRESCALER SPI_BAUDRATEPRESCALER_8
+#define TOUCH_PRESCALER SPI_BAUDRATEPRESCALER_256
 
 
 

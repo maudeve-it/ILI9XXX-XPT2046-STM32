@@ -18,17 +18,8 @@
  ** properly set the below the 2 defines to address
  ********  the SPI port defined on CubeMX *********/
 
-#define TOUCH_SPI_PORT 	hspi2
-#define TOUCH_SPI 		SPI2
-
-
-/**********************************************************************************
- * define here interrupt assigned to pendown display signaling.
- * this interrupt will be disabled during SPI communication with touch device
- **********************************************************************************/
-#define PENDOWN_IRQ	EXTI4_15_IRQn
-
-
+#define TOUCH_SPI_PORT 	hspi1
+#define TOUCH_SPI 		SPI1
 /***** END OF "USER/PROJECT PARAMETERS" *****/
 
 
@@ -122,8 +113,8 @@ typedef struct {
 }sTouchData;
 
 
-void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin);
-//void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
+//void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin);
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 
 uint8_t Is_Touch_XY_area(uint16_t xpos,uint16_t ypos,uint16_t width,uint16_t height);
 uint8_t Touch_GotATouch();

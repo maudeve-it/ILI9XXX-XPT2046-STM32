@@ -186,10 +186,7 @@ void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi){
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi) {
 	if (hspi->Instance==DISPL_SPI) {
 		Displ_SpiAvailable=1;
-//		HAL_NVIC_ClearPendingIRQ(TOUCH_INT_EXTI_IRQn);
-//		HAL_NVIC_EnableIRQ(TOUCH_INT_EXTI_IRQn);
-//		HAL_NVIC_ClearPendingIRQ(TOUCH_INT_EXTI_IRQn);
-		Touch_PenDown=0;    //reset touch interrupt flag: using display enable it
+//		Touch_PenDown=0;    //reset touch interrupt flag: writing onto display will trigger the display interrupt pin
 	}
 }
 
@@ -209,25 +206,18 @@ while (!Displ_SpiAvailable) {};  // waiting for a free SPI port. Flag is set to 
 
 HAL_GPIO_WritePin(DISPL_DC_GPIO_Port, DISPL_DC_Pin, DC_Status);
 Displ_Select();
-//HAL_NVIC_DisableIRQ(TOUCH_INT_EXTI_IRQn);
 
 #ifndef DISPLAY_SPI_INTERRUPT_MODE
 	#ifdef DISPLAY_SPI_DMA_MODE
 	if (dataSize<DISPL_DMA_CUTOFF) {
 	#endif
 		Displ_SpiAvailable=0;
-//		HAL_NVIC_DisableIRQ(TOUCH_INT_EXTI_IRQn);
 		HAL_SPI_Transmit(&DISPL_SPI_PORT , data, dataSize, HAL_MAX_DELAY);
 		Displ_SpiAvailable=1;
-//		HAL_NVIC_ClearPendingIRQ(TOUCH_INT_EXTI_IRQn);
-//		HAL_NVIC_EnableIRQ(TOUCH_INT_EXTI_IRQn);
-//		HAL_NVIC_ClearPendingIRQ(TOUCH_INT_EXTI_IRQn);
-//		Touch_PenDown=0;    //reset touch interrupt flag: using display enable it
 	#ifdef DISPLAY_SPI_DMA_MODE
 	}
 	else {
 		Displ_SpiAvailable=0;
-//		HAL_NVIC_DisableIRQ(TOUCH_INT_EXTI_IRQn);
 		HAL_SPI_Transmit_DMA(&DISPL_SPI_PORT , data, dataSize);
 	}
 	#endif
@@ -235,7 +225,6 @@ Displ_Select();
 
 #ifdef DISPLAY_SPI_INTERRUPT_MODE
 	Displ_SpiAvailable=0;
-//	HAL_NVIC_DisableIRQ(TOUCH_INT_EXTI_IRQn);
 	HAL_SPI_Transmit_IT(&DISPL_SPI_PORT , data, dataSize);
 #endif
 

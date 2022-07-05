@@ -156,7 +156,7 @@ void Touch_TestDrawing() {
 		}
 
 		Displ_CLS(DD_BLUE);
-		Displ_CString(0,10,_width,Font16.Height+10,"Test Drawing",Font16,1,WHITE,DD_BLUE);
+		Displ_CString(0,10,_width,Font16.Height+10,"Drawing over Touch",Font16,1,WHITE,DD_BLUE);
 
 		Touch_WaitForTouch(0);
 
