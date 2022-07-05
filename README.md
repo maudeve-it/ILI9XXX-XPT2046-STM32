@@ -14,11 +14,11 @@ STM32F411CE (Weact Studio board): https://github.com/WeActTC/MiniSTM32F4x1<br>
 STM32G432KB (Nucleo32 STM board): https://www.st.com/en/evaluation-tools/nucleo-g431kb.html<br>
 STM32G071RB (Nucleo64 STM board): https://www.st.com/en/evaluation-tools/nucleo-g071rb.html<br>
 Displays used:<br>
-2.4 inch touch TFT-LCD 240x320:  [on Aliexpress](https://it.aliexpress.com/item/32832952750.html)<br>
-                                 [on Aliexpress](https://www.amazon.it/Hiletgo%C2%AE-320-risoluzione-Touch-panel-ILI9341/dp/B0798N2HHW/ref=sr_1_3_sspa)<br>
-3.5 inch touch TFT-LCD 320x480:  [on Aliexpress](https://www.aliexpress.com/item/1005003518881469.html)<br>
-                                 [on Aliexpress](https://www.amazon.it/LOLOVI-pollice-480x320-Seriale-Digitale/dp/B09FJYX7YQ/ref=sr_1_5)<br>
-
+2.4 inch touch TFT-LCD 240x320:  [Aliexpress](https://it.aliexpress.com/item/32832952750.html)<br>
+                                 [Amazon](https://www.amazon.it/Hiletgo%C2%AE-320-risoluzione-Touch-panel-ILI9341/dp/B0798N2HHW/ref=sr_1_3_sspa)<br>
+3.5 inch touch TFT-LCD 320x480:  [Aliexpress](https://www.aliexpress.com/item/1005003518881469.html)<br>
+                                 [Amazon](https://www.amazon.it/LOLOVI-pollice-480x320-Seriale-Digitale/dp/B09FJYX7YQ/ref=sr_1_5)<br>
+								<a href="https://www.amazon.it/LOLOVI-pollice-480x320-Seriale-Digitale/dp/B09FJYX7YQ/ref=sr_1_5" target="_blank">Amazon</a>
 ---
 
 ## Project Folders
