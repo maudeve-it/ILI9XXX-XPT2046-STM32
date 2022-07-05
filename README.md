@@ -26,8 +26,10 @@ Displays used:<br>
 - [Software folder](./single%2Bdual%20SPI%20port)
 - ["How to" add it to a CubeIDE project](./HOWTO)
 - ["How to" handle display backlight](./BACKLIGHT)
+- ["How to" handle a simple menu](./MENU)
 
 Youtube video showing project characteristics and performance: https://youtu.be/oWx1-WmTwag<br>
+Youtube video analyzing SPI communication to displays: https://youtu.be/oWx1-WmTwag<br>
 
 
 ---
@@ -73,8 +75,10 @@ I display utilizzati sono:<br>
 - [Il Codice è qui](./single%2Bdual%20SPI%20port)
 - [Guida per integrare il software in un progetto con CubeIDE](./HOWTO)
 - [Guida alla gestione della retroilluminazione](./BACKLIGHT)
+- [Guida alla gestione di un semplice menu](./MENU)
 
-Video Youtube con le caracteristiche e le prestazioni del progetto: https://youtu.be/oWx1-WmTwag<br>
+Video Youtube con le carateristiche e le prestazioni del progetto: https://youtu.be/oWx1-WmTwag<br>
+Video Youtube con l'analisi della comunicazione SPI con i display: https://youtu.be/oWx1-WmTwag<br>
 
 ---
 > Il software e gli schemi di progetto come i layout PCB in questa serie di repository 
