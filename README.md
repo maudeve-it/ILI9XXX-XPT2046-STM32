@@ -1,7 +1,3 @@
-# ILI9XXX +XPT2046 STM32
- A set of function handling a fast, mixed polling/DMA mode, SPI communication with a 480x320 or 320x240 touch display controlled by an ILI9488 and ILI9341+XPT2046
-
-
 _**Piu' sotto, al termine della lingua inglese trovi il testo in italiano. </i>**_
 _**Below English text you'll find the Italian version</i>**_
 
@@ -10,7 +6,7 @@ _**Below English text you'll find the Italian version</i>**_
 
 # ILI9XXX/XPT2046-STM32
 
-"ILI9XXX/XPT2046-STM32" repository contains the source code for a set of functions for an STM32 microcontroller handling ILI9341 240x320 and ILI9488 320x480 touch display.
+"ILI9XXX/XPT2046-STM32" repository contains the source code for a set of functions for an STM32 microcontroller, handling ILI9341 240x320 and ILI9488 320x480 touch display.
 
 Developed software is based on HAL over STM32CubeIDE.
 Software has tested over<br>
@@ -57,15 +53,18 @@ Youtube video showing project characteristics and performance: https://youtu.be/
 
 # ST7735S-STM32
 
-La repository "ST7735S-STM32" contiene i codici sorgente relativi ad un set di funzioni per STM32 per la gestione di un display LCD a colori da 1,8 pollici controllato dal driver SPI ST7735S.
+La repository "ILI9XXX/XPT2046-STM32" contiene il codice relativi ad un set di funzioni per STM32 per la gestione di un display LCD a colori da 1,8 pollici controllato dal driver SPI ST7735S.
 
 Il sowtware sviluppato si basa su HAL attraverso STM32CubeIDE.
 Il software è stato testato su<br>
 STM32F411CE (scheda Weact Studio): https://github.com/WeActTC/MiniSTM32F4x1<br>
-STM32G432KB (scheda Nucleo32 STM): https://www.st.com/en/evaluation-tools/nucleo-g431kb.html<br>
-STM32L476RG (scheda Nucleo64 STM): https://www.st.com/en/evaluation-tools/nucleo-l476rg.html<br>
-Display 1.8 inch TFT-LCD 128x160: https://www.aliexpress.com/item/1005003738191499.html<br>
-                                  https://www.amazon.it/dp/B078J5TS2G?ref_=cm_sw_r_cp_ud_dp_8H03T4D49G82M2F588VN
+STM32G432KB (scheda STM Nucleo32): https://www.st.com/en/evaluation-tools/nucleo-g431kb.html<br>
+STM32G071RB (scheda STM Nucleo64): https://www.st.com/en/evaluation-tools/nucleo-g071rb.html<br>
+I display utilizzati sono:<br>
+2.4 inch touch TFT-LCD 240x320:   https://www.aliexpress.com/item/1005003738191499.html<br>
+                                  https://www.amazon.it/Hiletgo%C2%AE-320-risoluzione-Touch-panel-ILI9341/dp/B0798N2HHW/ref=sr_1_3_sspa<br>
+3.5 inch touch TFT-LCD 320x480:   https://www.aliexpress.com/item/1005004083478309.html<br>
+                                  https://www.amazon.it/LOLOVI-pollice-480x320-Seriale-Digitale/dp/B09FJYX7YQ/ref=sr_1_5<br>
 
 ---
 
