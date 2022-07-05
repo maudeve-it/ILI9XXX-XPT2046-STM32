@@ -10,6 +10,7 @@ _**Below English text you'll find the Italian version</i>**_
 <br>
 Developed software is based on HAL over STM32CubeIDE.<br>
 Software has been tested over<br>
+
 STM32F411CE (Weact Studio board): https://github.com/WeActTC/MiniSTM32F4x1<br>
 STM32G432KB (Nucleo32 STM board): https://www.st.com/en/evaluation-tools/nucleo-g431kb.html<br>
 STM32G071RB (Nucleo64 STM board): https://www.st.com/en/evaluation-tools/nucleo-g071rb.html<br>
@@ -59,14 +60,14 @@ La repository "ILI9XXX/XPT2046-STM32" contiene il codice relativi ad un set di f
 
 Il sowtware sviluppato si basa su HAL attraverso STM32CubeIDE.
 Il software è stato testato su<br>
-STM32F411CE (scheda Weact Studio): https://github.com/WeActTC/MiniSTM32F4x1<br>
-STM32G432KB (scheda STM Nucleo32): https://www.st.com/en/evaluation-tools/nucleo-g431kb.html<br>
-STM32G071RB (scheda STM Nucleo64): https://www.st.com/en/evaluation-tools/nucleo-g071rb.html<br>
+|STM32F411CE (scheda Weact Studio)|https://github.com/WeActTC/MiniSTM32F4x1|<br>
+|STM32G432KB (scheda STM Nucleo32)|https://www.st.com/en/evaluation-tools/nucleo-g431kb.html|<br>
+|STM32G071RB (scheda STM Nucleo64)|https://www.st.com/en/evaluation-tools/nucleo-g071rb.html|<br>
 I display utilizzati sono:<br>
-2.4 inch touch TFT-LCD 240x320:   https://it.aliexpress.com/item/32832952750.html<br>
-                                  https://www.amazon.it/Hiletgo%C2%AE-320-risoluzione-Touch-panel-ILI9341/dp/B0798N2HHW/ref=sr_1_3_sspa<br>
-3.5 inch touch TFT-LCD 320x480:   https://www.aliexpress.com/item/1005003518881469.html<br>
-                                  https://www.amazon.it/LOLOVI-pollice-480x320-Seriale-Digitale/dp/B09FJYX7YQ/ref=sr_1_5<br>
+|2.4 inch touch TFT-LCD 240x320|https://it.aliexpress.com/item/32832952750.html|<br>
+||https://www.amazon.it/Hiletgo%C2%AE-320-risoluzione-Touch-panel-ILI9341/dp/B0798N2HHW/ref=sr_1_3_sspa|<br>
+|3.5 inch touch TFT-LCD 320x480|https://www.aliexpress.com/item/1005003518881469.html|<br>
+| |https://www.amazon.it/LOLOVI-pollice-480x320-Seriale-Digitale/dp/B09FJYX7YQ/ref=sr_1_5|<br>
 
 ---
 
