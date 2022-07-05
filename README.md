@@ -23,7 +23,7 @@ Displays used:<br>
 
 ## Project Folders
 
-- [Software folder](./SOURCE)
+- [Software folder](./single%2Bdual%20SPI%20port)
 - ["How to" add it to a CubeIDE project](./HOWTO)
 - ["How to" handle display backlight](./BACKLIGHT)
 
@@ -70,7 +70,7 @@ I display utilizzati sono:<br>
 
 ## Cartelle del progetto 
 
-- [Il Codice è qui](./SOURCE)
+- [Il Codice è qui](./single%2Bdual%20SPI%20port)
 - [Guida per integrare il software in un progetto con CubeIDE](./HOWTO)
 - [Guida alla gestione della retroilluminazione](./BACKLIGHT)
 
