@@ -29,8 +29,7 @@ That's all. Function "Displ_BackLight" provides these commands (function paramet
 |'F'|display on(as same as comand '1')|
 |'Q'|no action|
 
-"Displ_BackLight" function returns display status (0=off, 1 = on) so: command 'Q' is to query display status
-<br>
+"Displ_BackLight" function returns display status (0=off, 1 = on) so: command 'Q' is to query display status<br>
 
 # Dimming mode Backlight
 ("#define DISPLAY_DIMMER_MODE" uncommented in "z_displ_ILI9XXX.h" file)<br>
@@ -69,8 +68,7 @@ Function "Displ_BackLight" provides these commands (function parameter):
 |'+'|1 step level increase|
 |'-'|1 step level decrease|
 |'Q'|no action
-
-"Displ_BackLight" function returns display status (current level) so: command 'Q' is to query display status
+"Displ_BackLight" function returns display status (current level) so: command 'Q' is to query display status<br>
 PLEASE NOTE: if dimming, run Displ_BackLight('I') on startup! It will also start the timer clock.<br>
 
 ---
