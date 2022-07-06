@@ -11,8 +11,8 @@ this library can handle display backlight in two different modes:
 - as a dimming backlight
 
 Backlight mode is set by the macro #define "DISPLAY_DIMMER_MODE" in "z_displ_ILI9XXX.h" file
-- If this #define is commented backight is: switching on-off backlight
-- Uncommenting the macro #define, backlight is: dimming backlight 
+- If this #define is commented backight is: switching <b>on-off backlight</b>
+- Uncommenting the macro #define, backlight is: <b>dimming backlight</b> 
 <br>
 
 # ON-OFF mode Backlight
