@@ -17,7 +17,7 @@ Backlight mode is set by the macro #define "DISPLAY_DIMMER_MODE" in "z_displ_ILI
 
 # ON-OFF mode Backlight
 ("#define DISPLAY_DIMMER_MODE" commented in "z_displ_ILI9XXX.h" file)
-### setup on CubeMX
+### setup a handling pin on CubeMX
 Define a GPIO pin in output mode as described in [HOWTO](../HOWTO) page giving it the name DISPL_LED<br>
 connect the LED pin of the display to DISPL_LED<br>
 <br>
@@ -36,7 +36,7 @@ That's all. Function "Displ_BackLight" provides these commands (function paramet
 Function "Displ_BackLight" handle backlight in PWM.
 <br>
 
-### setup on CubeMX
+### setup a handling pin on CubeMX
 a PWM pin:<br>
 -	enable a PWM channel on a "general purpose" timer (e.g. CH1 on TIM3)<br>
 -	setup channel as "PWM mode 1" and "Counter mode UP"<br>
