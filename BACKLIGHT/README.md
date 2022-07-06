@@ -37,7 +37,7 @@ Function "Displ_BackLight" handle backlight in PWM.
 <br>
 
 ### setup a handling pin on CubeMX
-a PWM pin:<br>
+Define a PWM pin:<br>
 -	enable a PWM channel on a "general purpose" timer (e.g. CH1 on TIM3)<br>
 -	setup channel as "PWM mode 1" and "Counter mode UP"<br>
 ARR register ("Auto Reload Register" or "Counter period" on CubeMX) defines the number of steps of display light. E.g.: set it to 10 to get 10 light steps available (from 1 10, and level 0="off")<br>
