@@ -21,11 +21,11 @@
 
 
 
-/******************    STEP 1    ******************
- **************** PORT PARAMETERS *****************
- ** properly set the below the 2 defines to address
- ********  the SPI port defined on CubeMX *********
- **************************************************/
+/*** STEP 1 - see also same step in "z_touch_XPT2046.h" ***
+ ******************** PORT PARAMETERS *********************
+ **** properly set the below the 2 defines to address *****
+ ************  the SPI port defined on CubeMX *************
+ **********************************************************/
 #define DISPL_SPI_PORT 	hspi1
 #define DISPL_SPI 		SPI1
 
