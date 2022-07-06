@@ -41,8 +41,8 @@ Function "Displ_BackLight" handle backlight in PWM.
 a PWM pin:<br>
 -	enable a PWM channel on a "general purpose" timer (e.g. CH1 on TIM3)<br>
 -	setup channel as "PWM mode 1" and "Counter mode UP"<br>
-ARR register ("Auto Reload Register" or "Counter period" on CubeMX) defines display light levels number. E.g.: set it to 10 to get 10 light levels available (from 1 10, and level 0="off")<br>
-PSC register(prescaler) value must be not too high: so that ((uC clock / PSC)/ ARR) > 100 Hz, avoiding flickering<br>
+ARR register ("Auto Reload Register" or "Counter period" on CubeMX) defines the number of steps of display light. E.g.: set it to 10 to get 10 light steps available (from 1 10, and level 0="off")<br>
+PSC register (prescaler) value must be not too high: so that must be ((uC clock / PSC)/ ARR) > 100 Hz, avoiding flickering<br>
 
 ### setup z_displ_ILI9XXX.h
 align to CubeMX macro parameters:<br>
@@ -54,13 +54,13 @@ setup parameters:<br>
 #define BKLIT_STBY_LEVEL 			set standby level (between 0 and ARR)<br>
 #define BKLIT_INIT_LEVEL 			set startup level (between 0 and ARR)<br>
 <br>
-#define BKLIT_CCR					      indicate the preload register involved by PWM<br>
+#define BKLIT_CCR					      indicate the preload register involved by PWM (e.g. CCR2)<br>
 
 Function "Displ_BackLight" provides these commands (function parameter):
 |parameter|description|
 |---|---|
 |'0'|display off|
-|'1'|display to highest level (ARR)|
+|'1'|display to highest level (=ARR)|
 |'F'|display to highest level (as same as comand '1')|
 |'Q'|no action|
 |'I'|initial display setup|
@@ -71,8 +71,8 @@ Function "Displ_BackLight" provides these commands (function parameter):
 |'Q'|no action
 
 "Displ_BackLight" function returns display status (current level) so: command 'Q' is to query display status
+PLEASE NOTE: if dimming, run Displ_BackLight('I') on startup! It will also start the timer clock.<br>
 
-PLEASE NOTE: if dimming, run Displ_BackLight('I') on startup! It will also start the timer clock.
 ---
 
 <br>
