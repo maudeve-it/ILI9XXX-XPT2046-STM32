@@ -40,7 +40,7 @@ Function "Displ_BackLight" handle backlight in PWM.
 Define a PWM pin:<br>
 -	enable a PWM channel on a "general purpose" timer (e.g. CH1 on TIM3)<br>
 -	setup channel as "PWM mode 1" and "Counter mode UP"<br>
-ARR register ("Auto Reload Register" or "Counter period" on CubeMX) defines the number of steps of display light. E.g.: set it to 10 to get 10 light steps available (from 1 10, and level 0="off")<br>
+ARR register ("Auto Reload Register" or "Counter period" on CubeMX) defines the number of steps of display light. E.g.: set it to 10 to get 10 light steps available (from 1 to 10, and level 0="off")<br>
 PSC register (prescaler) value must be not too high: so that must be ((uC clock / PSC)/ ARR) > 100 Hz, avoiding flickering<br>
 
 ### setup z_displ_ILI9XXX.h
