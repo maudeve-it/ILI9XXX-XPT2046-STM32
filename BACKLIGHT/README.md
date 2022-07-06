@@ -67,7 +67,7 @@ Function "Displ_BackLight" provides these commands (function parameter):
 |'W'|display level before last standby (wakeup from standby)|
 |'+'|1 step level increase|
 |'-'|1 step level decrease|
-|'Q'|no action
+|'Q'|no action|
 "Displ_BackLight" function returns display status (current level) so: command 'Q' is to query display status<br>
 PLEASE NOTE: if dimming, run Displ_BackLight('I') on startup! It will also start the timer clock.<br>
 
