@@ -10,14 +10,15 @@ _**Below English text you'll find the Italian version</i>**_
 
 ##### CubeMX setup
 - create a new project on STM32CubeIDE
-- enable an SPI port. Configuration is:
+- enable one or two (one port for display and one for touch sensor) SPI port.  
 
-|Parameter setting field|value|
+SPI configuration is:
+
+|Mode setting field|value|
 |---|---|
-|mode|Half-Duplex Master|
-|NSS|Hardware NSS Output Signal|
+|mode|Full-Duplex Master|
+|NSS|Disable|
 |Baud Rate| irrelevant (parameter is set by software)|
-  - all other parameter as default:
   
 |Parameter setting field|value|
 |---|---|
@@ -25,17 +26,20 @@ _**Below English text you'll find the Italian version</i>**_
 |Data size|8 bit|
 |First bit|MSB first|	
 |CPOL|low|
-|CPHA|Edge|
+|CPHA|1 Edge|
 |CRC calculation|disabled|
 |NSS type|Output Hw|
-  - if communication in DMA mode:
-  
+
+you can choose if transferring SPI data in Polling mode, Interrupt mode or DMA mode.
+I strongly suggest you to see [this youtube video](https://youtu.be/oWx1-WmTwag) to see differences 
+
+If communication in DMA mode:
 |SPI config label|value|
 |---|---|
 |DMA settings|enable only TX DMA|
 |NVIC settings|enable SPI global interrupt|
-- assign these names to SPI pins:
 
+Assign these names to SPI pins:
 |SPI pin|pinname to assign|speed relevance|
 |---|---|---|
 |MISO|TOUCH_MISO|X|
