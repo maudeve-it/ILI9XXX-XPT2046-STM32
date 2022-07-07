@@ -24,8 +24,8 @@
 /******************    STEP 1    *****************
  * which display are you usng?
  *************************************************/
-#define ILI9341
-//#define ILI9488
+//#define ILI9341
+#define ILI9488
 
 
 
@@ -44,8 +44,8 @@
  * define HERE the prescaler value to assign SPI port 
  * when transferring data to/from DISPLAY or TOUCH
  ***************************************************/
-#define DISPL_PRESCALER SPI_BAUDRATEPRESCALER_4     //prescaler assigned to SPI port talking to display
-#define TOUCH_PRESCALER SPI_BAUDRATEPRESCALER_128	//prescaler assigned to SPI port talking to touch device
+#define DISPL_PRESCALER SPI_BAUDRATEPRESCALER_8     //prescaler assigned to SPI port talking to display
+#define TOUCH_PRESCALER SPI_BAUDRATEPRESCALER_256	//prescaler assigned to SPI port talking to touch device
 
 
 
@@ -94,7 +94,7 @@
  * IT MUST BE 10 OR MORE:
  * -	10 needed for 1 char in Font24 size
 ***************************************************/
-#define BUFLEVEL 12
+#define BUFLEVEL 11
 #define SIZEBUF (1<<BUFLEVEL)
 
 /*|||||||| END OF USER/PROJECT PARAMETERS ||||||||*/

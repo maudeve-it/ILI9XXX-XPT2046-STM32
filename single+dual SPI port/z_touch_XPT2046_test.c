@@ -35,6 +35,7 @@
 extern int16_t _width;       								///< (oriented) display width
 extern int16_t _height;      								///< (oriented) display height
 
+extern volatile uint8_t Touch_PenDown;						// set to 1 by pendown interrupt callback, reset to 0 by sw
 
 
 
@@ -103,24 +104,39 @@ void Touch_ShowData(void)
 	uint16_t y_touch;
 	uint16_t z_touch;
 	char text[30];
+	uint32_t touchTime=0,touchDelay;
+
+	Displ_Orientation(Displ_Orientat_270);
 
 	Displ_FillArea(0,0,_width,_height,WHITE);
 
 	while (1) {
-		Displ_FillArea(101,5,40,10,RED);
+
+		if (Touch_PenDown)
+			touchTime=HAL_GetTick();
+		touchDelay=(HAL_GetTick() - touchTime);
 
 		z_touch = Touch_PollAxis(Z_AXIS);
 		x_touch = Touch_PollAxis(X_AXIS);
 		y_touch = Touch_PollAxis(Y_AXIS);
 
-		Displ_FillArea(101,5,40,10,WHITE);
+		if ((touchDelay<100) && (touchTime!=0)) {
+			strcpy(text,"PENDOWN");
+			Displ_WString(10,30,text,Font20,1,RED,YELLOW);
+		};
+		if (touchDelay>=100) {
+			strcpy(text,"       ");
+			Displ_WString(10,30,text,Font20,1,BLUE,WHITE);
+			touchDelay=0;
+		};
 
-		sprintf(text,"X=%#X      -",x_touch);
-		Displ_WString(10,30,text,Font20,1,BLUE,WHITE);
-		sprintf(text,"Y=%#X      -",y_touch);
-		Displ_WString(10,50,text,Font20,1,BLUE,WHITE);
-		sprintf(text,"Z=%#X      -",z_touch);
-		Displ_WString(10,70,text,Font20,1,BLUE,WHITE);
+
+		sprintf(text,"X=%#X -         ",x_touch);
+		Displ_WString(10,60,text,Font20,1,BLUE,WHITE);
+		sprintf(text,"Y=%#X -         ",y_touch);
+		Displ_WString(10,80,text,Font20,1,BLUE,WHITE);
+		sprintf(text,"Z=%#X -         ",z_touch);
+		Displ_WString(10,100,text,Font20,1,BLUE,WHITE);
 		HAL_Delay(100);
 	}
 
@@ -134,7 +150,6 @@ void Touch_ShowData(void)
  * until touch is released
  ****************************************/
 void Touch_TestDrawing() {
-	extern uint8_t	Touch_PenDown;
 	uint16_t px=0,py;
 	sTouchData posTouch;
 
