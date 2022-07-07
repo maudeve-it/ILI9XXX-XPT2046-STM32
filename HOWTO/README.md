@@ -55,7 +55,7 @@ Enable 1 EXTI interrupt pin:
 
 Enable 5 more pins as GPIO_Output:
 |pinname to assign|output level|speed relevance|mode|pull-up/down|
-|---|---|---|---|
+|---|---|---|---|---|
 |DISPL_LED|low|-|Output push pull|No pull-up/down|
 |DISPL_DC|-|X|Output push pull|No pull-up/down|
 |DISPL_RST|low|-|Output push pull|No pull-up/down|
