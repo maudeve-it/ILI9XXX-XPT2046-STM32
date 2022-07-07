@@ -5,12 +5,12 @@ _**Below English text you'll find the Italian version</i>**_
 <br>
 
 ## HOW TO setup a project with this software
-(here using a single SPI port for both: display and touch sensor)
 
 
 ##### CubeMX setup
 - create a new project on STM32CubeIDE
 - enable one or two (one port for display and one for touch sensor) SPI port.  
+(here description is using ONE single SPI port for both: display and touch sensor)
 
 SPI configuration is:
 
