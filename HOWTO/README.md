@@ -79,7 +79,7 @@ into "z_touch_XPT2046.h" file you have to setup this configuration:
 - section 1 - Port Parameters: here you have to set two macro constant with the SPI port name connecting touch sensor
 
 
-#### Wiring
+### Wiring
 
 <img src="https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/main/HOWTO/wiring.png" width="540" height="429">
 
