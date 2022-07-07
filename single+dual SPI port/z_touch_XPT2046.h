@@ -3,10 +3,10 @@
  *  Created on: 2 giu 2022
  *      Author: mauro
  *
- *  licensing: https://github.com/maudeve-it/ILI9486-STM32/blob/main/LICENSE
+ *  licensing: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/c097f0e7d569845c1cf98e8d930f2224e427fd54/LICENSE
  *
  *	WARNING WARNING WARNING:
- *	in main.h put the #insert of this file BELOW the #insert of ILIxxxx.h
+ *	in main.h put the #insert of this file BELOW the #insert of z_displ_ILIxxxx.h
  *
  */
 #ifndef __XPT2046_H
@@ -23,7 +23,12 @@
 /***** END OF "USER/PROJECT PARAMETERS" *****/
 
 
-/***** DEVICE PARAMETERS *****/
+
+
+
+/**************** DEVICE PARAMETERS ***************/
+/* you should need to change nothing from here on */
+
 /**************************************************
  * this is the command to send to XPT2046 asking to
  * poll axis and return corresponging value.
@@ -53,8 +58,8 @@
  * parameters for the linear conversion from a touch sensor reading, to
  * the XY display position
  * use the formula:
- * Xpos = AX * Xtouch + BX
- * Ypos = AY * Ytouch + BY
+ * Xdispl = AX * Xtouch + BX
+ * Ydispl = AY * Ytouch + BY
  *
  **********************************************************************************/
 #ifdef ILI9341

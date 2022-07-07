@@ -4,7 +4,7 @@
  *  Created on: 2 giu 2022
  *      Author: mauro
  *
- *  licensing: https://github.com/maudeve-it/ILI9486-STM32/blob/main/LICENSE
+ *  licensing: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/c097f0e7d569845c1cf98e8d930f2224e427fd54/LICENSE
  *
  */
 

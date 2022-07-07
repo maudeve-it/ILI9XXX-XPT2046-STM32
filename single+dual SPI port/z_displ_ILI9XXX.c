@@ -4,7 +4,7 @@
  *  Created on: May 30, 2022
  *      Author: mauro
  *
- *  licensing: https://github.com/maudeve-it/ILI9486-STM32/blob/main/LICENSE
+ *  licensing: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/c097f0e7d569845c1cf98e8d930f2224e427fd54/LICENSE
  *
  */
 
@@ -21,7 +21,7 @@ extern TIM_HandleTypeDef BKLIT_T;
 extern volatile uint8_t Touch_PenDown;						// set to 1 by pendown interrupt callback, reset to 0 by sw
 
 
-Displ_Orientat_e current_orientation;				// stores the active display orientation. Set by Displ_Orientation
+Displ_Orientat_e current_orientation;				// it records the active display orientation. Set by Displ_Orientation
 volatile uint8_t Displ_SpiAvailable=1;  			// 0 if SPI is busy or 1 if it is free (transm cplt)
 
 int16_t _width;       								///< (oriented) display width

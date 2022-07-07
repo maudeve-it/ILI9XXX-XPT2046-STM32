@@ -7,7 +7,7 @@
  *  This is related to the functions testing features and showing performance
  *  you don't need this file in the production project
  *
- *  licensing: https://github.com/maudeve-it/ILI9486-STM32/blob/main/LICENSE
+ *  licensing: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/c097f0e7d569845c1cf98e8d930f2224e427fd54/LICENSE
  *
  *  Do you want to test functions?
  *
@@ -22,6 +22,7 @@
  *  then, in the main loop put:
  *  Displ_PerfTest();						// shows graphics, measuring time.
  *  and run.
+ *
  *  Next STEPs on z_touch_XPT2046_test.c
  *
  *

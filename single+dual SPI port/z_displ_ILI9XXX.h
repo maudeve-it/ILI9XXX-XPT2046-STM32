@@ -3,7 +3,15 @@
  *  Created on: 2 giu 2022
  *      Author: mauro
  *
- *  licensing: https://github.com/maudeve-it/ILI9486-STM32/blob/main/LICENSE
+ *  licensing: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/c097f0e7d569845c1cf98e8d930f2224e427fd54/LICENSE
+ *
+ *  Setup parameters following below instructions from STEP 1 to STEP 6
+ *  then
+ *	add these instructions into your main()
+ *  (good position is in: USER CODE BEGIN 2)
+ *  Displ_Init(Displ_Orientat_0);			// (mandatory) initialize display controller - set orientation parameter as per your needs
+ *  Displ_CLS(BLACK);						// clear the screen - BLACK or any other color you prefer
+ *  Displ_BackLight('I');  					// (mandatory) initialize backlight
  *
  */
 
@@ -13,7 +21,7 @@
 
 
 /*||||||||||| USER/PROJECT PARAMETERS |||||||||||*/
-/******************    STEP 0    *****************
+/******************    STEP 1    *****************
  * which display are you usng?
  *************************************************/
 #define ILI9341
@@ -21,27 +29,27 @@
 
 
 
-/*** STEP 1 - see also same step in "z_touch_XPT2046.h" ***
- ******************** PORT PARAMETERS *********************
- **** properly set the below the 2 defines to address *****
- ************  the SPI port defined on CubeMX *************
- **********************************************************/
+/******************    STEP 2    ******************
+ **************** PORT PARAMETERS *****************
+ ** properly set the below th 2 defines to address
+ ********  the SPI port defined on CubeMX *********
+ **************************************************/
 #define DISPL_SPI_PORT 	hspi1
 #define DISPL_SPI 		SPI1
 
 
 
-/******************    STEP 2     ******************
+/******************    STEP 3     ******************
  ***************** SPI PORT SPEED  *****************
  * define HERE the prescaler value to assign SPI port 
- * when changing from DISPLAY to TOUCH and viceversa
+ * when transferring data to/from DISPLAY or TOUCH
  ***************************************************/
-#define DISPL_PRESCALER SPI_BAUDRATEPRESCALER_8
-#define TOUCH_PRESCALER SPI_BAUDRATEPRESCALER_256
+#define DISPL_PRESCALER SPI_BAUDRATEPRESCALER_4     //prescaler assigned to SPI port talking to display
+#define TOUCH_PRESCALER SPI_BAUDRATEPRESCALER_128	//prescaler assigned to SPI port talking to touch device
 
 
 
-/*****************     STEP 3      *****************
+/*****************     STEP 4      *****************
  ************* SPI COMMUNICATION MODE **************
  *** enable SPI mode want, uncommenting ONE row ****
  **** (Setup the same configuration on CubeMX) *****
@@ -52,7 +60,7 @@
 
 
 
-/*****************     STEP 4      *****************
+/*****************     STEP 5      *****************
  ***************** Backlight timer *****************
  * if you want dimming backlight UNCOMMENT the
  * DISPLAY_DIMMING_MODE below define and properly
@@ -78,7 +86,7 @@
 
 
 
-/*****************     STEP 4      *****************
+/*****************     STEP 6      *****************
  ************* frame buffer DEFINITION *************
  * BUFLEVEL defines size of the 2 buffers:
  * buffer size is 2^BUFLEVEL, 2 means 4 bytes buffer,
@@ -94,6 +102,7 @@
 
 
 /*|||||||||||||| DEVICE PARAMETERS |||||||||||||||*/
+/***** you should need to change nothing here *****/ 
 
 /***************   color depth      ****************
  *** choose one of the two color depth available *** 
