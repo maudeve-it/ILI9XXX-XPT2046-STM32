@@ -114,12 +114,12 @@ void Touch_ShowData(void)
 
 		if (Touch_PenDown)
 			touchTime=HAL_GetTick();
-		touchDelay=(HAL_GetTick() - touchTime);
 
 		z_touch = Touch_PollAxis(Z_AXIS);
 		x_touch = Touch_PollAxis(X_AXIS);
 		y_touch = Touch_PollAxis(Y_AXIS);
 
+		touchDelay=(HAL_GetTick() - touchTime);
 		if ((touchDelay<100) && (touchTime!=0)) {
 			strcpy(text,"PENDOWN");
 			Displ_WString(10,30,text,Font20,1,RED,YELLOW);

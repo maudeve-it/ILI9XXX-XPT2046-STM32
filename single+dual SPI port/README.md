@@ -1,24 +1,45 @@
-# ILI9XXX +XPT2046 STM32
+_**Piu' sotto, al termine della lingua inglese trovi il testo in italiano. </i>**_
+_**Below English text you'll find the Italian version</i>**_
 
- /* USER CODE BEGIN 2 */
-  Displ_Init(Displ_Orientat_0);
-  Displ_CLS(BLACK);						// clear the screen
-  Displ_BackLight('I');  					// initialize backlight
-  Displ_BackLight('1');					// light-up display ad max light level
-  /* USER CODE END 2 */
+<br>
+<br>
 
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  InitMenu();
-  while (1)
-  {
-	  Displ_PerfTest();
-//	  Touch_ShowData();
-//	  Touch_TestDrawing();
-//	  Touch_TestCalibration();
-//	  RunMenu1();
+# Source and header files
 
-    /* USER CODE END WHILE */
+- Copy the .c files into the /Core/Src folder in your STM32CubeIDE project
+- Copy the .h files into the /Core/Inc folder in your STM32CubeIDE project
+- into the /Core/Inc folder, open the main.h file and add (better if into "USER CODE BEGIN Includes")include directive for every .h file copied
 
-    /* USER CODE BEGIN 3 */
-  }
+"z_displ_ILI9XXX_test" files (.c and .h) must be copied into the project only if you want to use graphics test/demo functions. You don't need to add it in the production project.
+"z_touch_XPT2046_test" files (.c and .h) must be copied into the project only if you want to use touch test/demo functions. You don't need to add it in the production project.
+adding "z_touch_XPT2046_test", compiler will ask you to enable printf library into project properties (follow warnings instructions) 
+
+
+That should be enough, now you can move to these sections:
+- ["How to" add it to a CubeIDE project](../HOWTO)
+- ["How to" handle display backlight](../BACKLIGHT)
+
+
+
+---
+
+<br>
+<br>
+
+# File sorgente e di testata
+
+- Copia i file .c nella cartella /Core/Src del progetto STM32CubeIDE
+- Copia i file .h nella cartella /Core/Inc del progetto STM32CubeIDE
+- Nella cartella /Core/Inc, apri il file main.h e aggiungi la direttiva include (nella sezione "USER CODE BEGIN Includes"?) per ogni file .h copiato.
+
+I file "z_displ_ILI9XXX_test" (.c e .h) devono essere copiati nel progetto solo se vuoi usare le funzioni di demo grafiche e test. Non occorrono questi file nella versione definitiva del progetto.
+I file "z_touch_XPT2046_test" (.c e .h) devono essere copiati nel progetto solo se vuoi usare le funzioni touch di demo e test. Non occorrono questi file nella versione definitiva del progetto.
+Aggiungendo "z_touch_XPT2046_test", il compilatore chiederà di attivare la libreria printf nelle proprietà del progetto  (seguire le istruzioni dei warning) 
+
+Dovrebbe bastrare, ora puoi andare alle sezioni:
+- [Guida per integrare il software in un progetto con CubeIDE](../HOWTO)
+- [Guida alla gestione della retroilluminazione](../BACKLIGHT)
+
+
+
+
