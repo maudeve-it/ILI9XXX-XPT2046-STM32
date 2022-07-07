@@ -7,7 +7,7 @@
  *  This is related to the functions testing features and showing performance
  *  you don't need this file in the production project
  *
- *  licensing: https://github.com/maudeve-it/ILI9486-STM32/blob/main/LICENSE
+ *  licensing: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/c097f0e7d569845c1cf98e8d930f2224e427fd54/LICENSE
  *
  *  Do you want to test functions?
  *  follow STEP_1 in z_displ_ILI9488_test.c
