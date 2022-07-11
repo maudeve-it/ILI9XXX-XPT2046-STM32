@@ -49,7 +49,7 @@ Youtube video with a detailled analysis of SPI communication to displays: https:
 
 ## NOTES
 
-20220504: I am still working on these repositories. Consider them uncomplete until this note is deleted.
+202207011: I am still working on these repositories. Consider them uncomplete until this note is deleted.
 
 ---
 
@@ -99,7 +99,7 @@ Video Youtube con l'analisi dettagliata della comunicazione SPI con i display: h
 
 ## NOTE
 
-20220504: Sto ancora aggiornando le repository. Considerale incomplete finche' non rimuovero' questa nota. 
+20220711: Sto ancora aggiornando le repository. Considerale incomplete finche' non rimuovero' questa nota. 
 
 ---
 
