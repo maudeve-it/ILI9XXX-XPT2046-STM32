@@ -63,8 +63,7 @@ void Touch_UnSelect(void) {
  * @params	axis	use only one of the three options X_AXIS, Y_AXIS or Z_AXIS
  * @return			the level measured on the "axis" axis
  * 					PLEASE NOTE this function should be only for internal usage
- * 								left here available only for test and training.
- * 								Use Touch_GetXYTouch() instead of this function
+ * 								Use Touch_GetXYTouch() instead
  *******************************************************************************/
 uint16_t Touch_PollAxis(uint8_t axis) {
 	uint8_t poll[2] = {0,0};
@@ -100,11 +99,12 @@ uint16_t Touch_PollAxis(uint8_t axis) {
 
 
 
-/***********************************************************
- * @brief			poll touch screen and returning its XY screen position
- * #return	xypos	isTouch 	is 1 if detected a touch, otherwise 0;
+/*********************************************************************************
+ * @brief			polls touch screen and returning its XY screen position
+ * 					that's regardless touch recording flag (interrupt received)
+ * @return	xypos	isTouch 	is 1 if detected a touch, otherwise 0;
  * 					Xpos,Ypos	in case isTouch=1 contain touch coordinates
- ************************************************************/
+ *********************************************************************************/
 sTouchData Touch_GetXYtouch(void) {
 const uint8_t pollingLevel=4;
 sTouchData XYposition;
@@ -113,28 +113,37 @@ uint8_t k;
 uint32_t touchx,touchy,touch;
 
 
-// if no PenDown notification, return a no touch
-	XYposition.isTouch=0;
-	if (!Touch_PenDown)
-		return XYposition;  // no touch: return 0
-	Touch_PenDown=0;
 
-// device has a touch get the average value (over "pollingLevel" attempts of X and Y axes readings)
+// device has a touch get the average value (over "pollingLevel" attempts of X, Y and Z axes readings)
+
+	// reading Z
+	touch=0;
+	for (k=0;k<(1<<pollingLevel);k++)
+		touch += Touch_PollAxis(Z_AXIS);
+	touch >>= pollingLevel;  //takes the average
+	if (touch<=Z_THRESHOLD) {
+		XYposition.isTouch=0;
+		return XYposition;	// no touch: return 0
+	}
+
+	// reading X
+	touch=0;
+	for (k=0;k<(1<<pollingLevel);k++)
+		touch += Touch_PollAxis(X_AXIS);
+	touch >>= pollingLevel;  //takes the average
+	if (touch<=X_THRESHOLD) {
+		XYposition.isTouch=0;
+		return XYposition;	// no touch: return 0
+	}
+	touchx=(AX*touch+BX);
+
+	// reading Y - there is no a threshold for Y
 	touch=0;
 	for (k=0;k<(1<<pollingLevel);k++)
 		touch += Touch_PollAxis(Y_AXIS);
 	touch >>= pollingLevel; //takes the average
 
 	touchy=(AY*touch+BY);
-
-	touch=0;
-	for (k=0;k<(1<<pollingLevel);k++)
-		touch += Touch_PollAxis(X_AXIS);
-	touch >>= pollingLevel;  //takes the average
-
-	if (touch<=X_THRESHOLD)
-		return XYposition;	// no touch: return 0
-	touchx=(AX*touch+BX);
 
 
 //having X and Y axis average values
@@ -173,7 +182,7 @@ uint32_t touchx,touchy,touch;
  * @params	delay	max time (ms) waiting for a touch, 0=infinite
  * #return	1 		if touched within "delay" period
  * 			0		if elapsed time with no touch
- * 					PLEASE NOTE: not resetting Touch_PenDown
+ * 					PLEASE NOTE: not resetting Touch recording flag
  ***********************************************************/
 uint8_t Touch_WaitForTouch(uint16_t delay) {
 	uint16_t starttime;
@@ -196,6 +205,7 @@ uint8_t Touch_WaitForTouch(uint16_t delay) {
  * @params	delay	max time (ms) waiting for leaving touch, 0=infinite
  * #return	1 		if no touch on display
  * 			0		if elapsed time still touching display
+ * PLEASE NOTE		if pen up, it resets the touch recording flag
  *************************************************************/
 uint8_t Touch_WaitForUntouch(uint16_t delay) {
 	uint16_t starttime;
@@ -226,10 +236,14 @@ uint8_t Touch_WaitForUntouch(uint16_t delay) {
 
 /***********************************************************
  * @brief			check if interrupt registered a touch
+ * 					resetting touch flag anyway
+ * @returns		1	if recorded a touch
+ * 				0	if no touch recorded
  ***********************************************************/
 uint8_t Touch_GotATouch() {
-
-	return Touch_PenDown;
+uint8_t result = Touch_PenDown;
+	Touch_PenDown=0;
+	return result;
 }
 
 
@@ -244,10 +258,10 @@ uint8_t Touch_GotATouch() {
  * 			ypos,
  * 			width,
  * 			height	display area to be polled for a touch
- * @return	1		if there is a touche inside area
+ * @return	1		if there is a touch inside area
  * 			0		if no touch or touch outside area defined
  ***********************************************************/
-uint8_t Is_Touch_XY_area(uint16_t xpos,uint16_t ypos,uint16_t width,uint16_t height) {
+uint8_t Touch_In_XY_area(uint16_t xpos,uint16_t ypos,uint16_t width,uint16_t height) {
 sTouchData posXY;
 	posXY=Touch_GetXYtouch();
 	if (!posXY.isTouch)

@@ -35,8 +35,6 @@
 extern int16_t _width;       								///< (oriented) display width
 extern int16_t _height;      								///< (oriented) display height
 
-extern volatile uint8_t Touch_PenDown;						// set to 1 by pendown interrupt callback, reset to 0 by sw
-
 
 
 
@@ -85,13 +83,6 @@ void MoveCross(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2,uint16_t fcol,uin
 
 
 
-
-
-
-
-
-
-
 extern uint16_t Touch_PollAxis(uint8_t axis);
 
 
@@ -112,14 +103,14 @@ void Touch_ShowData(void)
 
 	while (1) {
 
-		if (Touch_PenDown)
+		if (Touch_GotATouch())
 			touchTime=HAL_GetTick();
+		touchDelay=(HAL_GetTick() - touchTime);
 
 		z_touch = Touch_PollAxis(Z_AXIS);
 		x_touch = Touch_PollAxis(X_AXIS);
 		y_touch = Touch_PollAxis(Y_AXIS);
 
-		touchDelay=(HAL_GetTick() - touchTime);
 		if ((touchDelay<100) && (touchTime!=0)) {
 			strcpy(text,"PENDOWN");
 			Displ_WString(10,30,text,Font20,1,RED,YELLOW);
@@ -141,6 +132,7 @@ void Touch_ShowData(void)
 	}
 
 }
+
 
 
 
@@ -176,9 +168,6 @@ void Touch_TestDrawing() {
 		Touch_WaitForTouch(0);
 
 		while (1) {
-			Touch_PenDown=1;	//in this demo we want a continuous touch reading
-			//Resetting Touch_PenDown I force a touch sensor reading
-			//otherwise I would read just the first after the touch
 			posTouch=Touch_GetXYtouch();
 			if (!posTouch.isTouch) //if there is no touch: stop drawing
 				break;

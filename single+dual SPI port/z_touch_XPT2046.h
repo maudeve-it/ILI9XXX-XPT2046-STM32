@@ -121,11 +121,11 @@ typedef struct {
 //void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin);
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 
-uint8_t Is_Touch_XY_area(uint16_t xpos,uint16_t ypos,uint16_t width,uint16_t height);
+uint8_t Touch_In_XY_area(uint16_t xpos,uint16_t ypos,uint16_t width,uint16_t height);
 uint8_t Touch_GotATouch();
 uint8_t Touch_WaitForUntouch(uint16_t delay);
 uint8_t Touch_WaitForTouch(uint16_t delay);
-sTouchData Touch_GetXYtouch(void);
+sTouchData Touch_GetXYtouch();
 
 
 #endif /* __XPT2046_H */
