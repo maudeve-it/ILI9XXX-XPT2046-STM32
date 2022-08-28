@@ -144,7 +144,7 @@ Attivare altri 5 pin come GPIO_Output:
 
 
 ##### Scaricare il SW
-- scaricare ed installare il software come descritto [qui](../SOURCE)
+- scaricare ed installare il software come descritto [qui](../single%2Bdual%20SPI%20port)
 
 
 ##### Configurazione Parametri
