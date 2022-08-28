@@ -100,9 +100,8 @@
 /*|||||||| END OF USER/PROJECT PARAMETERS ||||||||*/
 
 
-
-/*|||||||||||||| DEVICE PARAMETERS |||||||||||||||*/
-/***** you should need to change nothing here *****/ 
+/*|||||||||||||| DEVICE PARAMETERS |||||||||||||||||*/
+/* you shouldn't need to change anything here after */ 
 
 /***************   color depth      ****************
  *** choose one of the two color depth available *** 
@@ -129,8 +128,8 @@
 #endif
 
 /************* from POLLING to DMA *****************
- ***** bewlow the indicated limit data transfer ****
- ******* will be polling, even if DMA enabled ******
+ *** below DISPL_DMA_CUTOFF data size, transfer ****
+ ****** will be polling, even if DMA enabled *******
  ***************************************************/
 #define DISPL_DMA_CUTOFF 	20    // (bytes) used only in DMA_MODE
 
