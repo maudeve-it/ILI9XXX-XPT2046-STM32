@@ -52,6 +52,7 @@ Enable 1 EXTI interrupt pin:
 |pinname to assign|Interrupt mode|pull-up/down|
 |---|---|---|
 |TOUCH_INT|External interrupt-falling edge|pull-up|
+
 Then,<br>
 enable the corresponding interrupt in the "NVIC session" of "System Core" configuration.<br> 
 
@@ -134,6 +135,7 @@ Attivare 1 pin come EXTI interrupt:
 |Nome pin da assegnare|Interrupt mode|pull-up/down|
 |---|---|---|
 |TOUCH_INT|External interrupt-falling edge|pull-up|
+
 Poi,<br>
 abilitare il corrispondente interrupt nella "NVIC session" della configurazione "System Core".<br> 
 
