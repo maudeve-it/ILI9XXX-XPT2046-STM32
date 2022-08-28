@@ -28,7 +28,7 @@ SPI configuration is:
 |CPOL|low|
 |CPHA|1 Edge|
 |CRC calculation|disabled|
-|NSS type|Output Hw|
+|NSS type|Output Sw|
 
 you can choose if transferring SPI data in Polling mode, Interrupt mode or DMA mode.
 I strongly suggest you to see [this youtube video](https://youtu.be/oWx1-WmTwag) to see differences 
@@ -108,7 +108,7 @@ into "z_touch_XPT2046.h" file you have to setup this configuration:
 |CPOL|low|
 |CPHA|Edge|
 |CRC calculation|disabled|
-|NSS type|Output Hw|
+|NSS type|Output Sw|
 
 Puoi scegliere se il trasferimento dati avviene in Polling Mode, via Interrupt o via DMA
 Raccomando di visionare [questo video youtube](https://youtu.be/oWx1-WmTwag) per analizzare le differenti impostazioni 
