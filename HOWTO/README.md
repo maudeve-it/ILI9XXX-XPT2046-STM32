@@ -73,7 +73,7 @@ into "z_displ_ILI9XXX.h" file you have to setup this configuration:
 - section 3 - Port Speed: here you must assign bitrate SPI prescaler when transferring data to display or to/from touch sensor. Consider that touch uses baudrates  below 2MBps 
 - section 4 - SPI communication mode: uncomment the macro definition related to enabled communication mode (Polling mode, Interrupt mode or DMA mode). You must uncomment no less and no more than ONE definition here
 - section 5 - Backlight Mode: see [BACKLIGHT page](../BACKLIGHT)  
-- section 6 - Buffer size: define the "Buffer Level" you like (assign a value between 10 and 16 included) see [youtube video](../BACKLIGHT) for information and analisys.  
+- section 6 - Buffer size: define the "Buffer Level" you like (assign a value between 10 and 16 included) see [youtube video](../BACKLIGHT) for information and comments about its sizes available.  
 
 into "z_touch_XPT2046.h" file you have to setup this configuration:
 - section 1 - Port Parameters: here you have to set two macro constant with the SPI port name connecting touch sensor
@@ -153,9 +153,9 @@ Nel file "z_displ_ILI9XXX.h" devi impostare questa configurazione:
 - sezione 1 - Definisci il display che stai usando (ILI9488 o ILI9346) togliendo ail commento al #define relativo
 - sezione 2 - Port Parameters: qui devi impostare due costanti macro con il nome della porta SPI a cui è connesso il display (vedi anche "z_touch_XPT2046.h", sotto)
 - sezione 3 - Port Speed: qui devi assegnare il valore al bitrate SPI prescaler quando trasferisce dati al display o al/dal sensore touch. Considera che il sensore touch comunica sotto i 2MBps 
-- sezione 4 - SPI communication mode: togli il commento alla definizione definition relativa al tipo di comunicazione attivato (Polling moode, Interrupt mode o DMA mode). Devi togliere il commento ad una riga (NON di più e NON di meno) 
+- sezione 4 - SPI communication mode: togli il commento alla definizione definition relativa al tipo di comunicazione attivato (Polling mode, Interrupt mode o DMA mode). Devi togliere il commento ad una riga (NON di più e NON di meno) 
 - sezione 5 - Backlight Mode: vedi la [pagina BACKLIGHT](../BACKLIGHT)  
-- sezione 6 - Buffer size: definisci il "Buffer Level" che preferisci (assegnaun valire tra 10 e 16 included) vedi [il video youtube](https://youtu.be/oWx1-WmTwag) per informazioni ed analisi.  
+- sezione 6 - Buffer size: definisci il "Buffer Level" che preferisci (assegna un valore tra 10 e 16 included) vedi [il video youtube](https://youtu.be/oWx1-WmTwag) per informazioni e commenti sulle sue dimensioni.  
 
 Nel file "z_touch_XPT2046.h" devi impostare i seguenti parametri:
 - sezione 1 - Port Parameters: qui devi impostare due costanti macro con il nome della porta SPI a cui è connesso il display 
