@@ -64,7 +64,7 @@ Enable 5 more pins as GPIO_Output:
 
 
 ##### Downloading SW
-- download and install software as described [here](../SOURCE)
+- download and install software as described [here](../single%2Bdual%20SPI%20port)
 
 ##### Parameters setup
 into "z_displ_ILI9XXX.h" file you have to setup this configuration:
