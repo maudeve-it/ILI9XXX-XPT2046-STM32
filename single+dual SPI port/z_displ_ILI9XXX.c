@@ -40,10 +40,66 @@ static uint8_t *dispBuffer=dispBuffer1;
  **********************************/
 void ILI9XXX_Init()
 {
+
+
 	HAL_GPIO_WritePin(DISPL_RST_GPIO_Port, DISPL_RST_Pin, GPIO_PIN_RESET);
 	HAL_Delay(1);
 	HAL_GPIO_WritePin(DISPL_RST_GPIO_Port, DISPL_RST_Pin, GPIO_PIN_SET);
 	HAL_Delay(150);
+
+/******************************************
+ * below lines shlould empower brightness
+ * and quality with a higher power
+ * consumption. I haven't seen meaningful
+ * differences on both displays: REMOVED
+ * ****************************************
+	uint8_t data[10];
+
+		Displ_WriteCommand(ILI9XXX_POWER0);
+	#ifdef ILI9341
+		data[0]=0x3F; //default 0x21, 3.3V=0x09, 5V=2B
+		Displ_WriteData(data,1);
+	#endif
+	#ifdef ILI9488
+		data[0]=0x1F; //default 0E, 3.3V=0x09, 5V=17
+		data[1]=0x1F; //default 0E, 5V=17
+		Displ_WriteData(data,2);
+	#endif
+
+		Displ_WriteCommand(ILI9XXX_POWER1);
+	#ifdef ILI9341
+		data[0]=0x00; //default 0x00
+	#endif
+	#ifdef ILI9488
+		data[0]=0x40; //default 0x44
+	#endif
+		Displ_WriteData(data,1);
+
+	#ifdef ILI9488
+		Displ_WriteCommand(ILI9488_POWER2);
+		data[0]=0x44; //default 0x44
+		Displ_WriteData(data,1);
+	#endif
+
+	#ifdef ILI9341
+		Displ_WriteCommand(ILI9341_POWERA);
+		data[0]=0x39; //fixed
+		data[1]=0x2C; //fixed
+		data[2]=0x00; //fixed
+		data[3]=0x35; //default 0x34
+		data[4]=0x00; //default 0x02
+		Displ_WriteData(data,5);
+		Displ_WriteCommand(ILI9341_POWERB);
+		data[0]=0x00; //fixed
+		data[1]=0x99; //default 0x81
+		data[2]=0x30; //default 0x30
+		Displ_WriteData(data,3);
+	#endif
+*/
+
+
+
+
 
 	Displ_WriteCommand(ILI9XXX_PIXEL_FORMAT);
 #ifdef RGB666
@@ -54,6 +110,11 @@ void ILI9XXX_Init()
 #endif
 	Displ_WriteCommand(ILI9XXX_RGB_INTERFACE);
 	Displ_WriteData((uint8_t *)"\x80",1);        // disable MISO pin
+
+	Displ_WriteCommand(ILI9XXX_RGB_INTERFACE);
+	Displ_WriteData((uint8_t *)"\x80",1);        // disable MISO pin
+
+
 
 	Displ_WriteCommand(ILI9XXX_SLEEP_OUT);
 	HAL_Delay(120);

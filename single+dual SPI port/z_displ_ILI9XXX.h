@@ -24,8 +24,8 @@
 /******************    STEP 1    *****************
  * which display are you usng?
  *************************************************/
-//#define ILI9341
-#define ILI9488
+#define ILI9341
+//#define ILI9488
 
 
 
@@ -44,7 +44,7 @@
  * define HERE the prescaler value to assign SPI port 
  * when transferring data to/from DISPLAY or TOUCH
  ***************************************************/
-#define DISPL_PRESCALER SPI_BAUDRATEPRESCALER_8     //prescaler assigned to SPI port talking to display
+#define DISPL_PRESCALER SPI_BAUDRATEPRESCALER_2     //prescaler assigned to SPI port talking to display
 #define TOUCH_PRESCALER SPI_BAUDRATEPRESCALER_256	//prescaler assigned to SPI port talking to touch device
 
 
@@ -100,8 +100,9 @@
 /*|||||||| END OF USER/PROJECT PARAMETERS ||||||||*/
 
 
+
 /*|||||||||||||| DEVICE PARAMETERS |||||||||||||||||*/
-/* you shouldn't need to change anything here after */ 
+/* you shouldn't need to change anything here after */
 
 /***************   color depth      ****************
  *** choose one of the two color depth available *** 
@@ -203,6 +204,15 @@ typedef enum {
 #define ILI9XXX_INIT_SHORT_DELAY	5		// Hal_Delay parameter
 #define ILI9XXX_INIT_LONG_DELAY		150		// Hal_Delay parameter
 
+#define ILI9XXX_POWER0				0xC0
+#define ILI9XXX_POWER1				0xC1
+#define ILI9488_POWER2				0xC2
+#define ILI9341_POWERA				0xCB
+#define ILI9341_POWERB				0xCF
+
+
+
+
 /**********************************************************
  * macro changing SPI baudrate prescaler
  * (used before any changes between display<->touch devices
@@ -239,8 +249,6 @@ void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi);
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi);
 
 uint32_t  Displ_BackLight(uint8_t cmd);
-
-
 
 
 #endif /* __Z_DISPL_ILI9XXX_H */
