@@ -71,7 +71,7 @@ Enable 5 more pins as GPIO_Output:
 
 ##### Parameters setup
 into "z_displ_ILI9XXX.h" file you have to setup this configuration:
-- section 1 - define the display you are using (ILI9488 or ILI9346) uncommenting the relative #define
+- section 1 - define the display you are using (ILI9488 or ILI9346) uncommenting the related #define
 - section 2 - Port Parameters: here you have to set two macro constant with the SPI port name connecting display (see below "z_touch_XPT2046.h" also)
 - section 3 - Port Speed: here you must assign bitrate SPI prescaler when transferring data to display or to/from touch sensor. Consider that touch uses baudrates  below 2MBps 
 - section 4 - SPI communication mode: uncomment the macro definition related to enabled communication mode (Polling mode, Interrupt mode or DMA mode). You must uncomment no less and no more than ONE definition here
