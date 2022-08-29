@@ -62,7 +62,7 @@ Function "Displ_BackLight" provides these commands (function parameter):
 |'1'|display to highest level (=ARR)|
 |'F'|display to highest level (as same as comand '1')|
 |'Q'|no action|
-|'I'|initial display setup|
+|'I'|initial display setup (mandatory on startup!)|
 |'S'|display to standby level|
 |'W'|display level before last standby (wakeup from standby)|
 |'+'|1 step level increase|
@@ -137,7 +137,7 @@ La funzione "Displ_BackLight" mette a disposizione i comandi (parametro passato 
 |'0'|spegne il display (livello 0)|
 |'1'|display al massimo (livello ARR)|
 |'F'|display al massimo (come comando '1')|
-|'I'|setup iniziale del display|
+|'I'|setup iniziale del display (obbligatorio allo startup!)|
 |'S'|display al valore di standby|
 |'W'|display al valore precedente all'ultimo standby (risveglio da standby)|
 |'+'|aumenta la luminosità di 1 livello|
