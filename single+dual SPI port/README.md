@@ -31,6 +31,11 @@ That should be enough, now you can move to these sections:<br>
 - [How to add it to a CubeIDE project](../HOWTO)
 - [How to handle display backlight](../BACKLIGHT)
 
+Dovrebbe bastare, ora puoi andare alle sezioni:
+- [Guida per integrare il software in un progetto con CubeIDE](../HOWTO)
+- [Guida alla gestione della retroilluminazione](../BACKLIGHT)
+
+
 
 ---
 
