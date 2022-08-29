@@ -8,7 +8,7 @@ _**Below English text you'll find the Italian version</i>**_
 
 - Copy the .c files into the /Core/Src folder in your STM32CubeIDE project
 - Copy the .h files into the /Core/Inc folder in your STM32CubeIDE project
-- into the /Core/Inc folder, open the main.h file and add (better if into "USER CODE Includes")include directive for every .h file copied in this order:<br>
+- into the /Core/Inc folder, open the main.h file and add (better if into "Private includes") an include directive for every .h file copied. In this order:<br>
 <br>
 (main.h)<br>
 ...<br>
@@ -42,7 +42,7 @@ That should be enough, now you can move to these sections:
 
 - Copia i file .c nella cartella /Core/Src del progetto STM32CubeIDE
 - Copia i file .h nella cartella /Core/Inc del progetto STM32CubeIDE
-- Nella cartella /Core/Inc, apri il file main.h e aggiungi la direttiva include (nella sezione "USER CODE Includes"?) per ogni file .h copiato in questo ordine:<br>
+- Nella cartella /Core/Inc, apri il file main.h e aggiungi la direttiva include (meglio se nella sezione "Private includes") per ogni file .h copiato. In questo ordine:<br>
 
 <br>(main.h)
 <br>...
