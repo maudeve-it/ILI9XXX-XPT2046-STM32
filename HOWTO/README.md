@@ -46,7 +46,7 @@ Assign these names to SPI pins:
 |MOSI|DISPL_MOSI|X|
 |SCK|DISPL_SCK|X|
 
-"Speed relevance" (here above and below): "X" means that pin speed affects the defined SPI boudrate handling: rise (step by step from LOW to VERY HIGH) pins speed if you see uC cannot handle the defined communication speed (more information on your uC datasheet). As per [GPIO hardware guideline](https://www.st.com/resource/en/application_note/an4899-stm32-microcontroller-gpio-hardware-settings-and-lowpower-consumption-stmicroelectronics.pdf), STM suggests keeping the lower GPIO speed allowing your project handling, reducing power consumption and EMI.
+"Speed relevance" (here above and below): "X" means that pin speed affects the defined SPI boudrate handling: rise (step by step from LOW to VERY HIGH) pins speed if you see uC cannot handle the defined communication speed (more information on your uC datasheet). As per [GPIO software guidelines](https://www.st.com/resource/en/application_note/an4899-stm32-microcontroller-gpio-hardware-settings-and-lowpower-consumption-stmicroelectronics.pdf), STM suggests keeping the lower GPIO speed allowing your project handling, reducing power consumption and EMI.
 
 Enable 1 EXTI interrupt pin:
 |pinname to assign|Interrupt mode|pull-up/down|
@@ -129,7 +129,7 @@ Assegnare questi nomi ai pin SPI:
 |MOSI|DISPL_MOSI|X|
 |SCK|DISPL_SCK|X|
 
-"Rilevanza velocità" (qui sopra e più sotto): "X" significa che la velocità del pin ha effetto sulla possibilità di gestire il baudrate della porta SPI: aumentare (un livello alla volta da "LOW" a "VERY HIGH") la velocità dei pin se vedi che il uC non riesce a gestire la velocità di comunicezione impostata  (maggiori informazioni sul datasheet del tup uC). Come indicato su [GPIO hardware guideline](https://www.st.com/resource/en/application_note/an4899-stm32-microcontroller-gpio-hardware-settings-and-lowpower-consumption-stmicroelectronics.pdf), STM suggerisce di usare la minore velocità GPIO che permette di gestire il tuo progetto, riducendo consumi ed EMI. 
+"Rilevanza velocità" (qui sopra e più sotto): "X" significa che la velocità del pin ha effetto sulla possibilità di gestire il baudrate della porta SPI: aumentare (un livello alla volta da "LOW" a "VERY HIGH") la velocità dei pin se vedi che il uC non riesce a gestire la velocità di comunicezione impostata  (maggiori informazioni sul datasheet del tup uC). Come indicato su [GPIO software guidelines](https://www.st.com/resource/en/application_note/an4899-stm32-microcontroller-gpio-hardware-settings-and-lowpower-consumption-stmicroelectronics.pdf), STM suggerisce di usare la minore velocità GPIO che permette di gestire il tuo progetto, riducendo consumi ed EMI. 
 
 Attivare 1 pin come EXTI interrupt:
 |Nome pin da assegnare|Interrupt mode|pull-up/down|
