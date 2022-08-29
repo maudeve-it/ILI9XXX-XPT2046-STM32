@@ -59,7 +59,7 @@ enable the corresponding interrupt in the "NVIC session" of "System Core" config
 Enable 5 more pins as GPIO_Output:
 |pinname to assign|output level|speed relevance|mode|pull-up/down|
 |---|---|---|---|---|
-|DISPL_LED|low|-|Output push pull|No pull-up/down|
+|DISPL_LED|low|-|see [here](../BACKLIGHT)|No pull-up/down|
 |DISPL_DC|-|X|Output push pull|No pull-up/down|
 |DISPL_RST|low|-|Output push pull|No pull-up/down|
 |DISPL_CS|high|X|Output push pull|No pull-up/down|
@@ -142,7 +142,7 @@ abilitare il corrispondente interrupt nella "NVIC session" della configurazione 
 Attivare altri 5 pin come GPIO_Output:
 |Nome pin da assegnare|output level|rilevanza velocità|mode|pull-up/down|
 |---|---|---|---|---|
-|DISPL_LED|low|-|Output push pull|No pull-up/down|
+|DISPL_LED|low|-|vedi [here](../BACKLIGHT)|No pull-up/down|
 |DISPL_DC|-|X|Output push pull|No pull-up/down|
 |DISPL_RST|low|-|Output push pull|No pull-up/down|
 |DISPL_CS|high|X|Output push pull|No pull-updown|
