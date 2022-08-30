@@ -27,7 +27,7 @@ Developed software is based on HAL over STM32CubeIDE.<br>
 ## Project Folders
 
 (I suggest you to follow this reading order) 
-- ["How to" add create CubeIDE project using this software](./HOWTO)
+- ["How to" create CubeIDE project using this software](./HOWTO)
 - [(Software folder) "How to" add this library to the created project](./SOURCE)
 - ["How to" handle display backlight](./BACKLIGHT)
 - ["How to" run the project, test it, and learn using its functions](./HELLO_WORLD)
