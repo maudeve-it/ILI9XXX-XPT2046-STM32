@@ -70,13 +70,13 @@ Here I show three demo/test functions called in the same main loop, but I sugges
   ...
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1) 					// into the main loop you can add the test functions
+  while (1) 			// into the main loop you can add the test functions
   {
 	// display testing
-	Displ_PerfTest();			// shows display graphics and performance
+	Displ_PerfTest();		// shows display graphics and performance
 	// touch testing
-	Touch_ShowData();			// polls touch device and shows values returned, showing touch interrupt calls also
-	Touch_TestDrawing();			// a continue touch polling, converting and drawint position returned, until touch is released
+	Touch_ShowData();		// polls touch device and shows values returned, showing touch interrupt calls also
+	Touch_TestDrawing();		// a continue touch polling, converting and drawint position returned, until touch is released
   ...
   ```
 
@@ -90,10 +90,15 @@ Here I show three demo/test functions called in the same main loop, but I sugges
 
 Dunque...
 Ora che hai creato un nuovo progetto con CubeIDE project seguendo queste istruzioni:
+
 - [Guida per configurare un progetto con CubeIDE](./HOWTO)
+
 Ora che hai aggiunto i source e header files al progetto, seguendo queste istruzioni:
+
 - [Guida per integrare il software](./SOURCE)
+
 Ora che hai scelto la gestione della retroilluminazione, seguendo queste istruzioni:
+
 - [Guida alla gestione della retroilluminazione](./BACKLIGHT)
 
 Puoi finalmente configurare gli ultimi parametri ed eseguire il programma!
@@ -125,13 +130,15 @@ in "z_touch_XPT2046.h" devi impostare i seguenti parametri:
 in main.c ora devi inizializzare il display prima di entrare nel main loop, in questo modo:
 
   (main.c)
+  ```sh
   ...
-  /* USER CODE BEGIN 2 */				// "USER CODE BEGIN 2" viene dopo tutte le inizializzazioni del sistema e prima del main loop
-  Displ_Init(Displ_Orientat_0);			// inizializza il display ed imposta l'orientamento iniziale - QUESTA FUNZIONE DEVE PRECEDERE OGNI ALTRA FUNZIONE DELLA LIBRERIA
-  Displ_CLS(BLACK);						// dopo l'inizializzazione (sopra) e prima di accendere la retroilluminazione (sotto), puoi impostare la schermata iniziale. (qui semplicemente cancello lo schermo con uno sfondo nero) 
-  Displ_BackLight('I');  				// inizializza la retroilluminazione e la accende al livello init ([vedi dettagli qui](../BACKLIGHT))
+  /* USER CODE BEGIN 2 */			// "USER CODE BEGIN 2" viene dopo tutte le inizializzazioni del sistema e prima del main loop
+  Displ_Init(Displ_Orientat_0);		// inizializza il display ed imposta l'orientamento iniziale - QUESTA FUNZIONE DEVE PRECEDERE OGNI ALTRA FUNZIONE DELLA LIBRERIA
+  Displ_CLS(BLACK);					// dopo l'inizializzazione (sopra) e prima di accendere la retroilluminazione (sotto), puoi impostare la schermata iniziale. (qui semplicemente cancello lo schermo con uno sfondo nero) 
+  Displ_BackLight('I');  			// inizializza la retroilluminazione e la accende al livello init ([vedi dettagli qui](../BACKLIGHT))
   /* USER CODE END 2 */
   ...
+  ```
 
 ##### eseguire le funzioni di test
 
@@ -142,14 +149,16 @@ Puoi usarle per:
 
 Qui mostro tre funzioni di test chiamate nello stesso main loop, ma suggerisco di provarle una per volta, seguendo lìordine sotto.
 
+  ```sh
   ...
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1) 							// nel main loop puoi aggiungere le funzioni di test
+  while (1) 			// nel main loop puoi aggiungere le funzioni di test
   {
 	// display testing
-	Displ_PerfTest();					// mostra la grafica e le performance del display
+	Displ_PerfTest();		// mostra la grafica e le performance del display
 	// touch testing
-	Touch_ShowData();					// interroga il touch device e mostra i valori restituiti, mostra anche le chiamate ad interrupt fatte dal display
-	Touch_TestDrawing();				// continua ad interrogare il display, converte i valori restituiti e disegna la posizione ricevuta, finche non si interrompe il tocco
-	...
+	Touch_ShowData();		// interroga il touch device e mostra i valori restituiti, mostra anche le chiamate ad interrupt fatte dal display
+	Touch_TestDrawing();		// continua ad interrogare il display, converte i valori restituiti e disegna la posizione ricevuta, finche non si interrompe il tocco
+  ...
+  ```sh
