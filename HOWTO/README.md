@@ -46,7 +46,7 @@ Assign these names to SPI pins:
 |MOSI|DISPL_MOSI|X|
 |SCK|DISPL_SCK|X|
 
-"Speed relevance" (here above and below): "X" means that pin speed affects the defined SPI boudrate handling: rise (step by step from LOW to VERY HIGH) pins speed if you see uC cannot handle the defined communication speed.
+"Speed relevance" (here above and below): "X" means that pin speed affects the defined SPI boudrate handling: rise (step by step from LOW to VERY HIGH) pins speed if you see uC cannot handle the defined communication speed (more information on your uC datasheet). As per [GPIO software guidelines](https://www.st.com/resource/en/application_note/an4899-stm32-microcontroller-gpio-hardware-settings-and-lowpower-consumption-stmicroelectronics.pdf), STM suggests keeping the lower GPIO speed allowing your project handling, reducing power consumption and EMI.
 
 Enable 1 EXTI interrupt pin:
 |pinname to assign|Interrupt mode|pull-up/down|
@@ -59,7 +59,7 @@ enable the corresponding interrupt in the "NVIC session" of "System Core" config
 Enable 5 more pins as GPIO_Output:
 |pinname to assign|output level|speed relevance|mode|pull-up/down|
 |---|---|---|---|---|
-|DISPL_LED|low|-|Output push pull|No pull-up/down|
+|DISPL_LED|low|-|see [here](../BACKLIGHT)|No pull-up/down|
 |DISPL_DC|-|X|Output push pull|No pull-up/down|
 |DISPL_RST|low|-|Output push pull|No pull-up/down|
 |DISPL_CS|high|X|Output push pull|No pull-up/down|
@@ -71,7 +71,7 @@ Enable 5 more pins as GPIO_Output:
 
 ##### Parameters setup
 into "z_displ_ILI9XXX.h" file you have to setup this configuration:
-- section 1 - define the display you are using (ILI9488 or ILI9346) uncommenting the relative #define
+- section 1 - define the display you are using (ILI9488 or ILI9346) uncommenting the related #define
 - section 2 - Port Parameters: here you have to set two macro constant with the SPI port name connecting display (see below "z_touch_XPT2046.h" also)
 - section 3 - Port Speed: here you must assign bitrate SPI prescaler when transferring data to display or to/from touch sensor. Consider that touch uses baudrates  below 2MBps 
 - section 4 - SPI communication mode: uncomment the macro definition related to enabled communication mode (Polling mode, Interrupt mode or DMA mode). You must uncomment no less and no more than ONE definition here
@@ -129,7 +129,7 @@ Assegnare questi nomi ai pin SPI:
 |MOSI|DISPL_MOSI|X|
 |SCK|DISPL_SCK|X|
 
-"Rilevanza velocità" (qui sopra e più sotto): "X" significa che la velocità del pin ha effetto sulla possibilità di gestire il baudrate della porta SPI: aumentare (un livello alla volta da "LOW" a "VERY HIGH") la velocità dei pin se vedi che il uC non riesce a gestire la velocità di comunicezione impostata. 
+"Rilevanza velocità" (qui sopra e più sotto): "X" significa che la velocità del pin ha effetto sulla possibilità di gestire il baudrate della porta SPI: aumentare (un livello alla volta da "LOW" a "VERY HIGH") la velocità dei pin se vedi che il uC non riesce a gestire la velocità di comunicezione impostata  (maggiori informazioni sul datasheet del tup uC). Come indicato su [GPIO software guidelines](https://www.st.com/resource/en/application_note/an4899-stm32-microcontroller-gpio-hardware-settings-and-lowpower-consumption-stmicroelectronics.pdf), STM suggerisce di usare la minore velocità GPIO che permette di gestire il tuo progetto, riducendo consumi ed EMI. 
 
 Attivare 1 pin come EXTI interrupt:
 |Nome pin da assegnare|Interrupt mode|pull-up/down|
@@ -142,7 +142,7 @@ abilitare il corrispondente interrupt nella "NVIC session" della configurazione 
 Attivare altri 5 pin come GPIO_Output:
 |Nome pin da assegnare|output level|rilevanza velocità|mode|pull-up/down|
 |---|---|---|---|---|
-|DISPL_LED|low|-|Output push pull|No pull-up/down|
+|DISPL_LED|low|-|vedi [here](../BACKLIGHT)|No pull-up/down|
 |DISPL_DC|-|X|Output push pull|No pull-up/down|
 |DISPL_RST|low|-|Output push pull|No pull-up/down|
 |DISPL_CS|high|X|Output push pull|No pull-updown|
