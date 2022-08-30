@@ -47,6 +47,7 @@ into "z_touch_XPT2046.h" file you have to setup this configuration:
 in main.c you now need to initialize display before entering in the main loop, this way:<br>
 <br>
   (main.c)<br>
+  ```sh
   ...<br>
   /* USER CODE BEGIN 2 */				// "USER CODE BEGIN 2" is after all sistem initializations and before entering the main loop<br>
   Displ_Init(Displ_Orientat_0);			// initialize the display and set the initial display orientation - THIS FUNCTION MUST PRECEED ANY OTHER DISPLAY FUNCTION CALLS<br>
@@ -54,6 +55,7 @@ in main.c you now need to initialize display before entering in the main loop, t
   Displ_BackLight('I');  				// initialize backlight and turn it on at init level ([see details here](../BACKLIGHT))<br>
   /* USER CODE END 2 */<br>
   ...<br>
+  ```
 <br>
 ##### running test functions
 
