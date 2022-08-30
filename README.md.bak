@@ -79,7 +79,7 @@ Il sowtware sviluppato si basa su HAL attraverso STM32CubeIDE.
 
 ## Cartelle del progetto 
 
-- [Il Codice è qui](./SOURCE)
+- [Il Codice è qui](./single%2Bdual%20SPI%20port)
 - [Guida per integrare il software in un progetto con CubeIDE](./HOWTO)
 - [Guida per eseguire il progetto, testarlo, e conoscere le sue funzioni](./HELLO_WORLD)
 - [Guida alla gestione della retroilluminazione](./BACKLIGHT)
