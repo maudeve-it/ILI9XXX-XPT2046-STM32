@@ -49,10 +49,10 @@ in main.c you now need to initialize display before entering in the main loop, t
   (main.c)<br>
   ```sh
   ...<br>
-  /* USER CODE BEGIN 2 */				// "USER CODE BEGIN 2" is after all sistem initializations and before entering the main loop<br>
-  Displ_Init(Displ_Orientat_0);			// initialize the display and set the initial display orientation - THIS FUNCTION MUST PRECEED ANY OTHER DISPLAY FUNCTION CALLS<br>
-  Displ_CLS(BLACK);						// after initialization (above) and before turning on backlight (below), you can draw the initial display appearance. (here I'm just clearing display with a black background) <br>
-  Displ_BackLight('I');  				// initialize backlight and turn it on at init level ([see details here](../BACKLIGHT))<br>
+  /* USER CODE BEGIN 2 */			// "USER CODE BEGIN 2" is after all sistem initializations and before entering the main loop<br>
+  Displ_Init(Displ_Orientat_0);		// initialize the display and set the initial display orientation - THIS FUNCTION MUST PRECEED ANY OTHER DISPLAY FUNCTION CALLS<br>
+  Displ_CLS(BLACK);				// after initialization (above) and before turning on backlight (below), you can draw the initial display appearance. (here I'm just clearing display with a black background) <br>
+  Displ_BackLight('I');  			// initialize backlight and turn it on at init level ([see details here](../BACKLIGHT))<br>
   /* USER CODE END 2 */<br>
   ...<br>
   ```
@@ -66,17 +66,19 @@ You can use them for:
 
 Here I show three demo/test functions called in the same main loop, but I suggest you to test them one by one, following the below order.
 
+  ```sh
   ...
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1) 							// into the main loop you can add the test functions
+  while (1) 					// into the main loop you can add the test functions
   {
 	// display testing
-	Displ_PerfTest();					// shows display graphics and performance
+	Displ_PerfTest();			// shows display graphics and performance
 	// touch testing
-	Touch_ShowData();					// polls touch device and shows values returned, showing touch interrupt calls also
-	Touch_TestDrawing();				// a continue touch polling, converting and drawint position returned, until touch is released
-	...
+	Touch_ShowData();			// polls touch device and shows values returned, showing touch interrupt calls also
+	Touch_TestDrawing();			// a continue touch polling, converting and drawint position returned, until touch is released
+  ...
+  ```
 
 
 
