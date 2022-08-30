@@ -26,10 +26,11 @@ Developed software is based on HAL over STM32CubeIDE.<br>
 
 ## Project Folders
 
-- [Software folder](./SOURCE)
-- ["How to" add it to a CubeIDE project](./HOWTO)
-- ["How to" run the project, test it, and learn using its functions](./HELLO_WORLD)
+(I suggest you to follow this reading order) 
+- ["How to" add create CubeIDE project using this software](./HOWTO)
+- [(Software folder) "How to" add this library to the created project](./SOURCE)
 - ["How to" handle display backlight](./BACKLIGHT)
+- ["How to" run the project, test it, and learn using its functions](./HELLO_WORLD)
 - ["How to" handle a simple menu](./MENU)
 
 Youtube video showing project characteristics and performance:<br>
@@ -79,10 +80,10 @@ Il sowtware sviluppato si basa su HAL attraverso STM32CubeIDE.
 
 ## Cartelle del progetto 
 
-- [Il Codice è qui](./SOURCE)
-- [Guida per integrare il software in un progetto con CubeIDE](./HOWTO)
-- [Guida per eseguire il progetto, testarlo, e conoscere le sue funzioni](./HELLO_WORLD)
+- [Guida per creare un progetto CubeIDE per usare questa libreria](./HOWTO)
+- [(Il Codice è qui) Guida per aggiungere la libreria al progetto creato](./SOURCE)
 - [Guida alla gestione della retroilluminazione](./BACKLIGHT)
+- [Guida per eseguire il progetto, testarlo, e conoscere le sue funzioni](./HELLO_WORLD)
 - [Guida alla gestione di un semplice menu](./MENU)
 
 Video Youtube con le carateristiche e le prestazioni del progetto:<br>
