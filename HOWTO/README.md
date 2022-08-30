@@ -67,9 +67,9 @@ Enable 5 more pins as GPIO_Output:
 
 
 ##### Next steps
-- download and install software as described [here](../SOURCE)
-- setup program parameters and run as described [here](../HELLO_WORLD)
-
+- ["How to" add this library to the created project](./SOURCE)
+- ["How to" handle display backlight](./BACKLIGHT)
+- ["How to" run the project, test it, and learn using its functions](./HELLO_WORLD)
 
 
 ---
@@ -141,6 +141,7 @@ Attivare altri 5 pin come GPIO_Output:
 
 
 ##### Prossimi passi
-- scaricare ed installare il software come descritto [qui](../SOURCE)
-- configurare i parametri del programma ed eseguirlo come descritto [qui](../HELLO_WORLD)
+- ["How to" add this library to the created project](./SOURCE)
+- ["How to" handle display backlight](./BACKLIGHT)
+- ["How to" run the project, test it, and learn using its functions](./HELLO_WORLD)
 
