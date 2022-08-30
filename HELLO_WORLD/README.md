@@ -52,7 +52,7 @@ in main.c you now need to initialize display before entering in the main loop, t
   /* USER CODE BEGIN 2 */			// "USER CODE BEGIN 2" is after all sistem initializations and before entering the main loop<
   Displ_Init(Displ_Orientat_0);		// initialize the display and set the initial display orientation - THIS FUNCTION MUST PRECEED ANY OTHER DISPLAY FUNCTION CALLS
   Displ_CLS(BLACK);			// after initialization (above) and before turning on backlight (below), you can draw the initial display appearance. (here I'm just clearing display with a black background)
-  Displ_BackLight('I');  			// initialize backlight and turn it on at init level ([see details here](../BACKLIGHT))
+  Displ_BackLight('I');  			// initialize backlight and turn it on at init level
   /* USER CODE END 2 */
   ...
   ```
@@ -76,7 +76,7 @@ Here I show three demo/test functions called in the same main loop, but I sugges
 	Displ_PerfTest();		// shows display graphics and performance
 	// touch testing
 	Touch_ShowData();		// polls touch device and shows values returned, showing touch interrupt calls also
-	Touch_TestDrawing();		// a continue touch polling, converting and drawint position returned, until touch is released
+	Touch_TestDrawing();		// polling touch, converting and drawing position returned
   ...
   ```
 
@@ -135,7 +135,7 @@ in main.c ora devi inizializzare il display prima di entrare nel main loop, in q
   /* USER CODE BEGIN 2 */			// "USER CODE BEGIN 2" viene dopo tutte le inizializzazioni del sistema e prima del main loop
   Displ_Init(Displ_Orientat_0);		// inizializza il display ed imposta l'orientamento iniziale - QUESTA FUNZIONE DEVE PRECEDERE OGNI ALTRA FUNZIONE DELLA LIBRERIA
   Displ_CLS(BLACK);				// dopo l'inizializzazione (sopra) e prima di accendere la retroilluminazione (sotto), puoi impostare la schermata iniziale. (qui semplicemente cancello lo schermo con uno sfondo nero) 
-  Displ_BackLight('I');  			// inizializza la retroilluminazione e la accende al livello init ([vedi dettagli qui](../BACKLIGHT))
+  Displ_BackLight('I');  			// inizializza la retroilluminazione e la accende al livello init 
   /* USER CODE END 2 */
   ...
   ```
@@ -159,6 +159,6 @@ Qui mostro tre funzioni di test chiamate nello stesso main loop, ma suggerisco d
 	Displ_PerfTest();		// mostra la grafica e le performance del display
 	// touch testing
 	Touch_ShowData();		// interroga il touch device e mostra i valori restituiti, mostra anche le chiamate ad interrupt fatte dal display
-	Touch_TestDrawing();		// continua ad interrogare il display, converte i valori restituiti e disegna la posizione ricevuta, finche non si interrompe il tocco
+	Touch_TestDrawing();		// interroga il display, converte i valori restituiti e disegna la posizione ricevuta
   ...
   ```
