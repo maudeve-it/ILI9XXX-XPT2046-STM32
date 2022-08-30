@@ -4,11 +4,11 @@ _**Below English text you'll find the Italian version</i>**_
 <br>
 <br>
 So...<br>
-Now that you created a new CubeIDE project as per these instructions:
+Now that you have created a new CubeIDE project as per these instructions:
 
 - ["How to" create a CubeIDE project for this library](./HOWTO)
 
-Now that you added the library source and header files to the project as per these instructions:
+Now that you have added the library source and header files to the project as per these instructions:
 
 - ["How to" add this software to the project](./SOURCE)
 
@@ -24,9 +24,9 @@ You finally can setup the last program parameters and run it!<br>
 
 
 ##### Parameters setup
-you must "tune" the software parameters in two files:
-- z_displ_ILI9XXX.h
-- z_touch_XPT2046.h
+you must "tune" the software parameters in two files:<br>
+- z_displ_ILI9XXX.h<br>
+- z_touch_XPT2046.h<br>
 
 into "z_displ_ILI9XXX.h" file you have to setup this configuration:
 - section 1 - define the display you are using (ILI9488 or ILI9346) uncommenting the related #define
