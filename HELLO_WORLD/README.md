@@ -51,7 +51,7 @@ in main.c you now need to initialize display before entering in the main loop, t
   ...<br>
   /* USER CODE BEGIN 2 */			// "USER CODE BEGIN 2" is after all sistem initializations and before entering the main loop<br>
   Displ_Init(Displ_Orientat_0);		// initialize the display and set the initial display orientation - THIS FUNCTION MUST PRECEED ANY OTHER DISPLAY FUNCTION CALLS<br>
-  Displ_CLS(BLACK);				// after initialization (above) and before turning on backlight (below), you can draw the initial display appearance. (here I'm just clearing display with a black background) <br>
+  Displ_CLS(BLACK);			// after initialization (above) and before turning on backlight (below), you can draw the initial display appearance. (here I'm just clearing display with a black background) <br>
   Displ_BackLight('I');  			// initialize backlight and turn it on at init level ([see details here](../BACKLIGHT))<br>
   /* USER CODE END 2 */<br>
   ...<br>
@@ -134,7 +134,7 @@ in main.c ora devi inizializzare il display prima di entrare nel main loop, in q
   ...
   /* USER CODE BEGIN 2 */			// "USER CODE BEGIN 2" viene dopo tutte le inizializzazioni del sistema e prima del main loop
   Displ_Init(Displ_Orientat_0);		// inizializza il display ed imposta l'orientamento iniziale - QUESTA FUNZIONE DEVE PRECEDERE OGNI ALTRA FUNZIONE DELLA LIBRERIA
-  Displ_CLS(BLACK);					// dopo l'inizializzazione (sopra) e prima di accendere la retroilluminazione (sotto), puoi impostare la schermata iniziale. (qui semplicemente cancello lo schermo con uno sfondo nero) 
+  Displ_CLS(BLACK);				// dopo l'inizializzazione (sopra) e prima di accendere la retroilluminazione (sotto), puoi impostare la schermata iniziale. (qui semplicemente cancello lo schermo con uno sfondo nero) 
   Displ_BackLight('I');  			// inizializza la retroilluminazione e la accende al livello init ([vedi dettagli qui](../BACKLIGHT))
   /* USER CODE END 2 */
   ...
@@ -161,4 +161,4 @@ Qui mostro tre funzioni di test chiamate nello stesso main loop, ma suggerisco d
 	Touch_ShowData();		// interroga il touch device e mostra i valori restituiti, mostra anche le chiamate ad interrupt fatte dal display
 	Touch_TestDrawing();		// continua ad interrogare il display, converte i valori restituiti e disegna la posizione ricevuta, finche non si interrompe il tocco
   ...
-  ```sh
+  ```
