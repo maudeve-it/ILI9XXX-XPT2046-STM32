@@ -3,14 +3,12 @@ _**Below English text you'll find the Italian version</i>**_
 
 <br>
 <br>
-So...
+So...<br>
 Now that you created a new CubeIDE project as per these instructions:
 
 - ["How to" create a CubeIDE project for this library](./HOWTO)
 
 Now that you added the library source and header files to the project as per these instructions:
-
-- ["How to" add this software to the project](./SOURCE)
 
 - ["How to" add this software to the project](./SOURCE)
 
@@ -21,7 +19,7 @@ Now that you have chosen the backlight handling mode and set it as per these ins
 
 
 
-You finally can setup the last program parameters and run it!
+You finally can setup the last program parameters and run it!<br>
 
 
 
