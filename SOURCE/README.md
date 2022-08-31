@@ -10,17 +10,20 @@ _**Below English text you'll find the Italian version</i>**_
 - Copy the .h files into the /Core/Inc folder in your STM32CubeIDE project
 - into the /Core/Inc folder, open the main.h file and add (better if into "Private includes") an include directive for every .h file copied. In this order:<br>
 <br>
-(main.h)<br>
-...<br>
-/* USER CODE BEGIN Includes */<br>
-#include "fonts.h"<br>
-#include "z_displ_ILI9XXX.h"<br>
-#include "z_displ_ILI9XXX_test.h"<br>
-#include "z_touch_XPT2046.h"<br>
-#include "z_touch_XPT2046_test.h"<br>
-#include "z_touch_XPT2046_menu.h"<br>
-/* USER CODE END Includes */<br>
-...<br>
+  ```sh
+(main.h)
+...
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+#include "fonts.h"
+#include "z_displ_ILI9XXX.h"
+#include "z_displ_ILI9XXX_test.h"
+#include "z_touch_XPT2046.h"
+#include "z_touch_XPT2046_test.h"
+#include "z_touch_XPT2046_menu.h"
+/* USER CODE END Includes */
+...
+```
 <br>
 "z_displ_ILI9XXX_test" files (.c and .h) must be copied into the project only if you want to use graphics test/demo functions. You don't need to add it in the production project.<br>
 "z_touch_XPT2046_test" files (.c and .h) must be copied into the project only if you want to use touch test/demo functions. You don't need to add it in the production project.<br>
@@ -49,17 +52,20 @@ now you can move to these sections:
 - Copia i file .h nella cartella /Core/Inc del progetto STM32CubeIDE
 - Nella cartella /Core/Inc, apri il file main.h e aggiungi la direttiva include (meglio se nella sezione "Private includes") per ogni file .h copiato. In questo ordine:<br>
 
-<br>(main.h)
-<br>...
-<br>/* USER CODE BEGIN Includes */
-<br>#include "fonts.h"
-<br>#include "z_displ_ILI9XXX.h"
-<br>#include "z_displ_ILI9XXX_test.h"
-<br>#include "z_touch_XPT2046.h"
-<br>#include "z_touch_XPT2046_test.h"
-<br>#include "z_touch_XPT2046_menu.h"
-<br>/* USER CODE END Includes */
-<br>...
+```sh
+(main.h)
+...
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+#include "fonts.h"
+#include "z_displ_ILI9XXX.h"
+#include "z_displ_ILI9XXX_test.h"
+#include "z_touch_XPT2046.h"
+#include "z_touch_XPT2046_test.h"
+#include "z_touch_XPT2046_menu.h"
+/* USER CODE END Includes */
+...
+```
 <br>
 <br>
 I file "z_displ_ILI9XXX_test" (.c e .h) devono essere copiati nel progetto solo se vuoi usare le funzioni di demo grafiche e test. Non occorrono questi file nella versione definitiva del progetto.<br>
