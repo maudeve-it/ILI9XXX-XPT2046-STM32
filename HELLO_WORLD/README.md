@@ -49,7 +49,7 @@ in main.c you now need to initialize display before entering in the main loop, t
   (main.c)
   ```sh
   ...
-  /* USER CODE BEGIN 2 */			// "USER CODE BEGIN 2" is after all sistem initializations and before entering the main loop<
+  /* USER CODE BEGIN 2 */			// "USER CODE BEGIN 2" is after all sistem initializations and before entering the main loop. Good place to initialize display
   Displ_Init(Displ_Orientat_0);		// initialize the display and set the initial display orientation - THIS FUNCTION MUST PRECEED ANY OTHER DISPLAY FUNCTION CALLS
   Displ_CLS(BLACK);			// after initialization (above) and before turning on backlight (below), you can draw the initial display appearance. (here I'm just clearing display with a black background)
   Displ_BackLight('I');  			// initialize backlight and turn it on at init level
@@ -59,10 +59,10 @@ in main.c you now need to initialize display before entering in the main loop, t
 <br>
 ##### running test functions
 
-Here some test function you can run installing the "_test" files.
-You can use them for:
--	correct system installation and configuration
--	learning how to use the library functions
+Here some test function you can run copying the "_test" files into the project.
+You can use them to:
+-	check the correct system installation and configuration
+-	learn how to use the library functions
 
 Here I show three demo/test functions called in the same main loop, but I suggest you to test them one by one, following the below order.
 
