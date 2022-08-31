@@ -30,7 +30,7 @@ That's all. Function "Displ_BackLight" provides these commands (function paramet
 |---|---|
 |'0'|display off|
 |'1'|display on|
-|'F'|display on(as same as comand '1')|
+|'F'|display on (as same as comand '1')|
 |'Q'|no action|
 
 "Displ_BackLight" function returns display status (0=off, 1 = on) so: command 'Q' is to query display status<br>
@@ -47,7 +47,7 @@ Define a PWM pin:<br>
 |DISPL_LED|low|-|Alternate Function (Timer)|No pull-up/down|
 -	enable a PWM channel on a "general purpose" timer (e.g. CH1 on TIM3)<br>
 -	setup channel as "PWM mode 1" and "Counter mode UP"<br>
-ARR register ("Auto Reload Register" or "Counter period" on CubeMX) defines the number of steps of display light. E.g.: set it to 10 to get 10 light steps available (from 1="1/10 duty cycle" to 10="10/10", and level 0="off")<br>
+ARR register ("Auto Reload Register" or "Counter period" on CubeMX) defines the number of steps of display light. E.g.: set it to 10 to get 10 light steps available (from 1=v to 10="10/10", and level 0="off")<br>
 PSC register (prescaler) higher value is better (reducing power consumption and EMI noise, see STM [GPIO software guidelines](https://www.st.com/resource/en/application_note/an4899-stm32-microcontroller-gpio-hardware-settings-and-lowpower-consumption-stmicroelectronics.pdf)) but must be not too high: ((uC clock / PSC)/ ARR) > 100 Hz, avoiding flickering<br>
 
 ### setup z_displ_ILI9XXX.h
@@ -55,6 +55,7 @@ align to CubeMX macro parameters:<br>
 #define BKLIT_TIMER 				put the timer name (es. TIM3)<br>
 #define bklit_t 					put the timer name (es. htim3)<br>
 #define BKLIT_CHANNEL				put the used channel (es. TIM_CHANNEL_2)<br>
+#define BKLIT_CCR					     indicate the preload register involved by PWM (e.g. CCR2)<br>
 <br>
 setup parameters:<br>
 #define BKLIT_STBY_LEVEL 			set standby level (between 0 and ARR)<br>
@@ -62,7 +63,6 @@ you could invoke function with "standby" setting backlight to this predefined va
 #define BKLIT_INIT_LEVEL 			set startup level (between 0 and ARR)<br>
 This is the backlight level set on initialization<br>
 <br>
-#define BKLIT_CCR					      indicate the preload register involved by PWM (e.g. CCR2)<br>
 
 Function "Displ_BackLight" provides these commands (function parameter):
 |parameter|description|
@@ -70,10 +70,9 @@ Function "Displ_BackLight" provides these commands (function parameter):
 |'0'|display off|
 |'1'|display to highest level (=ARR)|
 |'F'|display to highest level (as same as comand '1')|
-|'Q'|no action|
 |'I'|initial display setup (mandatory on startup!)|
 |'S'|display to standby level|
-|'W'|display level before last standby (wakeup from standby)|
+|'W'|display to the level before last standby (wakeup from standby)|
 |'+'|1 step level increase|
 |'-'|1 step level decrease|
 |'Q'|no action|
@@ -101,9 +100,11 @@ Il modo di illuminazione è definito dalla macro define "DISPLAY_DIMMER_MODE" ne
 ("con la riga #define DISPLAY_DIMMER_MODE" commentata nel file "z_displ_ILI9XXX.h")
 
 ### configura su CubeMX
-Definire un pin GPIO in output mode, come spiegato in [HOWTO](../HOWTO) e assegnare il nome "DISPL_LED"<br>
-Assegnare "low" a "GPIO output level"<br>
- 
+Definire un pin GPIO con questa configurazione:
+|Nome pin da assegnare|output level|rilevanza velocità|mode|pull-up/down|
+|---|---|---|---|---|
+|DISPL_LED|low|-|Output push pull|No pull-up/down|
+
 Connettere il pin LED del display a DISPL_LED<br>
 Tutto qui. La funzione "Displ_BackLight" mette a disposizione i comandi (parametro passato alla funzione):
 |parametro|descrizione|
@@ -122,10 +123,14 @@ la funzione "Displ_BackLight" gestisce la retroilluminazione controllata in PWM.
 <br>
 ### configura su CubeMX
 un pin PWM:<br>
+|Nome pin da assegnare|output level|rilevanza velocità|mode|pull-up/down|
+|---|---|---|---|---|
+|DISPL_LED|low|-|Alternate Function (Timer)|No pull-up/down|
+
 -	attivare un canale PWM di timer "general purpose" (es. CH1 su TIM3)<br>
 -	il canale deve essere configurato in "PWM mode 1" e "Counter mode UP"<br>
-il registro ARR ("Auto Reload Register", o "Counter period" su CubeMX) definisce il numero di livelli di luminosità del display. Es: impostare a 10 per avere 10 livelli di luminosità disponibili (da 1 a 10, piu' il livello 0="display spento")<br>
-Il valore del registro PSC (prescaler) deve essere impostato in modo non troppo elevato in modo che: ((clock uC / PSC)/ ARR) > 100 Hz per evitare problemi di flickering<br>
+il registro ARR ("Auto Reload Register", o "Counter period" su CubeMX) definisce il numero di livelli di luminosità del display. Es: impostare a 10 per avere 10 livelli di luminosità disponibili (da 1="1/10 duty cycle" a 10="10/10", piu' il livello 0="display spento")<br>
+Maggiore è il valore del registro PSC (prescaler) e minori sono i consumi ed EMI vedi le [GPIO software guidelines](https://www.st.com/resource/en/application_note/an4899-stm32-microcontroller-gpio-hardware-settings-and-lowpower-consumption-stmicroelectronics.pdf)) di STM, ma il valore non deve essere troppo elevato in modo che sia ((clock uC / PSC)/ ARR) > 100 Hz per evitare problemi di flickering<br>
 
 ### configura z_displ_ILI9XXX.h
 
@@ -133,12 +138,11 @@ allineare i parametri:<br>
 #define BKLIT_TIMER 				indicare il timer usato (es. TIM3)<br>
 #define bklit_t 					indicare il timer usato (es. htim3)<br>
 #define BKLIT_CHANNEL				indicare il canale usato (es. TIM_CHANNEL_2)<br>
+#define BKLIT_CCR					      definire il preload register coinvolto da PWM<br>
 <br>
 definire i parametri:<br>
 #define BKLIT_STBY_LEVEL 			indicare il livello di standby (tra 0 ed ARR)<br>
 #define BKLIT_INIT_LEVEL 			indicare il livello di assegnare alla accensione (tra 0 ed ARR)<br>
-<br>
-#define BKLIT_CCR					      definire il preload register coinvolto da PWM<br>
 <br>
 La funzione "Displ_BackLight" mette a disposizione i comandi (parametro passato alla funzione):
 |parametro|descrizione|
