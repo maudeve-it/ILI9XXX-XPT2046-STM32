@@ -2,9 +2,9 @@ _**Piu' sotto, al termine della lingua inglese trovi il testo in italiano. </i>*
 _**Below English text you'll find the Italian version</i>**_
 
 <br>
-<br>
+
 ## So...
-<br>
+
 Now that you have created a new CubeIDE project as per these instructions:
 
 - ["How to" create a CubeIDE project for this library](./HOWTO)
@@ -57,7 +57,7 @@ in main.c you now need to initialize display before entering in the main loop, t
   /* USER CODE END 2 */
   ...
   ```
-<br>
+
 ##### running test functions
 
 Here some test function you can run copying the "_test" files into the project.
