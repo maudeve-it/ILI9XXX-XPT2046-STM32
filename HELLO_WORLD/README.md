@@ -3,7 +3,8 @@ _**Below English text you'll find the Italian version</i>**_
 
 <br>
 <br>
-So...<br>
+## So...
+<br>
 Now that you have created a new CubeIDE project as per these instructions:
 
 - ["How to" create a CubeIDE project for this library](./HOWTO)
@@ -88,7 +89,7 @@ Here I show three demo/test functions called in the same main loop, but I sugges
 <br>
 
 
-Dunque...
+## Dunque...
 Ora che hai creato un nuovo progetto con CubeIDE project seguendo queste istruzioni:
 
 - [Guida per configurare un progetto con CubeIDE](./HOWTO)
