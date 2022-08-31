@@ -77,20 +77,20 @@
  * Set all other defines below 
  ***************************************************/
 #define DISPLAY_DIMMING_MODE						// uncomment this define to enable dimming function otherwise there is an on/off switching function
-#define BKLIT_TIMER 				TIM3			//timer used (PWMming DISPL_LED pin)
-#define BKLIT_T 					htim3			//timer used
-#define BKLIT_CHANNEL				TIM_CHANNEL_2	//channel used
-#define BKLIT_CCR					CCR2			//Capture-compare register
-#define BKLIT_STBY_LEVEL 			1				//Display backlight level when in stand-by (levels are CNT values)
-#define BKLIT_INIT_LEVEL 			5				//Display backlight level on startup
+#define BKLIT_TIMER 				TIM2			//timer used (PWMming DISPL_LED pin)
+#define BKLIT_T 					htim2			//timer used
+#define BKLIT_CHANNEL				TIM_CHANNEL_1	//channel used
+#define BKLIT_CCR					CCR1			//Capture-compare register used
+#define BKLIT_STBY_LEVEL 			2				//Display backlight level when in stand-by (levels are CNT values)
+#define BKLIT_INIT_LEVEL 			10				//Display backlight level on startup
 
 
 
 /*****************     STEP 6      *****************
  ************* frame buffer DEFINITION *************
- * BUFLEVEL defines size of the 2 buffers:
- * buffer size is 2^BUFLEVEL, 2 means 4 bytes buffer,
- * 10 means 1 kbytes buffer (each).
+ * BUFLEVEL defines size of the 2 SPI buffers:
+ * buffer size is 2^BUFLEVEL: 2 means 4 bytes buffer
+ * and 10 means 1 kbytes buffer (each).
  * IT MUST BE 10 OR MORE:
  * -	10 needed for 1 char in Font24 size
 ***************************************************/
@@ -132,7 +132,7 @@
  *** below DISPL_DMA_CUTOFF data size, transfer ****
  ****** will be polling, even if DMA enabled *******
  ***************************************************/
-#define DISPL_DMA_CUTOFF 	20    // (bytes) used only in DMA_MODE
+#define DISPL_DMA_CUTOFF 	50    // (bytes) used only in DMA_MODE
 
 /*||||||||||| END OF DEVICE PARAMETERS ||||||||||||*/
 

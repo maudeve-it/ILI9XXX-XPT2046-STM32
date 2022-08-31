@@ -488,31 +488,33 @@ void Displ_PerfTest() {
 		};
 
 #ifdef DISPLAY_DIMMING_MODE
-
 		{
-			uint32_t maxlevel=Displ_BackLight('F'); //set display backlight 100% and get the corresponding value (that means ARR)
-			uint16_t dtime=4000/(maxlevel*3);
+			uint32_t currlevel=Displ_BackLight('Q'); 		//query about the current dimming level and store it;
+			uint32_t maxlevel=Displ_BackLight('F'); 		//set display backlight 100% and get the corresponding value (that means ARR)
+			uint16_t dtime=4000/(maxlevel*3);				//set dtime to let the three below loops run in about 4 seconds regardless the ARR value defined in CubeMX
 			if (dtime==0)
 				dtime=1;
 			Displ_BackLight('0');  // turn off display
 
 			for (uint32_t k=0; k<=maxlevel;k++){
-				Displ_BackLight('+');  // increase light
+				Displ_BackLight('+');  						// increase light
 				HAL_Delay(dtime);
 			}
 			HAL_Delay(100);
 			for (uint32_t k=0; k<=maxlevel;k++){
-				Displ_BackLight('-');  // decrease light
+				Displ_BackLight('-');  						// decrease light
 				HAL_Delay(dtime);
 			}
 			HAL_Delay(100);
 			for (uint32_t k=0; k<=maxlevel;k++){
-				Displ_BackLight('+');  // increase light
+				Displ_BackLight('+');  						// increase light
 				HAL_Delay(dtime);
 			}
-			HAL_Delay(1000);
-		}
+			HAL_Delay(1000);								// 1 second final delay. total time showing results is 5 seconds
 
+			Displ_BackLight('0');							//restoring previous backlight level: start resetting backlight level to 0
+			while (currlevel>Displ_BackLight('+')) {};		//restoring previous backlight level: now, increase light until it is set to the "currlevel" stored above
+		}
 #else
 		HAL_Delay(5000);
 #endif

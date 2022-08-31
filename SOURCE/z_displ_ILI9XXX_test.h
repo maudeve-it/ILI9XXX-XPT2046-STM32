@@ -17,7 +17,6 @@
  *  Displ_Init(Displ_Orientat_180);			// initialize display controller
  *  Displ_CLS(BLACK);						// clear the screen
  *  Displ_BackLight('I');  					// initialize backlight
- *  Displ_BackLight('1');					// light-up display ad max light level
  *
  *  then, in the main loop put:
  *  Displ_PerfTest();						// shows graphics, measuring time.
