@@ -18,7 +18,11 @@ Backlight mode is set by the macro #define "DISPLAY_DIMMER_MODE" in "z_displ_ILI
 # ON-OFF mode Backlight
 ("#define DISPLAY_DIMMER_MODE" commented in "z_displ_ILI9XXX.h" file)
 ### setup a handling pin on CubeMX
-Define a GPIO pin in output mode as described in [HOWTO](../HOWTO) page giving it the name DISPL_LED<br>
+Define a GPIO pin with this configuration:
+|pinname to assign|output level|speed relevance|mode|pull-up/down|
+|---|---|---|---|---|
+|DISPL_LED|low|-|Output push pull|No pull-up/down|
+
 connect the LED pin of the display to DISPL_LED<br>
 <br>
 That's all. Function "Displ_BackLight" provides these commands (function parameter):
@@ -38,20 +42,25 @@ Function "Displ_BackLight" handle backlight in PWM.
 
 ### setup a handling pin on CubeMX
 Define a PWM pin:<br>
+|pinname to assign|output level|speed relevance|mode|pull-up/down|
+|---|---|---|---|---|
+|DISPL_LED|low|-|Alternate Function (Timer)|No pull-up/down|
 -	enable a PWM channel on a "general purpose" timer (e.g. CH1 on TIM3)<br>
 -	setup channel as "PWM mode 1" and "Counter mode UP"<br>
-ARR register ("Auto Reload Register" or "Counter period" on CubeMX) defines the number of steps of display light. E.g.: set it to 10 to get 10 light steps available (from 1 to 10, and level 0="off")<br>
-PSC register (prescaler) value must be not too high: so that must be ((uC clock / PSC)/ ARR) > 100 Hz, avoiding flickering<br>
+ARR register ("Auto Reload Register" or "Counter period" on CubeMX) defines the number of steps of display light. E.g.: set it to 10 to get 10 light steps available (from 1="1/10 duty cycle" to 10="10/10", and level 0="off")<br>
+PSC register (prescaler) higher value is better (reducing power consumption and EMI noise, see STM [GPIO software guidelines](https://www.st.com/resource/en/application_note/an4899-stm32-microcontroller-gpio-hardware-settings-and-lowpower-consumption-stmicroelectronics.pdf)) but must be not too high: ((uC clock / PSC)/ ARR) > 100 Hz, avoiding flickering<br>
 
 ### setup z_displ_ILI9XXX.h
 align to CubeMX macro parameters:<br>
-#define BKLIT_TIMER 				set used timer (es. TIM3)<br>
-#define bklit_t 					set used timer (es. htim3)<br>
-#define BKLIT_CHANNEL				set used channel (es. TIM_CHANNEL_2)<br>
+#define BKLIT_TIMER 				put the timer name (es. TIM3)<br>
+#define bklit_t 					put the timer name (es. htim3)<br>
+#define BKLIT_CHANNEL				put the used channel (es. TIM_CHANNEL_2)<br>
 <br>
 setup parameters:<br>
 #define BKLIT_STBY_LEVEL 			set standby level (between 0 and ARR)<br>
+you could invoke function with "standby" setting backlight to this predefined value<br>
 #define BKLIT_INIT_LEVEL 			set startup level (between 0 and ARR)<br>
+This is the backlight level set on initialization<br>
 <br>
 #define BKLIT_CCR					      indicate the preload register involved by PWM (e.g. CCR2)<br>
 
