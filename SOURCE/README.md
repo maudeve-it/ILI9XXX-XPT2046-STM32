@@ -10,7 +10,8 @@ _**Below English text you'll find the Italian version</i>**_
 - Copy the .h files into the /Core/Inc folder in your STM32CubeIDE project
 - into the /Core/Inc folder, open the main.h file and add (better if into "Private includes") an include directive for every .h file copied. In this order:<br>
 <br>
-  ```sh
+
+```sh
 (main.h)
 ...
 /* Private includes ----------------------------------------------------------*/
