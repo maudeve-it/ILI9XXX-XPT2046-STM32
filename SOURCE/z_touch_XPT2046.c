@@ -20,8 +20,8 @@ extern Displ_Orientat_e current_orientation;			// indicates the active display o
 volatile uint8_t Touch_PenDown=0;						// set to 1 by pendown interrupt callback, reset to 0 by sw
 
 
-//void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin){
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin){
+//void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	if (GPIO_Pin==TOUCH_INT_Pin)
 		if (!HAL_GPIO_ReadPin(TOUCH_INT_GPIO_Port, GPIO_Pin))
 			Touch_PenDown=1;
@@ -182,7 +182,7 @@ uint32_t touchx,touchy,touch;
  * @params	delay	max time (ms) waiting for a touch, 0=infinite
  * #return	1 		if touched within "delay" period
  * 			0		if elapsed time with no touch
- * 					PLEASE NOTE: not resetting Touch recording flag
+ * 					PLEASE NOTE: doesn't reset Touch recording flag
  ***********************************************************/
 uint8_t Touch_WaitForTouch(uint16_t delay) {
 	uint16_t starttime;

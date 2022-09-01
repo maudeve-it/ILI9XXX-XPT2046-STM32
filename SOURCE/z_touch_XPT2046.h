@@ -24,8 +24,6 @@
 
 
 
-
-
 /**************** DEVICE PARAMETERS ***************/
 /* you should need to change nothing from here on */
 
@@ -63,16 +61,27 @@
  *
  **********************************************************************************/
 #ifdef ILI9341
+#define T_ROTATION_0
 #define AX 0.00801f
 #define BX -11.998f
 #define AY 0.01119f
 #define BY -39.057f
 #endif
-#ifdef ILI9488
-#define AX 0.0155f
-#define BX -15.0f
-#define AY 0.0110f
-#define BY -20.0f
+
+#ifdef ILI9488_V1
+#define T_ROTATION_270
+#define AY 0.011f
+#define BY -15.0f
+#define AX 0.016f
+#define BX -20.0f
+#endif
+
+#ifdef ILI9488_V2
+#define T_ROTATION_0
+#define AX -0.0112f
+#define BX 336.0f
+#define AY 0.0166f
+#define BY -41.38f
 #endif
 
 
@@ -83,7 +92,7 @@
  * on ILI9341 0° on touch correspond to 270° of the screen
  * set also the size of a 0° row and a 90° row (a 0° height)
  **********************************************************************************/
-#ifdef ILI9341
+#ifdef T_ROTATION_0
 #define TOUCH0 			Displ_Orientat_0
 #define TOUCH90 		Displ_Orientat_90
 #define TOUCH180 		Displ_Orientat_180
@@ -92,7 +101,25 @@
 #define TOUCH_0_HEIGHT	DISPL_HEIGHT
 #endif
 
-#ifdef ILI9488
+#ifdef T_ROTATION_90
+#define TOUCH0 			Displ_Orientat_90
+#define TOUCH90 		Displ_Orientat_180
+#define TOUCH180 		Displ_Orientat_270
+#define TOUCH270 		Displ_Orientat_0
+#define TOUCH_0_WIDTH 	DISPL_HEIGHT
+#define TOUCH_0_HEIGHT	DISPL_WIDTH
+#endif
+
+#ifdef T_ROTATION_180
+#define TOUCH0 			Displ_Orientat_180
+#define TOUCH90 		Displ_Orientat_270
+#define TOUCH180 		Displ_Orientat_0
+#define TOUCH270 		Displ_Orientat_90
+#define TOUCH_0_WIDTH 	DISPL_WIDTH
+#define TOUCH_0_HEIGHT	DISPL_HEIGHT
+#endif
+
+#ifdef T_ROTATION_270
 #define TOUCH0 			Displ_Orientat_270
 #define TOUCH90 		Displ_Orientat_0
 #define TOUCH180 		Displ_Orientat_90

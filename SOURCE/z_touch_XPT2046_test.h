@@ -36,17 +36,14 @@
 
 
 
-#define NUM_READINGS	20		//reading repetitions in calibration
+#define NUM_READINGS	40		//reading repetitions in calibration
 
 
 
 
 void Touch_ShowData(void);
 void Touch_TestCalibration(void);
-void Touch_PollingTime(void);
 void DrawCross(uint16_t x,uint16_t y,uint16_t fcol);
-
-void Touch_TestAreas(void);
 void Touch_TestDrawing();
 
 

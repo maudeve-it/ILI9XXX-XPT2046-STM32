@@ -24,8 +24,10 @@
 /******************    STEP 1    *****************
  * which display are you usng?
  *************************************************/
-#define ILI9341
-//#define ILI9488
+//#define ILI9341
+#define ILI9488_V1
+//#define ILI9488_V2
+
 
 
 
@@ -108,6 +110,15 @@
  *** choose one of the two color depth available *** 
  ***** to use on the display RGB565 and RGB666 *****
  ***************************************************/
+#ifdef ILI9488_V1
+#define ILI9488
+#endif
+#ifdef ILI9488_V2
+#define ILI9488
+#endif
+
+
+
 #ifdef ILI9341
 #define RGB565
 #endif

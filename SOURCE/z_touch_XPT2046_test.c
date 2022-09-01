@@ -43,8 +43,8 @@ extern int16_t _height;      								///< (oriented) display height
  *************************************************************/
 void DrawCross(uint16_t x,uint16_t y,uint16_t fcol){
 	uint8_t ray=10;
-	Displ_Line(x-ray, y-ray, x+ray, y+ray, fcol);
-	Displ_Line(x-ray, y+ray, x+ray, y-ray, fcol);
+//	Displ_Line(x-ray, y-ray, x+ray, y+ray, fcol);
+//	Displ_Line(x-ray, y+ray, x+ray, y-ray, fcol);
 	Displ_Line(x-ray, y, x+ray, y, fcol);
 	Displ_Line(x, y-ray, x, y+ray, fcol);
 
@@ -71,7 +71,7 @@ void MoveCross(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2,uint16_t fcol,uin
 		y1=((abs((y2-y1))>abs(deltay)) ? (y1+deltay) : y2);
 
 		DrawCross(x1,y1,fcol);
-		HAL_Delay(1000/steps);
+		HAL_Delay(500/steps);
 	}
 }
 
@@ -163,7 +163,7 @@ void Touch_TestDrawing() {
 		}
 
 		Displ_CLS(DD_BLUE);
-		Displ_CString(0,10,_width,Font16.Height+10,"Drawing over Touch",Font16,1,WHITE,DD_BLUE);
+		Displ_CString(0,10,_width,Font12.Height+10,"Touch and drag over display",Font12,1,WHITE,DD_BLUE);
 
 		Touch_WaitForTouch(0);
 
@@ -202,7 +202,8 @@ void Touch_TestCalibration(){
 	float ay[2];
 	float by[2];
 	float axx,bxx,ayy,byy,e;
-
+	uint8_t orientation;
+	sFONT font;
 
 	Displ_CLS(WHITE);
 	for (uint8_t k=0; k<4; k++) {
@@ -257,69 +258,140 @@ void Touch_TestCalibration(){
 
 		// wait for user removing stylus
 		Touch_WaitForUntouch(0);
+	}
 
+
+
+
+	for (orientation=0; orientation<4; orientation++) {
+	// detect ax,bx and ay,by parameters of the linear equation converting touch coordinates to display ones:
+	// x(display) = ax * x(touch) + bx
+	// y(display) = ay * y(touch) + by
+	// making two polling (ax{0] and ax[1],...
+	// and calculating average values into axx,...
+
+
+		ax[0]=(x[0]+0.0f)-x[1];
+		bx[0]=((x[1]+0.0f)*read_x[0])-((x[0]+0.0f)*read_x[1]);
+		e=((read_x[0]+0.0f)-read_x[1]);
+		ax[0]=ax[0]/e;
+		bx[0]=bx[0]/e;
+
+		ax[1]=(x[2]+0.0f)-x[3];
+		bx[1]=((x[3]+0.0f)*read_x[2])-((x[2]+0.0f)*read_x[3]);
+		e=((read_x[2]+0.0f)-read_x[3]);
+		ax[1]=ax[1]/e;
+		bx[1]=bx[1]/e;
+
+		ay[0]=(y[0]+0.0f)-y[1];
+		by[0]=((y[1]+0.0f)*read_y[0])-((y[0]+0.0f)*read_y[1]);
+		ay[0]=ay[0]/((read_y[0]+0.0f)-read_y[1]);
+		by[0]=by[0]/((read_y[0]+0.0f)-read_y[1]);
+
+		ay[1]=(y[2]+0.0f)-y[3];
+		by[1]=((y[3]+0.0f)*read_y[2])-((y[2]+0.0f)*read_y[3]);
+		ay[1]=ay[1]/((read_y[2]+0.0f)-read_y[3]);
+		by[1]=by[1]/((read_y[2]+0.0f)-read_y[3]);
+
+		uint8_t check=((ax[0]*ax[1])>0);
+		check &= ((bx[0]*bx[1])>0);
+		check &= ((ay[0]*ay[1])>0);
+		check &= ((by[0]*by[1])>0);
+		if (check)
+			break;
+
+		uint16_t temp=x[0];
+		x[0]=x[3];
+		x[3]=x[1];
+		x[1]=x[2];
+		x[2]=temp;
+		temp=y[0];
+		y[0]=y[3];
+		y[3]=y[1];
+		y[1]=y[2];
+		y[2]=temp;
 
 	}
 
-// detect ax,bx and ay,by parameters of the linear equation converting touch coordinates to display ones:
-// x(display) = ax * x(touch) + bx
-// y(display) = ay * y(touch) + by
-// making two polling (ax{0] and ax[1],...
-// and calculating average values into axx,...
 
-	ax[0]=(x[0]+0.0f)-x[1];
-	bx[0]=((x[1]+0.0f)*read_x[0])-((x[0]+0.0f)*read_x[1]);
-	e=((read_x[0]+0.0f)-read_x[1]);
-	ax[0]=ax[0]/e;
-	bx[0]=bx[0]/e;
-
-	ax[1]=(x[2]+0.0f)-x[3];
-	bx[1]=((x[3]+0.0f)*read_x[2])-((x[2]+0.0f)*read_x[3]);
-	e=((read_x[2]+0.0f)-read_x[3]);
-	ax[1]=ax[1]/e;
-	bx[1]=bx[1]/e;
-
-	ay[0]=(y[0]+0.0f)-y[1];
-	by[0]=((y[1]+0.0f)*read_y[0])-((y[0]+0.0f)*read_y[1]);
-	ay[0]=ay[0]/((read_y[0]+0.0f)-read_y[1]);
-	by[0]=by[0]/((read_y[0]+0.0f)-read_y[1]);
-
-	ay[1]=(y[2]+0.0f)-y[3];
-	by[1]=((y[3]+0.0f)*read_y[2])-((y[2]+0.0f)*read_y[3]);
-	ay[1]=ay[1]/((read_y[2]+0.0f)-read_y[3]);
-	by[1]=by[1]/((read_y[2]+0.0f)-read_y[3]);
 
 	// axx is the average between ax[0] and ax[1]
 
-	axx = (ax[0] + ax[1])/2;
-	bxx = (bx[0] + bx[1])/2;
-	ayy = (ay[0] + ay[1])/2;
-	byy = (by[0] + by[1])/2;
+	if ((orientation==1) || (orientation==3)){
+		axx = (ay[0] + ay[1])/2;
+		bxx = (by[0] + by[1])/2;
+		ayy = (ax[0] + ax[1])/2;
+		byy = (bx[0] + bx[1])/2;
+
+	} else {
+		axx = (ax[0] + ax[1])/2;
+		bxx = (bx[0] + bx[1])/2;
+		ayy = (ay[0] + ay[1])/2;
+		byy = (by[0] + by[1])/2;
+	}
 
 
 	Displ_CLS(WHITE);
 
+#ifdef ILI9488
+	font=Font16;
+#endif
+#ifdef ILI9341
+	font=Font12;
+#endif
+
 	k=1;
-	sprintf(text,"Default:");
-	Displ_WString(10,10+Font12.Height*k++,text,Font12,1,BLACK,WHITE);
+	sprintf(text,"Current config:");
+	Displ_WString(10,10+Font12.Height*k++,text,font,1,BLACK,WHITE);
 	sprintf(text,"Ax=%f Bx=%f",AX,BX);
-	Displ_WString(10,10+Font12.Height*k++,text,Font12,1,BLACK,WHITE);
+	Displ_WString(10,10+Font12.Height*k++,text,font,1,BLACK,WHITE);
 	sprintf(text,"Ay=%f By=%f",AY,BY);
-	Displ_WString(10,10+Font12.Height*k++,text,Font12,1,BLACK,WHITE);
+	Displ_WString(10,10+Font12.Height*k++,text,font,1,BLACK,WHITE);
+#ifdef  T_ROTATION_0
+	sprintf(text,"Orientation 0");
+#endif
+#ifdef  T_ROTATION_90
+	sprintf(text,"Orientation 90");
+#endif
+#ifdef  T_ROTATION_180
+	sprintf(text,"Orientation 180");
+#endif
+#ifdef  T_ROTATION_270
+	sprintf(text,"Orientation 270");
+#endif
+	Displ_WString(10,10+Font12.Height*k++,text,font,1,BLACK,WHITE);
+	k++;
 	sprintf(text,"Current test:");
-	Displ_WString(10,10+Font12.Height*k++,text,Font12,1,BLACK,WHITE);
+	Displ_WString(10,10+font.Height*k++,text,font,1,BLACK,WHITE);
 	sprintf(text,"Ax=%f Bx=%f",ax[0],bx[0]);
-	Displ_WString(10,10+Font12.Height*k++,text,Font12,1,RED,WHITE);
+	Displ_WString(10,10+font.Height*k++,text,font,1,RED,WHITE);
 	sprintf(text,"Ay=%f By=%f",ay[0],by[0]);
-	Displ_WString(10,10+Font12.Height*k++,text,Font12,1,RED,WHITE);
+	Displ_WString(10,10+font.Height*k++,text,font,1,RED,WHITE);
 	sprintf(text,"Ax=%f Bx=%f",ax[1],bx[1]);
-	Displ_WString(10,10+Font12.Height*k++,text,Font12,1,BLUE,WHITE);
+	Displ_WString(10,10+font.Height*k++,text,font,1,BLUE,WHITE);
 	sprintf(text,"Ay=%f By=%f",ay[1],by[1]);
-	Displ_WString(10,10+Font12.Height*k++,text,Font12,1,BLUE,WHITE);
+	Displ_WString(10,10+font.Height*k++,text,font,1,BLUE,WHITE);
+	k++;
+	sprintf(text,"Proposed config:");
+	Displ_WString(10,10+font.Height*k++,text,font,1,BLACK,WHITE);
 	sprintf(text,"Ax=%f Bx=%f",axx,bxx);
-	Displ_WString(10,10+Font12.Height*k++,text,Font12,1,DD_GREEN,WHITE);
+	Displ_WString(10,10+font.Height*k++,text,font,1,DD_GREEN,WHITE);
 	sprintf(text,"Ay=%f By=%f",ayy,byy);
-	Displ_WString(10,10+Font12.Height*k++,text,Font12,1,DD_GREEN,WHITE);
+	Displ_WString(10,10+font.Height*k++,text,font,1,DD_GREEN,WHITE);
+	switch (orientation) {
+	case 0:
+		sprintf(text,"Orientation 0");
+		break;
+	case 1:
+		sprintf(text,"Orientation 270");
+		break;
+	case 2:
+		sprintf(text,"Orientation 180");
+		break;
+	case 3:
+		sprintf(text,"Orientation 90");
+	}
+	Displ_WString(10,10+font.Height*k++,text,font,1,DD_GREEN,WHITE);
 
 	xx=(ax[0]*read_x[4]+bx[0]);
 	yy=(ay[0]*read_y[4]+by[0]);
@@ -333,8 +405,4 @@ void Touch_TestCalibration(){
 
 	Touch_WaitForTouch(0);
 }
-
-
-
-
 
