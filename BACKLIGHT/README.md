@@ -47,7 +47,7 @@ Define a PWM pin:<br>
 |DISPL_LED|low|-|Alternate Function (Timer)|No pull-up/down|
 -	enable a PWM channel on a "general purpose" timer (e.g. CH1 on TIM3)<br>
 -	setup channel as "PWM mode 1" and "Counter mode UP"<br>
-ARR register ("Auto Reload Register" or "Counter period" on CubeMX) defines the number of steps of display light. E.g.: set it to 10 to get 10 light steps available (from 1=v to 10="10/10", and level 0="off")<br>
+ARR register ("Auto Reload Register" or "Counter period" on CubeMX) defines the number of steps of display light. E.g.: set it to 10 to get 10 light steps available (from 1="1/10 duty cycle" to 10="10/10", and level 0="off")<br>
 PSC register (prescaler) higher value is better (reducing power consumption and EMI noise, see STM [GPIO software guidelines](https://www.st.com/resource/en/application_note/an4899-stm32-microcontroller-gpio-hardware-settings-and-lowpower-consumption-stmicroelectronics.pdf)) but must be not too high: ((uC clock / PSC)/ ARR) > 100 Hz, avoiding flickering<br>
 
 ### setup z_displ_ILI9XXX.h
