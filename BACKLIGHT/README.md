@@ -59,7 +59,7 @@ align to CubeMX macro parameters:<br>
 <br>
 setup parameters:<br>
 #define BKLIT_STBY_LEVEL 			set standby level (between 0 and ARR)<br>
-you could invoke function with "standby" setting backlight to this predefined value<br>
+you could invoke function with "standby", setting backlight to this predefined value<br>
 #define BKLIT_INIT_LEVEL 			set startup level (between 0 and ARR)<br>
 This is the backlight level set on initialization<br>
 <br>
