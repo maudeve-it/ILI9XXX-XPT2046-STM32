@@ -70,10 +70,10 @@
 
 #ifdef ILI9488_V1
 #define T_ROTATION_270
-#define AY 0.011f
-#define BY -15.0f
 #define AX 0.016f
 #define BX -20.0f
+#define AY 0.011f
+#define BY -15.0f
 #endif
 
 #ifdef ILI9488_V2

@@ -187,11 +187,19 @@ void Touch_TestDrawing() {
 
 
 void Touch_TestCalibration(){
+	uint8_t correct_orientation=0;
+	Displ_Orientat_e orientation=Displ_Orientat_0;
 
+#ifdef ILI9488
 	const uint16_t shift=80;
+#endif
+#ifdef ILI9341
+	const uint16_t shift=50;
+#endif
+
 	char text[30];
-	uint16_t x[5]={shift,_width-shift,shift,_width-shift,_width>>1};
-	uint16_t y[5]={shift,_height-shift,_height-shift,shift,_height>>1};
+	uint16_t x[5];
+	uint16_t y[5];
 	uint32_t read_x[5]={0,0,0,0,0};
 	uint32_t read_y[5]={0,0,0,0,0};
 	uint32_t r_x,r_y,r_z;
@@ -202,133 +210,164 @@ void Touch_TestCalibration(){
 	float ay[2];
 	float by[2];
 	float axx,bxx,ayy,byy,e;
-	uint8_t orientation;
+//	uint8_t orientation;
 	sFONT font;
 
-	Displ_CLS(WHITE);
-	for (uint8_t k=0; k<4; k++) {
-		switch (k) {
-		case 0:
-			strcpy(text,"Press and briefly hold");
-			break;
-		case 1:
-			strcpy(text,"stylus on the target.");
-			break;
-		case 2:
-			strcpy(text,"Repeat as the target");
-			break;
-		case 3:
-			strcpy(text,"moves around the screen.");
-			break;
+	while (! correct_orientation) {
+		Displ_CLS(WHITE);
+		Displ_Orientation(orientation);
+		//setting positions for calibration
+		x[0]=shift;
+		x[1]=_width-shift;
+		x[2]=shift;
+		x[3]=_width-shift;
+		x[4]=_width>>1;
+		y[0]=shift;
+		y[1]=_height-shift;
+		y[2]=_height-shift;
+		y[3]=shift;
+		y[4]=_height>>1;
+		for (uint8_t k=0; k<2; k++) {
+			switch (k) {
+			case 0:
+				strcpy(text,"Press and briefly hold");
+				break;
+			case 1:
+				strcpy(text,"stylus on the target.");
+				break;
+			}
+			Displ_CString(0,10+Font12.Height*k,_width,10+Font12.Height*(1+k),text,Font12,1,BLACK,WHITE);
+
 		}
-		Displ_CString(0,10+Font12.Height*k,_width,10+Font12.Height*(1+k),text,Font12,1,BLACK,WHITE);
+		for (uint8_t k=0; k<2; k++) {
+			switch (k) {
+			case 0:
+				strcpy(text,"Repeat as the target");
+				break;
+			case 1:
+				strcpy(text,"moves around the screen.");
+				break;
+			}
+			Displ_CString(0,_height+Font12.Height*(k-2)-10,_width,_height+Font12.Height*(k-1)-10,text,Font12,1,BLACK,WHITE);
 
-	}
+		}
 
-	HAL_Delay(1000);
-	Touch_WaitForUntouch(0);
+		HAL_Delay(1000);
+		Touch_WaitForUntouch(0);
 
-	for (h=0;h<5;h++){
+		for (h=0;h<5;h++){    // 5 point calibration
+			DrawCross(x[h],y[h],BLACK);
+	// wait for stylus
+			Touch_WaitForTouch(0);
 
-		DrawCross(x[h],y[h],BLACK);
+	// makes NUM_READINGS touch polling calculating average value
+			k=0;
+			while (k<NUM_READINGS) {
+				r_x=Touch_PollAxis(X_AXIS);
+				r_y=Touch_PollAxis(Y_AXIS);
+				r_z=Touch_PollAxis(Z_AXIS);
+				if ((r_z>Z_THRESHOLD) && (r_x>X_THRESHOLD)) {
+					read_x[h]+=r_x;
+					read_y[h]+=r_y;
+					k++;
+					HAL_Delay(10);
+				}
+
+			}
+			read_x[h]=read_x[h]/NUM_READINGS;
+			read_y[h]=read_y[h]/NUM_READINGS;
+
+			if (h!=4)
+				MoveCross(x[h],y[h],x[h+1],y[h+1],BLACK,WHITE);
+
+			// wait for user removing stylus
+			Touch_WaitForUntouch(0);
+		}
 
 
-// wait for stylus
-		Touch_WaitForTouch(0);
+		//check il display and touch_sensor orientation are aligned
 
-// makes NUM_READINGS touch pollings calculating average value
-		k=0;
-		while (k<NUM_READINGS) {
-			r_x=Touch_PollAxis(X_AXIS);
-			r_y=Touch_PollAxis(Y_AXIS);
-			r_z=Touch_PollAxis(Z_AXIS);
-			if ((r_z>Z_THRESHOLD) && (r_x>X_THRESHOLD)) {
-				read_x[h]+=r_x;
-				read_y[h]+=r_y;
-				k++;
-				HAL_Delay(10);
+		correct_orientation=1;
+		correct_orientation &= (read_x[1]>read_x[0]);
+		correct_orientation &= (read_y[1]>read_y[0]);
+		correct_orientation &= (read_x[2]<read_x[1]);
+		correct_orientation &= (read_x[3]>read_x[2]);
+		correct_orientation &= (read_y[3]<read_y[2]);
+		correct_orientation &= (read_x[4]<read_x[3]);
+		correct_orientation &= (read_y[4]>read_y[3]);
+
+		if (! correct_orientation){   //they could be alighen but inverted x axes
+			correct_orientation=1;
+			correct_orientation &= (read_x[1]<read_x[0]);
+			correct_orientation &= (read_y[1]>read_y[0]);
+			correct_orientation &= (read_x[2]>read_x[1]);
+			correct_orientation &= (read_x[3]<read_x[2]);
+			correct_orientation &= (read_y[3]<read_y[2]);
+			correct_orientation &= (read_x[4]>read_x[3]);
+			correct_orientation &= (read_y[4]>read_y[3]);
+		}
+
+
+		if (! correct_orientation){  // if not aligned, rotate display
+			Displ_CLS(WHITE);
+			Displ_CString(0,((_height>>1)-31),_width,((_height>>1)-10),"please",Font20,1,BLUE,WHITE);
+			Displ_CString(0,((_height>>1)-11),_width,((_height>>1)+10),"repeat",Font20,1,BLUE,WHITE);
+			Displ_CString(0,((_height>>1)+11),_width,((_height>>1)+20),"calibration",Font20,1,BLUE,WHITE);
+			HAL_Delay(2000);
+			switch (orientation) {
+			case Displ_Orientat_0:
+				orientation=Displ_Orientat_90;
+				break;
+			case Displ_Orientat_90:
+				orientation=Displ_Orientat_180;
+				break;
+			case Displ_Orientat_180:
+				orientation=Displ_Orientat_270;
+				break;
+			case Displ_Orientat_270:
+				orientation=Displ_Orientat_0;
+				break;
+
 			}
 
 		}
-		read_x[h]=read_x[h]/NUM_READINGS;
-		read_y[h]=read_y[h]/NUM_READINGS;
-
-		if (h!=4)
-			MoveCross(x[h],y[h],x[h+1],y[h+1],BLACK,WHITE);
-
-		// wait for user removing stylus
-		Touch_WaitForUntouch(0);
-	}
-
-
-
-
-	for (orientation=0; orientation<4; orientation++) {
-	// detect ax,bx and ay,by parameters of the linear equation converting touch coordinates to display ones:
-	// x(display) = ax * x(touch) + bx
-	// y(display) = ay * y(touch) + by
-	// making two polling (ax{0] and ax[1],...
-	// and calculating average values into axx,...
-
-
-		ax[0]=(x[0]+0.0f)-x[1];
-		bx[0]=((x[1]+0.0f)*read_x[0])-((x[0]+0.0f)*read_x[1]);
-		e=((read_x[0]+0.0f)-read_x[1]);
-		ax[0]=ax[0]/e;
-		bx[0]=bx[0]/e;
-
-		ax[1]=(x[2]+0.0f)-x[3];
-		bx[1]=((x[3]+0.0f)*read_x[2])-((x[2]+0.0f)*read_x[3]);
-		e=((read_x[2]+0.0f)-read_x[3]);
-		ax[1]=ax[1]/e;
-		bx[1]=bx[1]/e;
-
-		ay[0]=(y[0]+0.0f)-y[1];
-		by[0]=((y[1]+0.0f)*read_y[0])-((y[0]+0.0f)*read_y[1]);
-		ay[0]=ay[0]/((read_y[0]+0.0f)-read_y[1]);
-		by[0]=by[0]/((read_y[0]+0.0f)-read_y[1]);
-
-		ay[1]=(y[2]+0.0f)-y[3];
-		by[1]=((y[3]+0.0f)*read_y[2])-((y[2]+0.0f)*read_y[3]);
-		ay[1]=ay[1]/((read_y[2]+0.0f)-read_y[3]);
-		by[1]=by[1]/((read_y[2]+0.0f)-read_y[3]);
-
-		uint8_t check=((ax[0]*ax[1])>0);
-		check &= ((bx[0]*bx[1])>0);
-		check &= ((ay[0]*ay[1])>0);
-		check &= ((by[0]*by[1])>0);
-		if (check)
-			break;
-
-		uint16_t temp=x[0];
-		x[0]=x[3];
-		x[3]=x[1];
-		x[1]=x[2];
-		x[2]=temp;
-		temp=y[0];
-		y[0]=y[3];
-		y[3]=y[1];
-		y[1]=y[2];
-		y[2]=temp;
 
 	}
 
 
 
-	// axx is the average between ax[0] and ax[1]
+	//calculate linear conversion parameter between point 1 and 2
 
-	if ((orientation==1) || (orientation==3)){
-		axx = (ay[0] + ay[1])/2;
-		bxx = (by[0] + by[1])/2;
-		ayy = (ax[0] + ax[1])/2;
-		byy = (bx[0] + bx[1])/2;
+	ax[0]=(x[0]+0.0f)-x[1];
+	bx[0]=((x[1]+0.0f)*read_x[0])-((x[0]+0.0f)*read_x[1]);
+	e=((read_x[0]+0.0f)-read_x[1]);
+	ax[0]=ax[0]/e;
+	bx[0]=bx[0]/e;
 
-	} else {
-		axx = (ax[0] + ax[1])/2;
-		bxx = (bx[0] + bx[1])/2;
-		ayy = (ay[0] + ay[1])/2;
-		byy = (by[0] + by[1])/2;
-	}
+	ay[0]=(y[0]+0.0f)-y[1];
+	by[0]=((y[1]+0.0f)*read_y[0])-((y[0]+0.0f)*read_y[1]);
+	ay[0]=ay[0]/((read_y[0]+0.0f)-read_y[1]);
+	by[0]=by[0]/((read_y[0]+0.0f)-read_y[1]);
+
+	//calculate linear conversion parameter between point 3 and 4
+	ax[1]=(x[2]+0.0f)-x[3];
+	bx[1]=((x[3]+0.0f)*read_x[2])-((x[2]+0.0f)*read_x[3]);
+	e=((read_x[2]+0.0f)-read_x[3]);
+	ax[1]=ax[1]/e;
+	bx[1]=bx[1]/e;
+
+	ay[1]=(y[2]+0.0f)-y[3];
+	by[1]=((y[3]+0.0f)*read_y[2])-((y[2]+0.0f)*read_y[3]);
+	ay[1]=ay[1]/((read_y[2]+0.0f)-read_y[3]);
+	by[1]=by[1]/((read_y[2]+0.0f)-read_y[3]);
+
+
+	// calculate average conversion parameters
+
+	axx = (ax[0] + ax[1])/2;
+	bxx = (bx[0] + bx[1])/2;
+	ayy = (ay[0] + ay[1])/2;
+	byy = (by[0] + by[1])/2;
 
 
 	Displ_CLS(WHITE);

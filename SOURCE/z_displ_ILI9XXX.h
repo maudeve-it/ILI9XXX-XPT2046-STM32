@@ -106,10 +106,6 @@
 /*|||||||||||||| DEVICE PARAMETERS |||||||||||||||||*/
 /* you shouldn't need to change anything here after */
 
-/***************   color depth      ****************
- *** choose one of the two color depth available *** 
- ***** to use on the display RGB565 and RGB666 *****
- ***************************************************/
 #ifdef ILI9488_V1
 #define ILI9488
 #endif
@@ -119,6 +115,10 @@
 
 
 
+/***************   color depth      ****************
+ *** choose one of the two color depth available *** 
+ ***** to use on the display RGB565 and RGB666 *****
+ ***************************************************/
 #ifdef ILI9341
 #define RGB565
 #endif
@@ -143,7 +143,7 @@
  *** below DISPL_DMA_CUTOFF data size, transfer ****
  ****** will be polling, even if DMA enabled *******
  ***************************************************/
-#define DISPL_DMA_CUTOFF 	50    // (bytes) used only in DMA_MODE
+#define DISPL_DMA_CUTOFF 	20    // (bytes) used only in DMA_MODE
 
 /*||||||||||| END OF DEVICE PARAMETERS ||||||||||||*/
 
