@@ -38,7 +38,7 @@ That should be enough, you should have already done this step:
 
 now you can move to these sections:
 - ["How to" handle display backlight](../BACKLIGHT)
-- ["How to" run the project, test it, and learn using its functions](./HELLO_WORLD)
+- ["How to" run the project, test it, and learn using its functions](../HELLO_WORLD)
 
 
 
@@ -78,7 +78,7 @@ Dovrebbe bastare, dovresti aver già fatto anche questo step:
 - [Guida per creare un progetto CubeIDE per questa libreria](../HOWTO)
 ora puoi andare alle sezioni:
 - [Guida alla gestione della retroilluminazione](../BACKLIGHT)
-- [Guida per eseguire il progetto, testarlo, e conoscere le sue funzioni](./HELLO_WORLD)
+- [Guida per eseguire il progetto, testarlo, e conoscere le sue funzioni](../HELLO_WORLD)
 
 
 
