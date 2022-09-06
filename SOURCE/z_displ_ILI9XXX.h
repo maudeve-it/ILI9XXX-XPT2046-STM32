@@ -29,8 +29,6 @@
 //#define ILI9488_V2
 
 
-
-
 /******************    STEP 2    ******************
  **************** PORT PARAMETERS *****************
  ** properly set the below th 2 defines to address
@@ -40,15 +38,13 @@
 #define DISPL_SPI 		SPI1
 
 
-
 /******************    STEP 3     ******************
  ***************** SPI PORT SPEED  *****************
  * define HERE the prescaler value to assign SPI port 
  * when transferring data to/from DISPLAY or TOUCH
  ***************************************************/
-#define DISPL_PRESCALER SPI_BAUDRATEPRESCALER_2     //prescaler assigned to SPI port talking to display
-#define TOUCH_PRESCALER SPI_BAUDRATEPRESCALER_256	//prescaler assigned to SPI port talking to touch device
-
+#define DISPL_PRESCALER SPI_BAUDRATEPRESCALER_2     //prescaler assigned to display SPI port
+#define TOUCH_PRESCALER SPI_BAUDRATEPRESCALER_256	//prescaler assigned to touch device SPI port
 
 
 /*****************     STEP 4      *****************
@@ -59,7 +55,6 @@
 //#define DISPLAY_SPI_POLLING_MODE
 //#define DISPLAY_SPI_INTERRUPT_MODE
 #define DISPLAY_SPI_DMA_MODE // (mixed: polling/DMA, see below)
-
 
 
 /*****************     STEP 5      *****************
@@ -85,7 +80,6 @@
 #define BKLIT_CCR					CCR1			//Capture-compare register used
 #define BKLIT_STBY_LEVEL 			2				//Display backlight level when in stand-by (levels are CNT values)
 #define BKLIT_INIT_LEVEL 			10				//Display backlight level on startup
-
 
 
 /*****************     STEP 6      *****************
@@ -114,7 +108,6 @@
 #endif
 
 
-
 /***************   color depth      ****************
  *** choose one of the two color depth available *** 
  ***** to use on the display RGB565 and RGB666 *****
@@ -125,7 +118,6 @@
 #ifdef ILI9488
 #define RGB666
 #endif
-
 
 
 /***************   display size      ***************
@@ -139,6 +131,7 @@
 #define DISPL_HEIGHT 480		// 0 orientation
 #endif
 
+
 /************* from POLLING to DMA *****************
  *** below DISPL_DMA_CUTOFF data size, transfer ****
  ****** will be polling, even if DMA enabled *******
@@ -146,7 +139,6 @@
 #define DISPL_DMA_CUTOFF 	20    // (bytes) used only in DMA_MODE
 
 /*||||||||||| END OF DEVICE PARAMETERS ||||||||||||*/
-
 
 
 #include <string.h>
@@ -220,8 +212,6 @@ typedef enum {
 #define ILI9488_POWER2				0xC2
 #define ILI9341_POWERA				0xCB
 #define ILI9341_POWERB				0xCF
-
-
 
 
 /**********************************************************
