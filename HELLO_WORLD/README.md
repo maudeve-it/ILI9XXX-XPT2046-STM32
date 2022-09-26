@@ -105,8 +105,8 @@ TOUCH
 
 There are many way to use touch device with the library functions.
 The most performing way is:
--	first of all check if there was a touch: Touch_GotATouch() returns 1 if interrupt registered a touch. This is a fast function not polling sensor, non involving SPI nor DMA.
--   if touched use (depending of your needs) either Touch_GetXYtouch() (returning a struct with X,Y position of touch - grapics display coordinates) or uint8_t Touch_In_XY_area(uint16_t xpos,uint16_t ypos,uint16_t width,uint16_t height) (returning 1 if touch inside the area indicated in parameters)
+-	first of all check if there was a touch: <i>Touch_GotATouch()</i> returns 1 if interrupt registered a touch. This is a fast function not polling sensor, non involving SPI nor DMA.
+-   if touched use (depending of your needs) either <i><b>Touch_GetXYtouch()</b></i> (returning a struct with X,Y position of touch - grapics display coordinates) or <i><b>Touch_In_XY_area(uint16_t xpos,uint16_t ypos,uint16_t width,uint16_t height)</b></i> (returning 1 if touch inside the area indicated in parameters)
 
 there are two more functions:
 -	Touch_WaitForTouch(uint16_t delay)
