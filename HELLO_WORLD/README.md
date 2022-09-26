@@ -212,7 +212,7 @@ TOUCH
 Ci sono molti modi per usare il sensore touch con la libreria.
 Le maggiori prestazioni si hanno così:
 -	Prima di tutto verifica se è stato rilevato un tocco: <i><b>Touch_GotATouch()</b></i> restituisce 1 se interrupt ha registrato un tocco. Questa è una funzione veloce che non interroga il sensore e non coinvolge SPI nè DMA.
--	Se è stato rilevato un tocco usa (secondo le necessità) o <i><b>Touch_GetXYtouch()</b></i> (che restituisce una struct con le coordinate X,Y del tocco convertite nelle coordinate grafiche) oppure <i><b>Touch_In_XY_area(xpos, ypos, width, height)/b></i> (che restituisce 1 se rileva il tocco all0interno dell'area indicato dai parametri)
+-	Se è stato rilevato un tocco usa (secondo le necessità) o <i><b>Touch_GetXYtouch()</b></i> (che restituisce una struct con le coordinate X,Y del tocco convertite nelle coordinate grafiche) oppure <i><b>Touch_In_XY_area(xpos, ypos, width, height)</b></i> (che restituisce 1 se rileva il tocco all0interno dell'area indicato dai parametri)
 
 Ci sono alrtre due funzioni:
 -	<i><b>Touch_WaitForTouch(delay)</b></i>
