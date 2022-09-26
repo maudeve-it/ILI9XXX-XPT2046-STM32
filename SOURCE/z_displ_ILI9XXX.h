@@ -93,6 +93,14 @@
 #define BUFLEVEL 11
 #define SIZEBUF (1<<BUFLEVEL)
 
+
+/*****************     STEP 7      *****************
+ ************ Enable TouchGFX interface ************
+ * uncommenting the below #define to enable
+ * function interfacing TouchGFX
+ ***************************************************/
+//#define DISPLAY_USING_TOUCHGFX
+
 /*|||||||| END OF USER/PROJECT PARAMETERS ||||||||*/
 
 
@@ -251,5 +259,22 @@ void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi);
 
 uint32_t  Displ_BackLight(uint8_t cmd);
 
+
+//Developing integration with TouchGFX
+
+//richiesto da Partial Frame Buffer
+
+int touchgfxDisplayDriverTransmitActive();
+void touchgfxDisplayDriverTransmitBlock(const uint8_t* pixels, uint16_t x, uint16_t y, uint16_t w, uint16_t h);
+
+extern void touchgfxSignalVSync(void); //per avviar eil rendering
+
+// invece bisogna modificare HAL::flushFrameBuffer(Rect r) se single o double frame buffer
+// vedere-modificare OSWrappers::waitForVSync
+// usare OSWrappers::signalVSync per avviare il rendering
+// sto usando anche touchgfx::startNewTransfer(); per attivare un nuovo trasferimento dopo il precedente
+
+
+// vedi void TouchGFXGeneratedHAL::flushFrameBuffer(const touchgfx::Rect& rect)
 
 #endif /* __Z_DISPL_ILI9XXX_H */

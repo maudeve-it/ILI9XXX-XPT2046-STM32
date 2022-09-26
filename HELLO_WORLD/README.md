@@ -22,6 +22,7 @@ Now that you have chosen the backlight handling mode and set it as per these ins
 
 You finally can setup the last program parameters and run it!<br>
 
+---
 
 
 ##### Parameters setup
@@ -58,6 +59,9 @@ in main.c you now need to initialize display before entering in the main loop, t
   ...
   ```
 
+---
+
+
 ##### running test functions
 
 Here some test function you can run copying the "_test" files into the project.
@@ -81,9 +85,39 @@ Here I show three demo/test functions called in the same main loop, but I sugges
   ...
   ```
 
-
-
 ---
+
+
+##### use functions in your projects
+
+passing the test, the display and the library is fulli integrated in your software (how is the performance?).
+Now you can use the library as per your needs:
+
+
+GRAPHICS
+
+With a short look to the Displ_PerfTest() function you should find all the graphics functions you need. 
+A short description available in the source file should help usage while developing.
+There is not much more to say
+
+
+TOUCH
+
+There are many way to use touch device with the library functions.
+The most performing way is:
+-	first of all check if there was a touch: Touch_GotATouch() returns 1 if interrupt registered a touch. This is a fust function not polling sensor, non involving SPI nor DMA.
+-   if touched use (depending of your needs) either Touch_GetXYtouch() (returning a struct with X,Y position of touch - grapics display coordinates) or uint8_t Touch_In_XY_area(uint16_t xpos,uint16_t ypos,uint16_t width,uint16_t height) (returning 1 if touch inside the area indicated in parameters)
+
+there are two more functions:
+-	Touch_WaitForTouch(uint16_t delay)
+-	Touch_WaitForUntouch(uint16_t delay)
+hanging program until event in the function name or delay expired
+
+
+
+
+
+
 
 <br>
 <br>

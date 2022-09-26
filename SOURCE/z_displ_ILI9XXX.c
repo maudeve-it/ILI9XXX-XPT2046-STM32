@@ -248,6 +248,10 @@ void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi) {
 	if (hspi->Instance==DISPL_SPI) {
 		Displ_SpiAvailable=1;
 //		Touch_PenDown=0;    //reset touch interrupt flag: writing onto display will trigger the display interrupt pin
+
+#ifdef DISPLAY_USING_TOUCHGFX
+		touchgfx::startNewTransfer();
+#endif
 	}
 }
 
@@ -1109,8 +1113,10 @@ uint32_t  Displ_BackLight(uint8_t cmd) {
 
 
 
+int touchgfxDisplayDriverTransmitActive(){
+	return (!Displ_SpiAvailable);
+}
 
 
-
-
-
+void touchgfxDisplayDriverTransmitBlock(const uint8_t* pixels, uint16_t x, uint16_t y, uint16_t w, uint16_t h){
+};
