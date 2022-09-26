@@ -111,6 +111,7 @@ The most performing way is:
 There are two more functions:
 -	<i><b>Touch_WaitForTouch(delay)</b></i>
 -	<i><b>Touch_WaitForUntouch(delay)</b></i>
+<br>
 hanging program until event in the function name or <i>delay</i> expired
 <br>
 <br>
@@ -217,6 +218,7 @@ Le maggiori prestazioni si hanno così:
 Ci sono alrtre due funzioni:
 -	<i><b>Touch_WaitForTouch(delay)</b></i>
 -	<i><b>Touch_WaitForUntouch(delay)</b></i>
+<br>
 che arrestano il programma fino all'evento indicato dal nome della funzione oppure allo scadere del <i>delay</i>.
 <br>
 <br>
