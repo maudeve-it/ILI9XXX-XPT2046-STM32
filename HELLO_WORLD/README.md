@@ -88,7 +88,7 @@ Here I show three demo/test functions called in the same main loop, but I sugges
 ---
 
 
-##### use functions in your projects
+##### using functions in your projects
 
 passing the test, the display and the library is fulli integrated in your software (how is the performance?).
 Now you can use the library as per your needs:
@@ -96,7 +96,7 @@ Now you can use the library as per your needs:
 
 GRAPHICS
 
-With a short look to the Displ_PerfTest() function you should find all the graphics functions you need. 
+With a short look to the <i>Displ_PerfTest()</i> function you should find all the graphics functions you need. 
 A short description available in the source file should help usage while developing.
 There is not much more to say
 
