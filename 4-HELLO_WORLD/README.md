@@ -88,37 +88,31 @@ Here I show three demo/test functions called in the same main loop, but I sugges
 ---
 
 
-##### use functions in your projects
+##### using library functions in your projects
 
-passing the test, the display and the library is fulli integrated in your software (how is the performance?).
+passing the test, the display and the library is fully integrated in your software (how is the performance?).
 Now you can use the library as per your needs:
 
 
 GRAPHICS
 
-With a short look to the Displ_PerfTest() function you should find all the graphics functions you need. 
+With a short look to the <i><b>Displ_PerfTest()</b></i> function you should find all the graphics functions you need. 
 A short description available in the source file should help usage while developing.
-There is not much more to say
+There is not much more to say.
 
 
 TOUCH
 
 There are many way to use touch device with the library functions.
 The most performing way is:
--	first of all check if there was a touch: Touch_GotATouch() returns 1 if interrupt registered a touch. This is a fust function not polling sensor, non involving SPI nor DMA.
--   if touched use (depending of your needs) either Touch_GetXYtouch() (returning a struct with X,Y position of touch - grapics display coordinates) or uint8_t Touch_In_XY_area(uint16_t xpos,uint16_t ypos,uint16_t width,uint16_t height) (returning 1 if touch inside the area indicated in parameters)
+-	first of all check if there was a touch: <i><b>Touch_GotATouch()</b></i> returns 1 if interrupt registered a touch. This is a fast function not polling sensor, non involving SPI nor DMA.
+-	if touch detected, use (depending of your needs) either <i><b>Touch_GetXYtouch()</b></i> (returning a struct with X and Y position of touch converted to the grapic display coordinates) or <i><b>Touch_In_XY_area(xpos, ypos, width, height)</b></i> (returning 1 if touch inside the area indicated in parameters)
 
-there are two more functions:
--	Touch_WaitForTouch(uint16_t delay)
--	Touch_WaitForUntouch(uint16_t delay)
-hanging program until event in the function name or delay expired
-
-
-
-
-
-
-
+There are two more functions:
+-	<i><b>Touch_WaitForTouch(delay)</b></i>
+-	<i><b>Touch_WaitForUntouch(delay)</b></i>
+<br>
+hanging program until event in the function name or <i>delay</i> expired
 <br>
 <br>
 
@@ -197,3 +191,36 @@ Qui mostro tre funzioni di test chiamate nello stesso main loop, ma suggerisco d
 	Touch_TestDrawing();		// interroga il display, converte i valori restituiti e disegna la posizione ricevuta
   ...
   ```
+
+---
+
+
+##### usare la libreria nei tuoi progetti
+
+Superando il test hai la prova che il display e la libreria sono pienamente integrati nel progetto (come sono le prestazioni?).
+Ora puoi usare la libreria secondo le necessità:
+
+
+GRAFICA
+
+Con una occhiara alla funzione <i><b>Displ_PerfTest()</b></i> dovresti individuare tutte le funzioni grafiche che ti occorrono. 
+Una breve descrizione disponibile nel file sorgente dovrebbe aiutare durante lo sviluppo.
+Non c'è molto altro da dire.
+
+
+TOUCH
+
+Ci sono molti modi per usare il sensore touch con la libreria.
+Le maggiori prestazioni si hanno così:
+-	Prima di tutto verifica se è stato rilevato un tocco: <i><b>Touch_GotATouch()</b></i> restituisce 1 se interrupt ha registrato un tocco. Questa è una funzione veloce che non interroga il sensore e non coinvolge SPI nè DMA.
+-	Se è stato rilevato un tocco usa (secondo le necessità) o <i><b>Touch_GetXYtouch()</b></i> (che restituisce una struct con le coordinate X,Y del tocco convertite nelle coordinate grafiche) oppure <i><b>Touch_In_XY_area(xpos, ypos, width, height)</b></i> (che restituisce 1 se rileva il tocco all0interno dell'area indicato dai parametri)
+
+Ci sono alrtre due funzioni:
+-	<i><b>Touch_WaitForTouch(delay)</b></i>
+-	<i><b>Touch_WaitForUntouch(delay)</b></i>
+<br>
+che arrestano il programma fino all'evento indicato dal nome della funzione oppure allo scadere del <i>delay</i>.
+<br>
+<br>
+
+
