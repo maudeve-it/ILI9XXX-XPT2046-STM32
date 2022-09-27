@@ -34,11 +34,11 @@ adding "z_touch_XPT2046_test", compiler will ask you to enable printf library in
 
 
 That should be enough, you should have already done this step:
-- ["How to" create a CubeIDE project for this library](../HOWTO)
+- ["How to" create a CubeIDE project for this library](../1-HOWTO)
 
 now you can move to these sections:
-- ["How to" handle display backlight](../BACKLIGHT)
-- ["How to" run the project, test it, and learn using its functions](../HELLO_WORLD)
+- ["How to" handle display backlight](../3-BACKLIGHT)
+- ["How to" run the project, test it, and learn using its functions](../4-HELLO_WORLD)
 
 
 
@@ -75,10 +75,10 @@ Aggiungendo "z_touch_XPT2046_test", il compilatore chiederà di attivare la libr
 <br>
 <br>
 Dovrebbe bastare, dovresti aver già fatto anche questo step:
-- [Guida per creare un progetto CubeIDE per questa libreria](../HOWTO)
+- [Guida per creare un progetto CubeIDE per questa libreria](../1-HOWTO)
 ora puoi andare alle sezioni:
-- [Guida alla gestione della retroilluminazione](../BACKLIGHT)
-- [Guida per eseguire il progetto, testarlo, e conoscere le sue funzioni](../HELLO_WORLD)
+- [Guida alla gestione della retroilluminazione](../3-BACKLIGHT)
+- [Guida per eseguire il progetto, testarlo, e conoscere le sue funzioni](../4-HELLO_WORLD)
 
 
 

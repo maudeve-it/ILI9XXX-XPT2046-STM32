@@ -27,11 +27,10 @@ Developed software is based on HAL over STM32CubeIDE.<br>
 ## Project Folders
 
 (I suggest you to follow this reading order) 
-- ["How to" create CubeIDE project using this software](./HOWTO)
-- [(Software folder) "How to" add this library to the created project](./SOURCE)
-- ["How to" handle display backlight](./BACKLIGHT)
-- ["How to" run the project, test it, and learn using its functions](./HELLO_WORLD)
-- ["How to" handle a simple menu](./MENU)
+- ["How to" create CubeIDE project using this software](./1-HOWTO)
+- [(Software folder) "How to" add this library to the created project](./2-SOURCE)
+- ["How to" handle display backlight](./3-BACKLIGHT)
+- ["How to" run the project, test it, and learn using its functions](./4-HELLO_WORLD)
 
 Youtube video showing project characteristics and performance:<br>
 Youtube video with a detailled analysis of SPI communication to displays: https://youtu.be/oWx1-WmTwag<br>
@@ -80,11 +79,10 @@ Il sowtware sviluppato si basa su HAL attraverso STM32CubeIDE.
 
 ## Cartelle del progetto 
 
-- [Guida per creare un progetto CubeIDE per usare questa libreria](./HOWTO)
-- [(Il Codice è qui) Guida per aggiungere la libreria al progetto creato](./SOURCE)
-- [Guida alla gestione della retroilluminazione](./BACKLIGHT)
-- [Guida per eseguire il progetto, testarlo, e conoscere le sue funzioni](./HELLO_WORLD)
-- [Guida alla gestione di un semplice menu](./MENU)
+- [Guida per creare un progetto CubeIDE per usare questa libreria](./1-HOWTO)
+- [(Il Codice è qui) Guida per aggiungere la libreria al progetto creato](./2-SOURCE)
+- [Guida alla gestione della retroilluminazione](./3-BACKLIGHT)
+- [Guida per eseguire il progetto, testarlo, e conoscere le sue funzioni](./4-HELLO_WORLD)
 
 Video Youtube con le carateristiche e le prestazioni del progetto:<br>
 Video Youtube con l'analisi dettagliata della comunicazione SPI con i display: https://youtu.be/oWx1-WmTwag<br>

@@ -7,15 +7,15 @@ _**Below English text you'll find the Italian version</i>**_
 
 Now that you have created a new CubeIDE project as per these instructions:
 
-- ["How to" create a CubeIDE project for this library](./HOWTO)
+- ["How to" create a CubeIDE project for this library](./1-HOWTO)
 
 Now that you have added the library source and header files to the project as per these instructions:
 
-- ["How to" add this software to the project](./SOURCE)
+- ["How to" add this software to the project](./2-SOURCE)
 
 Now that you have chosen the backlight handling mode and set it as per these instructions:
 
-- ["How to" handle display backlight](./BACKLIGHT)
+- ["How to" handle display backlight](./3-BACKLIGHT)
 
 
 
@@ -120,15 +120,15 @@ hanging program until event in the function name or <i>delay</i> expired
 ## Dunque...
 Ora che hai creato un nuovo progetto con CubeIDE project seguendo queste istruzioni:
 
-- [Guida per configurare un progetto con CubeIDE](./HOWTO)
+- [Guida per configurare un progetto con CubeIDE](./1-HOWTO)
 
 Ora che hai aggiunto i source e header files al progetto, seguendo queste istruzioni:
 
-- [Guida per integrare il software](./SOURCE)
+- [Guida per integrare il software](./2-SOURCE)
 
 Ora che hai scelto la gestione della retroilluminazione, seguendo queste istruzioni:
 
-- [Guida alla gestione della retroilluminazione](./BACKLIGHT)
+- [Guida alla gestione della retroilluminazione](./3-BACKLIGHT)
 
 Puoi finalmente configurare gli ultimi parametri ed eseguire il programma!
 

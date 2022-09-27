@@ -67,9 +67,9 @@ Enable 5 more pins as GPIO_Output:
 
 
 ##### Next steps
-- ["How to" add this library to the created project](../SOURCE)
-- ["How to" handle display backlight](../BACKLIGHT)
-- ["How to" run the project, test it, and learn using its functions](../HELLO_WORLD)
+- ["How to" add this library to the created project](../2-SOURCE)
+- ["How to" handle display backlight](../3-BACKLIGHT)
+- ["How to" run the project, test it, and learn using its functions](../4-HELLO_WORLD)
 
 
 ---
@@ -141,7 +141,7 @@ Attivare altri 5 pin come GPIO_Output:
 
 
 ##### Prossimi passi
-- [Guida per aggiungere la libreria al progetto creato](../SOURCE)
-- [Guida alla gestione della retroilluminazione](../BACKLIGHT)
-- [Guida per eseguire il progetto, testarlo, e conoscere le sue funzioni](../HELLO_WORLD)
+- [Guida per aggiungere la libreria al progetto creato](../2-SOURCE)
+- [Guida alla gestione della retroilluminazione](../3-BACKLIGHT)
+- [Guida per eseguire il progetto, testarlo, e conoscere le sue funzioni](../4-HELLO_WORLD)
 
