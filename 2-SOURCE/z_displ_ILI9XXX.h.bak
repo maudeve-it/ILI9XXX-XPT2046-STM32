@@ -96,7 +96,7 @@
 
 /*****************     STEP 7      *****************
  ************ Enable TouchGFX interface ************
- * uncomment the below #define to enable
+ * uncommenting the below #define to enable
  * functions interfacing TouchGFX
  ***************************************************/
 //#define DISPLAY_USING_TOUCHGFX
