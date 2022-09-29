@@ -77,7 +77,7 @@ Enable 5 more pins as GPIO_Output:
 
 ### Wiring/cablaggio
 
-<img src="https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/main/HOWTO/wiring.png" width="540" height="429">
+<img src="https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/main/1-HOWTO/wiring.png" width="540" height="429">
 
 
 ---
