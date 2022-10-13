@@ -1,5 +1,6 @@
 /*
- * z_displ_ILI9488.c
+ * 	z_displ_ILI9488.c
+ * 	rel. TouchGFX.1.0
  *
  *  Created on: May 30, 2022
  *      Author: mauro
@@ -7,7 +8,6 @@
  *  licensing: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/c097f0e7d569845c1cf98e8d930f2224e427fd54/LICENSE
  *
  */
-
 
 
 #include "main.h"
@@ -18,8 +18,7 @@ extern SPI_HandleTypeDef DISPL_SPI_PORT;
 extern TIM_HandleTypeDef BKLIT_T;
 #endif
 
-extern volatile uint8_t Touch_PenDown;						// set to 1 by pendown interrupt callback, reset to 0 by sw
-
+extern volatile uint8_t Touch_PenDown;				// set to 1 by pendown interrupt callback, reset to 0 by sw
 
 Displ_Orientat_e current_orientation;				// it records the active display orientation. Set by Displ_Orientation
 volatile uint8_t Displ_SpiAvailable=1;  			// 0 if SPI is busy or 1 if it is free (transm cplt)
@@ -35,12 +34,29 @@ static uint8_t *dispBuffer=dispBuffer1;
 
 
 
+/******************************************
+ * @brief	enable display, disabling touch
+ * 			device selected if CS low
+ ******************************************/
+void Displ_Select(void) {
+	if (TOUCH_SPI==DISPL_SPI){														// if SPI port shared (display <-> touch)
+		if (HAL_GPIO_ReadPin(DISPL_CS_GPIO_Port, DISPL_CS_Pin)) {					// if display not yet selected
+			HAL_GPIO_WritePin(TOUCH_CS_GPIO_Port, TOUCH_CS_Pin, GPIO_PIN_SET); 		// unselect touch
+			SET_SPI_BAUDRATE(DISPL_PRESCALER);   									//change SPI port speed as per display needs
+			HAL_GPIO_WritePin(DISPL_CS_GPIO_Port, DISPL_CS_Pin, GPIO_PIN_RESET);	// select display
+		}
+	}
+}
+
+
+
+
 /**********************************
  * @brief	ILIXXX initialization sequence
  **********************************/
 void ILI9XXX_Init()
 {
-
+	Displ_Select();
 
 	HAL_GPIO_WritePin(DISPL_RST_GPIO_Port, DISPL_RST_Pin, GPIO_PIN_RESET);
 	HAL_Delay(1);
@@ -98,9 +114,6 @@ void ILI9XXX_Init()
 */
 
 
-
-
-
 	Displ_WriteCommand(ILI9XXX_PIXEL_FORMAT);
 #ifdef RGB666
 	Displ_WriteData((uint8_t *)"\x66",1);		// RGB666
@@ -113,8 +126,6 @@ void ILI9XXX_Init()
 
 	Displ_WriteCommand(ILI9XXX_RGB_INTERFACE);
 	Displ_WriteData((uint8_t *)"\x80",1);        // disable MISO pin
-
-
 
 	Displ_WriteCommand(ILI9XXX_SLEEP_OUT);
 	HAL_Delay(120);
@@ -171,6 +182,13 @@ void ILI9488_DrawImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t *
  * @param	orientation	display orientation
  *****************************************************/
 void Displ_Init(Displ_Orientat_e orientation){
+	if (TOUCH_SPI==DISPL_SPI){													// if touch and display share the same SPI port
+		HAL_GPIO_WritePin(DISPL_CS_GPIO_Port, DISPL_CS_Pin, GPIO_PIN_SET); 		// unselect display (will be selected at writing time)
+		HAL_GPIO_WritePin(TOUCH_CS_GPIO_Port, TOUCH_CS_Pin, GPIO_PIN_SET);		// unselect touch (will be selected at writing time)
+	} else {																	// otherwise leave both port permanently selected
+		HAL_GPIO_WritePin(DISPL_CS_GPIO_Port, DISPL_CS_Pin, GPIO_PIN_RESET); 	// select display
+		HAL_GPIO_WritePin(TOUCH_CS_GPIO_Port, TOUCH_CS_Pin, GPIO_PIN_RESET);	// select touch
+	}
 	ILI9XXX_Init();
 	Displ_Orientation(orientation);
 }
@@ -217,22 +235,6 @@ void Displ_Orientation(Displ_Orientat_e orientation){
 
 
 
-/******************************************
- * @brief	enable display, disabling touch
- ******************************************/
-void Displ_Select(void) {
-	if (HAL_GPIO_ReadPin(DISPL_CS_GPIO_Port, DISPL_CS_Pin)) {
-		HAL_GPIO_WritePin(TOUCH_CS_GPIO_Port, TOUCH_CS_Pin, GPIO_PIN_SET);
-		if (TOUCH_SPI==DISPL_SPI){
-			SET_SPI_BAUDRATE(DISPL_PRESCALER);   //change SPI port speed as per display needs
-		}
-		HAL_GPIO_WritePin(DISPL_CS_GPIO_Port, DISPL_CS_Pin, GPIO_PIN_RESET);
-	}
-}
-
-
-
-
 void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi){
 	if (hspi->Instance==DISPL_SPI) {
 		Displ_SpiAvailable=1;
@@ -250,7 +252,7 @@ void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi) {
 //		Touch_PenDown=0;    //reset touch interrupt flag: writing onto display will trigger the display interrupt pin
 
 #ifdef DISPLAY_USING_TOUCHGFX
-		touchgfx::startNewTransfer();
+		DisplayDriver_TransferCompleteCallback();
 #endif
 	}
 }
@@ -267,34 +269,41 @@ void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi) {
 ***************************/
 void Displ_Transmit(GPIO_PinState DC_Status, uint8_t* data, uint16_t dataSize ){
 
-while (!Displ_SpiAvailable) {};  // waiting for a free SPI port. Flag is set to 1 by transmission-complete interrupt callback
+	while (!Displ_SpiAvailable) {};  // waiting for a free SPI port. Flag is set to 1 by transmission-complete interrupt callback
 
-HAL_GPIO_WritePin(DISPL_DC_GPIO_Port, DISPL_DC_Pin, DC_Status);
-Displ_Select();
+	HAL_GPIO_WritePin(DISPL_DC_GPIO_Port, DISPL_DC_Pin, DC_Status);
+	Displ_Select();
 
-#ifndef DISPLAY_SPI_INTERRUPT_MODE
-	#ifdef DISPLAY_SPI_DMA_MODE
-	if (dataSize<DISPL_DMA_CUTOFF) {
-	#endif
-		Displ_SpiAvailable=0;
-		HAL_SPI_Transmit(&DISPL_SPI_PORT , data, dataSize, HAL_MAX_DELAY);
-		Displ_SpiAvailable=1;
-	#ifdef DISPLAY_SPI_DMA_MODE
-	}
-	else {
-		Displ_SpiAvailable=0;
-		HAL_SPI_Transmit_DMA(&DISPL_SPI_PORT , data, dataSize);
-	}
-	#endif
+
+#ifdef DISPLAY_USING_TOUCHGFX
+		if ((DC_Status==SPI_DATA) && (dataSize>100)) {
+			uint32_t *limit=(uint32_t*)(data+dataSize);
+			for (uint32_t *data32=(uint32_t*)data; data32<limit; data32++) {
+				*data32=__REV16(*data32);
+			}
+		}
 #endif
+
 
 #ifdef DISPLAY_SPI_INTERRUPT_MODE
-	Displ_SpiAvailable=0;
-	HAL_SPI_Transmit_IT(&DISPL_SPI_PORT , data, dataSize);
+		Displ_SpiAvailable=0;
+		HAL_SPI_Transmit_IT(&DISPL_SPI_PORT , data, dataSize);
+#else
+#ifdef DISPLAY_SPI_DMA_MODE
+		if (dataSize<DISPL_DMA_CUTOFF) {
 #endif
-
-}
-
+			Displ_SpiAvailable=0;
+			HAL_SPI_Transmit(&DISPL_SPI_PORT , data, dataSize, HAL_MAX_DELAY);
+			Displ_SpiAvailable=1;
+#ifdef DISPLAY_SPI_DMA_MODE
+		}
+		else {
+			Displ_SpiAvailable=0;
+			HAL_SPI_Transmit_DMA(&DISPL_SPI_PORT , data, dataSize);
+		}
+#endif
+#endif
+	}
 
 
 
@@ -306,9 +315,6 @@ Displ_Select();
 void Displ_WriteCommand(uint8_t cmd){
 	Displ_Transmit(SPI_COMMAND, &cmd, sizeof(cmd));
 }
-
-
-
 
 
 
@@ -404,7 +410,7 @@ void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t col
 	uint8_t Bbyte=(color & 0x001F)<<3;
 
 	area=(((y1-y+1)*(x1-x+1))*3); 		// area to fill in bytes (3 bytes per pixel)
-	uint8_t *buf8Pos=dispBuffer; 		//using a local pointer
+	uint8_t *buf8Pos=dispBuffer; 		//using a local pointer: changing values next
 
 	datasize = (area<(SIZEBUF-3) ? area : (SIZEBUF-3));  //as buf8Pos receives 3 bytes each cycle we must be sure that SIZEBUF will be not overridden in the next loop
 
@@ -417,10 +423,8 @@ void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t col
 	datasize=(buf8Pos-dispBuffer);
 #endif
 
-
 //START WRITING TO DISPLAY
 	Displ_SetAddressWindow(x, y, x1, y1);
-
 
 #ifdef RGB565 // transferring RGB666 format dispBuffer
 	times=(area>>(BUFLEVEL-1));  					//how many times buffer must be sent via SPI. It is (BUFFLEVEL-1) because area is 16-bit while dispBuffer is 8-bit
@@ -437,14 +441,10 @@ void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t col
 	Displ_WriteData(dispBuffer,(area-times*datasize));      //transfer last data frame
 #endif
 
-
 //BUFFER SWAP
 	dispBuffer = (dispBuffer==dispBuffer1 ? dispBuffer2 : dispBuffer1); // swapping buffer
 
 }
-
-
-
 
 
 
@@ -1113,10 +1113,24 @@ uint32_t  Displ_BackLight(uint8_t cmd) {
 
 
 
+/************************
+ * @brief	TouchGFX integration: returns "to display" communication status
+ * @return	1 = there is a transmission running
+ * 			0 = no transmission
+ ************************/
 int touchgfxDisplayDriverTransmitActive(){
+	// using the flag indicating SPI port availability
+	// already used to drive communication via DMA
 	return (!Displ_SpiAvailable);
 }
 
 
+/************************
+ * @brief	TouchGFX integration: write to display the block indicated by parameters
+ *
+ ************************/
 void touchgfxDisplayDriverTransmitBlock(const uint8_t* pixels, uint16_t x, uint16_t y, uint16_t w, uint16_t h){
-};
+	//START WRITING TO DISPLAY
+		Displ_SetAddressWindow(x, y, x+w-1, y+h-1);
+		Displ_WriteData((uint8_t* )pixels,((w*h)<<1));
+}

@@ -1,5 +1,6 @@
 /*
  * z_touch_XPT2046.c
+ * 	rel. TouchGFX.1.0
  *
  *  Created on: 2 giu 2022
  *      Author: mauro
@@ -8,6 +9,28 @@
  *
  */
 
+
+/*
+ *
+ * copy the below lines of code and replace sampleTouch into STM32TouchController.cpp file
+ *
+ *
+bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
+{
+	sTouchData XYpos;
+
+	if (Touch_GotATouch(1)) {
+		XYpos=Touch_GetXYtouch();
+		if (XYpos.isTouch) {
+			x = XYpos.Xpos;
+			y = XYpos.Ypos;
+			return true;
+		} else
+			return false;
+	}
+	return false;
+}
+*/
 
 
 #include "main.h"
@@ -20,14 +43,10 @@ extern Displ_Orientat_e current_orientation;			// indicates the active display o
 volatile uint8_t Touch_PenDown=0;						// set to 1 by pendown interrupt callback, reset to 0 by sw
 
 
-// STM32G0 HAL implementation provides separate functions handling callback from rising and falling edge GPIO interrupt,
-// while the other STM32 uC have a generic calback for both edges.
-// Properly uncomment the function declaration you need here 
-//
-//void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin){	// just for STM32G0 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){		 	// for STM32F4, STM32G4 and more
+//void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin){
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	if (GPIO_Pin==TOUCH_INT_Pin)
-		if (!HAL_GPIO_ReadPin(TOUCH_INT_GPIO_Port, GPIO_Pin))
+//		if (!HAL_GPIO_ReadPin(TOUCH_INT_GPIO_Port, GPIO_Pin))
 			Touch_PenDown=1;
 
 }
@@ -37,17 +56,16 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){		 	// for STM32F4, STM32G4 and m
 
 /******************************************
  * @brief	enable touch, disabling display
+ * 			set SPI baudrate as needed
  ******************************************/
 void Touch_Select(void) {
-	if (!HAL_GPIO_ReadPin(DISPL_CS_GPIO_Port, DISPL_CS_Pin))
-		HAL_GPIO_WritePin(DISPL_CS_GPIO_Port, DISPL_CS_Pin, GPIO_PIN_SET);
-	if (TOUCH_SPI==DISPL_SPI){
-		SET_SPI_BAUDRATE(TOUCH_PRESCALER);	//change SPI port speed as per touch needs
+	if (TOUCH_SPI==DISPL_SPI){														// if touch and display share the same SPI port
+		if (!HAL_GPIO_ReadPin(DISPL_CS_GPIO_Port, DISPL_CS_Pin))					// if display selected
+			HAL_GPIO_WritePin(DISPL_CS_GPIO_Port, DISPL_CS_Pin, GPIO_PIN_SET); 		// unselect display
+		SET_SPI_BAUDRATE(TOUCH_PRESCALER);											//change SPI port speed as per touch needs
+		HAL_GPIO_WritePin(TOUCH_CS_GPIO_Port, TOUCH_CS_Pin, GPIO_PIN_RESET);
 	}
-	HAL_GPIO_WritePin(TOUCH_CS_GPIO_Port, TOUCH_CS_Pin, GPIO_PIN_RESET);
 }
-
-
 
 
 
@@ -55,10 +73,8 @@ void Touch_Select(void) {
  * @brief	disable touch
  ******************************************/
 void Touch_UnSelect(void) {
-	HAL_GPIO_WritePin(TOUCH_CS_GPIO_Port, TOUCH_CS_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(TOUCH_CS_GPIO_Port, TOUCH_CS_Pin, GPIO_PIN_SET);				// unselect touch
 }
-
-
 
 
 
@@ -118,7 +134,7 @@ uint32_t touchx,touchy,touch;
 
 
 
-// device has a touch get the average value (over "pollingLevel" attempts of X, Y and Z axes readings)
+// get the average value (over "1<<pollingLevel" attempts of X, Y and Z axes readings)
 
 	// reading Z
 	touch=0;
@@ -240,13 +256,15 @@ uint8_t Touch_WaitForUntouch(uint16_t delay) {
 
 /***********************************************************
  * @brief			check if interrupt registered a touch
- * 					resetting touch flag anyway
+ * 					resetting touch flag anyway if asked by parameter
+ * @params	reset	reset touch flag if non 0
  * @returns		1	if recorded a touch
  * 				0	if no touch recorded
  ***********************************************************/
-uint8_t Touch_GotATouch() {
+uint8_t Touch_GotATouch(uint8_t reset) {
 uint8_t result = Touch_PenDown;
-	Touch_PenDown=0;
+	if (reset)
+		Touch_PenDown=0;
 	return result;
 }
 
