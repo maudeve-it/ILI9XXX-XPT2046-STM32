@@ -3,15 +3,7 @@
  *  Created on: 2 giu 2022
  *      Author: mauro
  *
- *  licensing: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/c097f0e7d569845c1cf98e8d930f2224e427fd54/LICENSE
- *
- *  Setup parameters following below instructions from STEP 1 to STEP 6
- *  then
- *	add these instructions into your main()
- *  (good position is in: USER CODE BEGIN 2)
- *  Displ_Init(Displ_Orientat_0);			// (mandatory) initialize display controller - set orientation parameter as per your needs
- *  Displ_CLS(BLACK);						// clear the screen - BLACK or any other color you prefer
- *  Displ_BackLight('I');  					// (mandatory) initialize backlight
+ *  licensing: https://github.com/maudeve-it/ILI9486-STM32/blob/main/LICENSE
  *
  */
 
@@ -21,33 +13,35 @@
 
 
 /*||||||||||| USER/PROJECT PARAMETERS |||||||||||*/
-/******************    STEP 1    *****************
+/******************    STEP 0    *****************
  * which display are you usng?
  *************************************************/
-//#define ILI9341
-#define ILI9488_V1
-//#define ILI9488_V2
+#define ILI9341
+//#define ILI9488
 
 
-/******************    STEP 2    ******************
+
+/******************    STEP 1    ******************
  **************** PORT PARAMETERS *****************
- ** properly set the below th 2 defines to address
+ ** properly set the below the 2 defines to address
  ********  the SPI port defined on CubeMX *********
  **************************************************/
 #define DISPL_SPI_PORT 	hspi1
 #define DISPL_SPI 		SPI1
 
 
-/******************    STEP 3     ******************
+
+/******************    STEP 2     ******************
  ***************** SPI PORT SPEED  *****************
  * define HERE the prescaler value to assign SPI port 
- * when transferring data to/from DISPLAY or TOUCH
+ * when changing from DISPLAY to TOUCH and viceversa
  ***************************************************/
-#define DISPL_PRESCALER SPI_BAUDRATEPRESCALER_2     //prescaler assigned to display SPI port
-#define TOUCH_PRESCALER SPI_BAUDRATEPRESCALER_256	//prescaler assigned to touch device SPI port
+#define DISPL_PRESCALER SPI_BAUDRATEPRESCALER_2
+#define TOUCH_PRESCALER SPI_BAUDRATEPRESCALER_128
 
 
-/*****************     STEP 4      *****************
+
+/*****************     STEP 3      *****************
  ************* SPI COMMUNICATION MODE **************
  *** enable SPI mode want, uncommenting ONE row ****
  **** (Setup the same configuration on CubeMX) *****
@@ -57,7 +51,8 @@
 #define DISPLAY_SPI_DMA_MODE // (mixed: polling/DMA, see below)
 
 
-/*****************     STEP 5      *****************
+
+/*****************     STEP 4      *****************
  ***************** Backlight timer *****************
  * if you want dimming backlight UNCOMMENT the
  * DISPLAY_DIMMING_MODE below define and properly
@@ -74,47 +69,31 @@
  * Set all other defines below 
  ***************************************************/
 #define DISPLAY_DIMMING_MODE						// uncomment this define to enable dimming function otherwise there is an on/off switching function
-#define BKLIT_TIMER 				TIM2			//timer used (PWMming DISPL_LED pin)
-#define BKLIT_T 					htim2			//timer used
-#define BKLIT_CHANNEL				TIM_CHANNEL_1	//channel used
-#define BKLIT_CCR					CCR1			//Capture-compare register used
-#define BKLIT_STBY_LEVEL 			2				//Display backlight level when in stand-by (levels are CNT values)
-#define BKLIT_INIT_LEVEL 			10				//Display backlight level on startup
+#define BKLIT_TIMER 				TIM3			//timer used (PWMming DISPL_LED pin)
+#define BKLIT_T 					htim3			//timer used
+#define BKLIT_CHANNEL				TIM_CHANNEL_2	//channel used
+#define BKLIT_CCR					CCR2			//Capture-compare register
+#define BKLIT_STBY_LEVEL 			1				//Display backlight level when in stand-by (levels are CNT values)
+#define BKLIT_INIT_LEVEL 			5				//Display backlight level on startup
 
 
-/*****************     STEP 6      *****************
+
+/*****************     STEP 4      *****************
  ************* frame buffer DEFINITION *************
- * BUFLEVEL defines size of the 2 SPI buffers:
- * buffer size is 2^BUFLEVEL: 2 means 4 bytes buffer
- * and 10 means 1 kbytes buffer (each).
+ * BUFLEVEL defines size of the 2 buffers:
+ * buffer size is 2^BUFLEVEL, 2 means 4 bytes buffer,
+ * 10 means 1 kbytes buffer (each).
  * IT MUST BE 10 OR MORE:
  * -	10 needed for 1 char in Font24 size
 ***************************************************/
-#define BUFLEVEL 11
+#define BUFLEVEL 12
 #define SIZEBUF (1<<BUFLEVEL)
-
-
-/*****************     STEP 7      *****************
- ************ Enable TouchGFX interface ************
- * uncomment the below #define to enable
- * functions interfacing TouchGFX
- ***************************************************/
-//#define DISPLAY_USING_TOUCHGFX
 
 /*|||||||| END OF USER/PROJECT PARAMETERS ||||||||*/
 
 
 
-/*|||||||||||||| DEVICE PARAMETERS |||||||||||||||||*/
-/* you shouldn't need to change anything here after */
-
-#ifdef ILI9488_V1
-#define ILI9488
-#endif
-#ifdef ILI9488_V2
-#define ILI9488
-#endif
-
+/*|||||||||||||| DEVICE PARAMETERS |||||||||||||||*/
 
 /***************   color depth      ****************
  *** choose one of the two color depth available *** 
@@ -128,6 +107,7 @@
 #endif
 
 
+
 /***************   display size      ***************
  ***************************************************/
 #ifdef ILI9341
@@ -139,14 +119,14 @@
 #define DISPL_HEIGHT 480		// 0 orientation
 #endif
 
-
 /************* from POLLING to DMA *****************
- *** below DISPL_DMA_CUTOFF data size, transfer ****
- ****** will be polling, even if DMA enabled *******
+ ***** bewlow the indicated limit data transfer ****
+ ******* will be polling, even if DMA enabled ******
  ***************************************************/
 #define DISPL_DMA_CUTOFF 	20    // (bytes) used only in DMA_MODE
 
 /*||||||||||| END OF DEVICE PARAMETERS ||||||||||||*/
+
 
 
 #include <string.h>
@@ -215,13 +195,6 @@ typedef enum {
 #define ILI9XXX_INIT_SHORT_DELAY	5		// Hal_Delay parameter
 #define ILI9XXX_INIT_LONG_DELAY		150		// Hal_Delay parameter
 
-#define ILI9XXX_POWER0				0xC0
-#define ILI9XXX_POWER1				0xC1
-#define ILI9488_POWER2				0xC2
-#define ILI9341_POWERA				0xCB
-#define ILI9341_POWERB				0xCF
-
-
 /**********************************************************
  * macro changing SPI baudrate prescaler
  * (used before any changes between display<->touch devices
@@ -260,21 +233,6 @@ void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi);
 uint32_t  Displ_BackLight(uint8_t cmd);
 
 
-//Developing integration with TouchGFX
 
-//richiesto da Partial Frame Buffer
-
-int touchgfxDisplayDriverTransmitActive();
-void touchgfxDisplayDriverTransmitBlock(const uint8_t* pixels, uint16_t x, uint16_t y, uint16_t w, uint16_t h);
-
-extern void touchgfxSignalVSync(void); //per avviar eil rendering
-
-// invece bisogna modificare HAL::flushFrameBuffer(Rect r) se single o double frame buffer
-// vedere-modificare OSWrappers::waitForVSync
-// usare OSWrappers::signalVSync per avviare il rendering
-// sto usando anche touchgfx::startNewTransfer(); per attivare un nuovo trasferimento dopo il precedente
-
-
-// vedi void TouchGFXGeneratedHAL::flushFrameBuffer(const touchgfx::Rect& rect)
 
 #endif /* __Z_DISPL_ILI9XXX_H */

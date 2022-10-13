@@ -3,10 +3,10 @@
  *  Created on: 2 giu 2022
  *      Author: mauro
  *
- *  licensing: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/c097f0e7d569845c1cf98e8d930f2224e427fd54/LICENSE
+ *  licensing: https://github.com/maudeve-it/ILI9486-STM32/blob/main/LICENSE
  *
  *	WARNING WARNING WARNING:
- *	in main.h put the #insert of this file BELOW the #insert of z_displ_ILIxxxx.h
+ *	in main.h put the #insert of this file BELOW the #insert of ILIxxxx.h
  *
  */
 #ifndef __XPT2046_H
@@ -20,13 +20,19 @@
 
 #define TOUCH_SPI_PORT 	hspi1
 #define TOUCH_SPI 		SPI1
+
+
+/**********************************************************************************
+ * define here interrupt assigned to pendown display signaling.
+ * this interrupt will be disabled during SPI communication with touch device
+ **********************************************************************************/
+//#define PENDOWN_IRQ	EXTI4_15_IRQn
+
+
 /***** END OF "USER/PROJECT PARAMETERS" *****/
 
 
-
-/**************** DEVICE PARAMETERS ***************/
-/* you should need to change nothing from here on */
-
+/***** DEVICE PARAMETERS *****/
 /**************************************************
  * this is the command to send to XPT2046 asking to
  * poll axis and return corresponging value.
@@ -56,32 +62,21 @@
  * parameters for the linear conversion from a touch sensor reading, to
  * the XY display position
  * use the formula:
- * Xdispl = AX * Xtouch + BX
- * Ydispl = AY * Ytouch + BY
+ * Xpos = AX * Xtouch + BX
+ * Ypos = AY * Ytouch + BY
  *
  **********************************************************************************/
 #ifdef ILI9341
-#define T_ROTATION_0
 #define AX 0.00801f
 #define BX -11.998f
 #define AY 0.01119f
 #define BY -39.057f
 #endif
-
-#ifdef ILI9488_V1
-#define T_ROTATION_270
-#define AX 0.016f
-#define BX -20.0f
-#define AY 0.011f
-#define BY -15.0f
-#endif
-
-#ifdef ILI9488_V2
-#define T_ROTATION_0
-#define AX -0.0112f
-#define BX 336.0f
-#define AY 0.0166f
-#define BY -41.38f
+#ifdef ILI9488
+#define AX 0.0155f
+#define BX -15.0f
+#define AY 0.0110f
+#define BY -20.0f
 #endif
 
 
@@ -92,7 +87,7 @@
  * on ILI9341 0° on touch correspond to 270° of the screen
  * set also the size of a 0° row and a 90° row (a 0° height)
  **********************************************************************************/
-#ifdef T_ROTATION_0
+#ifdef ILI9341
 #define TOUCH0 			Displ_Orientat_0
 #define TOUCH90 		Displ_Orientat_90
 #define TOUCH180 		Displ_Orientat_180
@@ -101,25 +96,7 @@
 #define TOUCH_0_HEIGHT	DISPL_HEIGHT
 #endif
 
-#ifdef T_ROTATION_90
-#define TOUCH0 			Displ_Orientat_90
-#define TOUCH90 		Displ_Orientat_180
-#define TOUCH180 		Displ_Orientat_270
-#define TOUCH270 		Displ_Orientat_0
-#define TOUCH_0_WIDTH 	DISPL_HEIGHT
-#define TOUCH_0_HEIGHT	DISPL_WIDTH
-#endif
-
-#ifdef T_ROTATION_180
-#define TOUCH0 			Displ_Orientat_180
-#define TOUCH90 		Displ_Orientat_270
-#define TOUCH180 		Displ_Orientat_0
-#define TOUCH270 		Displ_Orientat_90
-#define TOUCH_0_WIDTH 	DISPL_WIDTH
-#define TOUCH_0_HEIGHT	DISPL_HEIGHT
-#endif
-
-#ifdef T_ROTATION_270
+#ifdef ILI9488
 #define TOUCH0 			Displ_Orientat_270
 #define TOUCH90 		Displ_Orientat_0
 #define TOUCH180 		Displ_Orientat_90
@@ -148,11 +125,11 @@ typedef struct {
 //void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin);
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 
-uint8_t Touch_In_XY_area(uint16_t xpos,uint16_t ypos,uint16_t width,uint16_t height);
+uint8_t Is_Touch_XY_area(uint16_t xpos,uint16_t ypos,uint16_t width,uint16_t height);
 uint8_t Touch_GotATouch();
 uint8_t Touch_WaitForUntouch(uint16_t delay);
 uint8_t Touch_WaitForTouch(uint16_t delay);
-sTouchData Touch_GetXYtouch();
+sTouchData Touch_GetXYtouch(void);
 
 
 #endif /* __XPT2046_H */
