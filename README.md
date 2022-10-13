@@ -18,7 +18,7 @@ Developed software is based on HAL over STM32CubeIDE.<br>
 |Displays used||
 |---|---|
 |2.4 inch touch TFT-LCD 240x320|[AliExpress](https://it.aliexpress.com/item/32832952750.html)|
-||[Amazon](https://www.amazon.it/Hiletgo%C2%AE-320-risoluzione-Touch-panel-ILI9341/dp/B0798N2HHW/ref=sr_1_3_sspa)|
+||[Amazon](https://www.amazon.it/ILI9341-240x320-Display-pollici-Arduino/dp/B07YTW28FB)|
 |3.5 inch touch TFT-LCD 320x480|[AliExpress](https://www.aliexpress.com/item/1005003518881469.html)|
 | |[Amazon](https://www.amazon.it/LOLOVI-pollice-480x320-Seriale-Digitale/dp/B09FJYX7YQ/ref=sr_1_5)|
 				

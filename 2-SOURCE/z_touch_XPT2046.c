@@ -20,8 +20,12 @@ extern Displ_Orientat_e current_orientation;			// indicates the active display o
 volatile uint8_t Touch_PenDown=0;						// set to 1 by pendown interrupt callback, reset to 0 by sw
 
 
-void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin){
-//void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
+// STM32G0 HAL implementation provides separate functions handling callback from rising and falling edge GPIO interrupt,
+// while the other STM32 uC have a generic calback for both edges.
+// Properly uncomment the function declaration you need here 
+//
+//void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin){	// just for STM32G0 
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){		 	// for STM32F4, STM32G4 and more
 	if (GPIO_Pin==TOUCH_INT_Pin)
 		if (!HAL_GPIO_ReadPin(TOUCH_INT_GPIO_Port, GPIO_Pin))
 			Touch_PenDown=1;
