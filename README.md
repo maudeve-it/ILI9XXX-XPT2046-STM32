@@ -32,7 +32,7 @@ Developed software is based on HAL over STM32CubeIDE.<br>
 - ["How to" handle display backlight](./3-BACKLIGHT)
 - ["How to" run the project, test it, and learn using its functions](./4-HELLO_WORLD)
 
-Youtube video showing project characteristics and performance:<br>
+Youtube video showing project characteristics and performance: https://youtu.be/020k2vbLAPc<br>
 Youtube video with a detailled analysis of SPI communication to displays: https://youtu.be/oWx1-WmTwag<br>
 
 
@@ -84,7 +84,7 @@ Il sowtware sviluppato si basa su HAL attraverso STM32CubeIDE.
 - [Guida alla gestione della retroilluminazione](./3-BACKLIGHT)
 - [Guida per eseguire il progetto, testarlo, e conoscere le sue funzioni](./4-HELLO_WORLD)
 
-Video Youtube con le carateristiche e le prestazioni del progetto:<br>
+Video Youtube con le carateristiche e le prestazioni del progetto: https://youtu.be/020k2vbLAPc<br>
 Video Youtube con l'analisi dettagliata della comunicazione SPI con i display: https://youtu.be/oWx1-WmTwag<br>
 
 ---
