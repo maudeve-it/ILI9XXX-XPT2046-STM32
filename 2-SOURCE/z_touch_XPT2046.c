@@ -43,7 +43,14 @@ extern Displ_Orientat_e current_orientation;			// indicates the active display o
 volatile uint8_t Touch_PenDown=0;						// set to 1 by pendown interrupt callback, reset to 0 by sw
 
 
-//void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin){
+
+
+void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin){
+	HAL_GPIO_EXTI_Callback(GPIO_Pin);
+}
+
+
+
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
 	if (GPIO_Pin==TOUCH_INT_Pin)
 //		if (!HAL_GPIO_ReadPin(TOUCH_INT_GPIO_Port, GPIO_Pin))

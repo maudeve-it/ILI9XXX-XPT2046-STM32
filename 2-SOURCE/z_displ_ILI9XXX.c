@@ -118,7 +118,7 @@ void ILI9XXX_Init()
 #ifdef RGB666
 	Displ_WriteData((uint8_t *)"\x66",1);		// RGB666
 #endif
-#ifdef RGB565
+#ifdef _RGB565
 	Displ_WriteData((uint8_t *)"\x55",1);		// RGB565
 #endif
 	Displ_WriteCommand(ILI9XXX_RGB_INTERFACE);
@@ -387,7 +387,7 @@ void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t col
 
 
 // SETUP DISPLAY DATA BUFFER TO TRANSFER
-#ifdef RGB565 // setting up dispBuffer in RGB565 format
+#ifdef _RGB565 // setting up dispBuffer in RGB565 format
 
 	uint32_t data32;
 
@@ -426,7 +426,7 @@ void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t col
 //START WRITING TO DISPLAY
 	Displ_SetAddressWindow(x, y, x1, y1);
 
-#ifdef RGB565 // transferring RGB666 format dispBuffer
+#ifdef _RGB565 // transferring RGB666 format dispBuffer
 	times=(area>>(BUFLEVEL-1));  					//how many times buffer must be sent via SPI. It is (BUFFLEVEL-1) because area is 16-bit while dispBuffer is 8-bit
 	for  (k=0;k<times;k++) {
 		Displ_WriteData(dispBuffer,SIZEBUF);
@@ -812,7 +812,7 @@ void Displ_WChar(uint16_t x, uint16_t y, char ch, sFONT font, uint8_t size, uint
 			mask=0x80;
 	}
 
-#ifdef RGB565
+#ifdef _RGB565
 
 	uint16_t color1, bgcolor1;
 	uint16_t *dispBuffer16=(uint16_t *)dispBuffer;

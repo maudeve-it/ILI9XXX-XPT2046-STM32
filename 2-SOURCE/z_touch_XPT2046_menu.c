@@ -135,7 +135,7 @@ uint8_t CheckMenu(sMenuItem *menu,uint8_t menusize){
 uint8_t k,result;
 
 // if not registred any touch return a null choice
-	if (!Touch_GotATouch())
+	if (!Touch_GotATouch(1))
 		return 255;
 
 	for (k=0;k<menusize;k++){

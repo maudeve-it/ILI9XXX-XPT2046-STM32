@@ -103,7 +103,7 @@ void Touch_ShowData(void)
 
 	while (1) {
 
-		if (Touch_GotATouch())
+		if (Touch_GotATouch(1))
 			touchTime=HAL_GetTick();
 		touchDelay=(HAL_GetTick() - touchTime);
 

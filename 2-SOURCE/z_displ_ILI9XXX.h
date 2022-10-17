@@ -32,12 +32,12 @@
 
 /*||||||||||| USER/PROJECT PARAMETERS |||||||||||*/
 
-/*****************     STEP 7      *****************
+/*****************     STEP 0      *****************
  ************ Enable TouchGFX interface ************
  * uncommenting the below #define to enable
- * function interfacing TouchGFX
+ * functions interfacing TouchGFX
  ***************************************************/
-#define DISPLAY_USING_TOUCHGFX
+//#define DISPLAY_USING_TOUCHGFX
 
 
 /******************    STEP 1    *****************
@@ -98,7 +98,7 @@
 #define BKLIT_CHANNEL				TIM_CHANNEL_2	//channel used
 #define BKLIT_CCR					CCR2			//Capture-compare register used
 #define BKLIT_STBY_LEVEL 			1				//Display backlight level when in stand-by (levels are CNT values)
-#define BKLIT_INIT_LEVEL 			10				//Display backlight level on startup
+#define BKLIT_INIT_LEVEL 			50				//Display backlight level on startup
 
 
 /*****************     STEP 6      *****************
@@ -143,7 +143,7 @@
 #define RGB666
 #endif
 #ifdef ILI9488_V2
-#define RGB565
+#define _RGB565
 #endif
 
 
@@ -299,5 +299,7 @@ extern void touchgfxSignalVSync(void); //per avviare il rendering
 
 // vedi void TouchGFXGeneratedHAL::flushFrameBuffer(const touchgfx::Rect& rect)
 #endif /* DISPLAY_USING_TOUCHGFX */
+
+void Switch_Led();
 
 #endif /* __Z_DISPL_ILI9XXX_H */
