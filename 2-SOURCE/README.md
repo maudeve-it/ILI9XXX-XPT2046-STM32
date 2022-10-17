@@ -74,8 +74,10 @@ I file "z_touch_XPT2046_test" (.c e .h) devono essere copiati nel progetto solo 
 Aggiungendo "z_touch_XPT2046_test", il compilatore chiederà di attivare la libreria printf nelle proprietà del progetto  (seguire le istruzioni dei warning)<br> 
 <br>
 <br>
+
 Dovrebbe bastare, dovresti aver già fatto anche questo step:
 - [Guida per creare un progetto CubeIDE per questa libreria](../1-HOWTO)
+
 ora puoi andare alle sezioni:
 - [Guida alla gestione della retroilluminazione](../3-BACKLIGHT)
 - [Guida per eseguire il progetto, testarlo, e conoscere le sue funzioni](../4-HELLO_WORLD)
