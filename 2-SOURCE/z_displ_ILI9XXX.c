@@ -115,10 +115,10 @@ void ILI9XXX_Init()
 
 
 	Displ_WriteCommand(ILI9XXX_PIXEL_FORMAT);
-#ifdef RGB666
+#ifdef Z_RGB666
 	Displ_WriteData((uint8_t *)"\x66",1);		// RGB666
 #endif
-#ifdef _RGB565
+#ifdef Z_RGB565
 	Displ_WriteData((uint8_t *)"\x55",1);		// RGB565
 #endif
 	Displ_WriteCommand(ILI9XXX_RGB_INTERFACE);
@@ -387,7 +387,7 @@ void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t col
 
 
 // SETUP DISPLAY DATA BUFFER TO TRANSFER
-#ifdef _RGB565 // setting up dispBuffer in RGB565 format
+#ifdef Z_RGB565 // setting up dispBuffer in RGB565 format
 
 	uint32_t data32;
 
@@ -402,7 +402,7 @@ void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t col
 		*(buf32Pos++)=data32; 						// loads buffer moving 32bit-words
 
 #endif
-#ifdef RGB666 // setting up dispBuffer in RGB666 format
+#ifdef Z_RGB666 // setting up dispBuffer in RGB666 format
 	uint32_t datasize;
 
 	uint8_t Rbyte=(color & 0xF800)>>8;
@@ -426,14 +426,14 @@ void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t col
 //START WRITING TO DISPLAY
 	Displ_SetAddressWindow(x, y, x1, y1);
 
-#ifdef _RGB565 // transferring RGB666 format dispBuffer
+#ifdef Z_RGB565 // transferring RGB666 format dispBuffer
 	times=(area>>(BUFLEVEL-1));  					//how many times buffer must be sent via SPI. It is (BUFFLEVEL-1) because area is 16-bit while dispBuffer is 8-bit
 	for  (k=0;k<times;k++) {
 		Displ_WriteData(dispBuffer,SIZEBUF);
 	}
 	Displ_WriteData(dispBuffer,(area<<1)-(times<<BUFLEVEL));
 #endif
-#ifdef RGB666 // transferring RGB666 format dispBuffer
+#ifdef Z_RGB666 // transferring RGB666 format dispBuffer
 	times=(area/datasize);  					//how many times buffer must be sent via SPI.
 	for  (k=0;k<times;k++) {
 		Displ_WriteData(dispBuffer,datasize);
@@ -812,7 +812,7 @@ void Displ_WChar(uint16_t x, uint16_t y, char ch, sFONT font, uint8_t size, uint
 			mask=0x80;
 	}
 
-#ifdef _RGB565
+#ifdef Z_RGB565
 
 	uint16_t color1, bgcolor1;
 	uint16_t *dispBuffer16=(uint16_t *)dispBuffer;
@@ -850,7 +850,7 @@ void Displ_WChar(uint16_t x, uint16_t y, char ch, sFONT font, uint8_t size, uint
 	bufSize<<=1;
 #endif
 
-#ifdef RGB666
+#ifdef Z_RGB666
 //  setting up char image in RGB666 format
 
 	uint8_t Rcol=(color & 0xF800)>>8;

@@ -36,6 +36,10 @@
  ************ Enable TouchGFX interface ************
  * uncommenting the below #define to enable
  * functions interfacing TouchGFX
+ *
+ * DO NOT ENABLE TouchGFX with this library: still
+ * under developement!
+ *
  ***************************************************/
 //#define DISPLAY_USING_TOUCHGFX
 
@@ -137,13 +141,13 @@
  ***** to use on the display RGB565 and RGB666 *****
  ***************************************************/
 #ifdef ILI9341
-#define RGB565
+#define Z_RGB565
 #endif
 #ifdef ILI9488_V1
-#define RGB666
+#define Z_RGB666
 #endif
 #ifdef ILI9488_V2
-#define _RGB565
+#define Z_RGB565
 #endif
 
 
