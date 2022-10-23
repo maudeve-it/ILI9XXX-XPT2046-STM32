@@ -134,7 +134,7 @@
 #endif
 #ifdef ILI9488_V2
 #define ILI9488
-
+#endif
 
 /***************   color depth      ****************
  *** choose one of the two color depth available *** 
