@@ -304,6 +304,4 @@ extern void touchgfxSignalVSync(void); //per avviare il rendering
 // vedi void TouchGFXGeneratedHAL::flushFrameBuffer(const touchgfx::Rect& rect)
 #endif /* DISPLAY_USING_TOUCHGFX */
 
-void Switch_Led();
-
 #endif /* __Z_DISPL_ILI9XXX_H */
