@@ -188,7 +188,7 @@ typedef enum {
 // set the buffers size as per BUFLEVEL and DISPLAY_USING_TOUCHGFX
 // (if using TouchGFX, don't buffers from this library)
 #define SIZEBUF (1<<BUFLEVEL)
-#endif
+
 
 /*******************************
  * Color names
