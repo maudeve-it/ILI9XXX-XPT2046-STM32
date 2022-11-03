@@ -88,12 +88,12 @@ Enable 5 more pins as GPIO_Output:
 - crea un nuovo progetto su STM32CubeIDE
 - attiva una porta SPI con questa configurazione:
 
-|Marametro Mode setting|valore|
+|Campo Mode setting|valore|
 |---|---|
 |mode|Full-Duplex Master|
 |NSS|Disable|
  
-|Parameter setting|valore|
+|Campo Parameter setting|valore|
 |---|---|
 |Frame format|Motorola|
 |Data size|8 bit|
