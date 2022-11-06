@@ -57,7 +57,7 @@ Youtube video with a detailled analysis of SPI communication to displays: https:
 <br>
 <br>
 
-# ST7735S-STM32
+# ILI9XXX/XPT2046-STM32
 
 La repository "ILI9XXX/XPT2046-STM32" contiene il codice relativi ad un set di funzioni per STM32 per la gestione di un display LCD a colori da 1,8 pollici controllato dal driver SPI ST7735S.
 
