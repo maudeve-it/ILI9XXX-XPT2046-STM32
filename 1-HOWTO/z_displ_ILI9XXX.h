@@ -1,6 +1,6 @@
 /*
  * 	z_displ_ILI9488.h
- *	rel. TouchGFX.1.0
+ *	rel. TouchGFX.1.1
  *
  *
  *  Created on: 2 giu 2022
@@ -8,17 +8,16 @@
  *
  *  licensing: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/c097f0e7d569845c1cf98e8d930f2224e427fd54/LICENSE
  *
- *  Setup parameters following below instructions from STEP 1 to STEP 7
- *  then
- *	add these instructions into your main()
- *  (good position is in: USER CODE BEGIN 2)
+ *	To install and use this library follow instruction on: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32
  *
- *  (if not using TouchGFX)
+ *  These are the init instruction to put in you main() USER CODE BEGIN 2
+ *
+ *  (if Direct Handling)
  *  Displ_Init(Displ_Orientat_0);			// (mandatory) initialize display controller - set orientation parameter as per your needs
  *  Displ_CLS(BLACK);						// clear the screen - BLACK or any other color you prefer
  *  Displ_BackLight('I');  					// (mandatory) initialize backlight
  *
- *  (if TouchGFX)
+ *  (if using TouchGFX)
  *  Displ_Init(Displ_Orientat_0);			// (mandatory) initialize display controller - set orientation parameter as per TouchGFX setup
  * 	touchgfxSignalVSync();					// ask display syncronization
  *  Displ_BackLight('I');  					// (mandatory) initialize backlight
@@ -36,16 +35,12 @@
  ************ Enable TouchGFX interface ************
  * uncommenting the below #define to enable
  * functions interfacing TouchGFX
- *
- * DO NOT ENABLE TouchGFX with this library: still
- * under developement!
- *
  ***************************************************/
-//#define DISPLAY_USING_TOUCHGFX
+#define DISPLAY_USING_TOUCHGFX
 
 
 /******************    STEP 1    *****************
- * which display are you usng?
+ * which display are you using?
  *************************************************/
 //#define ILI9341
 //#define ILI9488_V1
@@ -65,6 +60,7 @@
  ***************** SPI PORT SPEED  *****************
  * define HERE the prescaler value to assign SPI port 
  * when transferring data to/from DISPLAY or TOUCH
+ * Keep in mind that Touch SPI Baudrate should be no more than 1 Mbps
  ***************************************************/
 #define DISPL_PRESCALER SPI_BAUDRATEPRESCALER_2     //prescaler assigned to display SPI port
 #define TOUCH_PRESCALER SPI_BAUDRATEPRESCALER_256	//prescaler assigned to touch device SPI port
@@ -259,6 +255,7 @@ typedef enum {
 #define _swap_int16_t(a, b)  { int16_t t = a; a = b; b = t; }
 
 
+#ifndef DISPLAY_USING_TOUCHGFX
 void Displ_drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color);
 void Displ_fillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color);
 
@@ -277,9 +274,10 @@ void Displ_Orientation(Displ_Orientat_e orientation);
 void Displ_Pixel(uint16_t x, uint16_t y, uint16_t color);
 void Displ_WChar(uint16_t x, uint16_t y, char ch, sFONT font, uint8_t size, uint16_t color, uint16_t bgcolor);
 void Displ_WString(uint16_t x, uint16_t y, const char* str, sFONT font, uint8_t size, uint16_t color, uint16_t bgcolor);
-void Displ_Transmit(GPIO_PinState DC_Status, uint8_t* data, uint16_t dataSize );
-void Displ_WriteCommand(uint8_t cmd);
-void Displ_WriteData(uint8_t* buff, size_t buff_size);
+#endif
+void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color);
+void Displ_Orientation(Displ_Orientat_e orientation);
+void Displ_Init(Displ_Orientat_e orientation);
 
 void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi);
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi);
@@ -288,20 +286,10 @@ uint32_t  Displ_BackLight(uint8_t cmd);
 
 
 #ifdef DISPLAY_USING_TOUCHGFX
-
-//Developing integration with TouchGFX
-
-//richiesto da Partial Frame Buffer
-
 int touchgfxDisplayDriverTransmitActive();
 void touchgfxDisplayDriverTransmitBlock(const uint8_t* pixels, uint16_t x, uint16_t y, uint16_t w, uint16_t h);
-extern void DisplayDriver_TransferCompleteCallback(); // da richiamare nel transmit complete callback con partial frame buffer
-extern void touchgfxSignalVSync(void); //per avviare il rendering
-
-// invece bisogna modificare HAL::flushFrameBuffer(Rect r) se single o double frame buffer
-// vedere-modificare OSWrappers::waitForVSync
-
-// vedi void TouchGFXGeneratedHAL::flushFrameBuffer(const touchgfx::Rect& rect)
+extern void DisplayDriver_TransferCompleteCallback();
+extern void touchgfxSignalVSync(void);
 #endif /* DISPLAY_USING_TOUCHGFX */
 
 #endif /* __Z_DISPL_ILI9XXX_H */

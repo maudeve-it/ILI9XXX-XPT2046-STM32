@@ -1,28 +1,24 @@
+
 _**Piu' sotto, al termine della lingua inglese trovi il testo in italiano. </i>**_
 _**Below English text you'll find the Italian version</i>**_
 
 <br>
 
+
 ## So...
 
 Now that you have created a new CubeIDE project as per these instructions:
 
-- ["How to" create a CubeIDE project for this library](./1-HOWTO)
-
-Now that you have added the library source and header files to the project as per these instructions:
-
-- ["How to" add this software to the project](./2-SOURCE)
+- ["How to" create a CubeIDE project for this library](../1-HOWTO)
 
 Now that you have chosen the backlight handling mode and set it as per these instructions:
 
-- ["How to" handle display backlight](./3-BACKLIGHT)
-
-
+- ["How to" handle. display backlight](../2-BACKLIGHT)
 
 
 You finally can setup the last program parameters and run it!<br>
-
----
+Follow the below instructions if you like directly handling the display through the graphics functions in the library.
+Otherwise, if you want to use the STM TouchGFX package, do not proceed here and go to [(TouchGFX) "How to" add this library to the created project](../3A-TOUCHGFX)
 
 
 ##### Parameters setup
@@ -31,18 +27,16 @@ you must "tune" the software parameters in two files:<br>
 - z_touch_XPT2046.h<br>
 
 into "z_displ_ILI9XXX.h" file you have to setup this configuration:
+- step 0 - TouchGFX parameter: ok, if you are here reading, it means you have to add a comment to parameter in section 0, disabling TouchGFX handling
 - step 1 - define the display you are using (ILI9346 or ILI9488 V1.0 or V2.0) uncommenting the related #define
 - step 2 - Port Parameters: here you have to set two macro constant with the SPI port name connecting display (see below "z_touch_XPT2046.h" also)
 - step 3 - Port Speed: here you must assign bitrate SPI prescaler when transferring data to display or to/from touch sensor. Consider that touch uses baudrates  below 2MBps 
 - step 4 - SPI communication mode: uncomment the macro definition related to enabled communication mode (Polling mode, Interrupt mode or DMA mode). You must uncomment no less and no more than ONE definition here
 - step 5 - Backlight Mode: see [BACKLIGHT page](../BACKLIGHT)  
-- step 6 - Buffer size: define the "Buffer Level" you like (assign a value between 10 and 16 included) see [this youtube video](https://youtu.be/oWx1-WmTwag) for information and comments about its sizes available.  
-- step 7 - TouchGFX integration: still under developing. Leave dhe #define commented.  
+- step 6 - Buffer size: TouchGFX don't use library buffers which will be disabled, so parameter set here is not used 
 
 into "z_touch_XPT2046.h" file you have to setup this configuration:
-- section 1 - Port Parameters: here you have to set two macro constant with the SPI port name connecting touch sensor
-
----
+- step 1 - Port Parameters: here you have to set two macro constant with the SPI port name connecting touch sensor
 
 
 ##### main.c setup
@@ -53,16 +47,12 @@ in main.c you now need to initialize display before entering in the main loop, t
   ```sh
   ...
   /* USER CODE BEGIN 2 */			// "USER CODE BEGIN 2" is after all system initializations and before entering the main loop. Good place to initialize display
-  Displ_Init(Displ_Orientat_0);		// initialize the display and set the initial display orientation - THIS FUNCTION MUST PRECEED ANY OTHER DISPLAY FUNCTION CALL
+  Displ_Init(Displ_Orientat_0);		// initialize the display and set the initial display orientation (here is orientaton: 0°) - THIS FUNCTION MUST PRECEED ANY OTHER DISPLAY FUNCTION CALL.  
   Displ_CLS(BLACK);			// after initialization (above) and before turning on backlight (below), you can draw the initial display appearance. (here I'm just clearing display with a black background)
   Displ_BackLight('I');  			// initialize backlight and turn it on at init level
   /* USER CODE END 2 */
   ...
   ```
-
----
-
-
 ##### running test functions
 
 Here some test function you can run copying the "_test" files into the project.
@@ -70,7 +60,7 @@ You can use them to:
 -	check the correct system installation and configuration
 -	learn how to use the library functions
 
-Here I show three demo/test functions called in the same main loop, but I suggest you to test them one by one, following the below order.
+Below, three demo/test functions put in the same main loop, but I suggest you to test them one by one, following the below order.
 
   ```sh
   ...
@@ -91,7 +81,7 @@ Here I show three demo/test functions called in the same main loop, but I sugges
 
 ##### using library functions in your projects
 
-passing the test, the display and the library is fully integrated in your software (how is the performance?).
+Passing the test, display and the library are fully integrated in your software.
 Now you can use the library as per your needs:
 
 
@@ -117,43 +107,38 @@ hanging program until event in the function name or <i>delay</i> expired
 <br>
 <br>
 
+---
 
 ## Dunque...
 Ora che hai creato un nuovo progetto con CubeIDE project seguendo queste istruzioni:
 
 - [Guida per configurare un progetto con CubeIDE](./1-HOWTO)
 
-Ora che hai aggiunto i source e header files al progetto, seguendo queste istruzioni:
-
-- [Guida per integrare il software](./2-SOURCE)
-
 Ora che hai scelto la gestione della retroilluminazione, seguendo queste istruzioni:
 
-- [Guida alla gestione della retroilluminazione](./3-BACKLIGHT)
+- [Guida alla gestione della retroilluminazione](./2-BACKLIGHT)
 
 Puoi finalmente configurare gli ultimi parametri ed eseguire il programma!
+Segui le istruzioni sotto se vuoi gestire direttamente il display attraverso le funzioni grafiche della libreria.<br>
+Se invece vuoi usare il pacchetto STM TouchGFX, non procedere qui e passa a [(TouchGFX) Guida per aggiungere la libreria al progetto creato](./2A-TOUCHGFX)
 
 
-
-##### Impostazione parametri
+##### Configurazione Parametri
 Devi "mettere a punto" i parametri del software in due file:
 - z_displ_ILI9XXX.h
 - z_touch_XPT2046.h
 
 in "z_displ_ILI9XXX.h" devi impostare questa configurazione:
+- step 0 - TouchGFX: se stai leggendo qui devi commentare la macro nella sezione 0, disabilitando la gestione TouchGFX  
 - step 1 - Definisci il display che stai usando (ILI9346 or ILI9488 V1.0 or V2.0) togliendo ail commento al #define relativo
 - step 2 - Port Parameters: qui devi impostare due costanti macro con il nome della porta SPI a cui è connesso il display (vedi anche "z_touch_XPT2046.h", sotto)
 - step 3 - Port Speed: qui devi assegnare il valore al bitrate SPI prescaler quando trasferisce dati al display o al/dal sensore touch. Considera che il sensore touch comunica sotto i 2MBps 
 - step 4 - SPI communication mode: togli il commento alla definizione definition relativa al tipo di comunicazione attivato (Polling mode, Interrupt mode o DMA mode). Devi togliere il commento ad una riga (NON di più e NON di meno) 
 - step 5 - Backlight Mode: vedi la [pagina BACKLIGHT](../BACKLIGHT)  
 - step 6 - Buffer size: definisci il "Buffer Level" che preferisci (assegna un valore tra 10 e 16 included) vedi [il video youtube](https://youtu.be/oWx1-WmTwag) per informazioni e commenti sulle sue dimensioni.  
-- step 7 - Integrazione con TouchGFX: in fase di sviluppo. Lasciare commentata la #define.  
 
 in "z_touch_XPT2046.h" devi impostare i seguenti parametri:
-- sezione 1 - Port Parameters: qui devi impostare due costanti macro con il nome della porta SPI a cui è connesso il display 
-
-
----
+- step 1 - Port Parameters: qui devi impostare due costanti macro con il nome della porta SPI a cui è connesso il display 
 
 
 ##### impostazione di main.c 
@@ -199,7 +184,7 @@ Qui mostro tre funzioni di test chiamate nello stesso main loop, ma suggerisco d
 
 ##### usare la libreria nei tuoi progetti
 
-Superando il test hai la prova che il display e la libreria sono pienamente integrati nel progetto (come sono le prestazioni?).
+Superando i test hai la prova che il display e la libreria sono pienamente integrati nel progetto.
 Ora puoi usare la libreria secondo le necessità:
 
 
@@ -222,7 +207,3 @@ Ci sono alrtre due funzioni:
 -	<i><b>Touch_WaitForUntouch(delay)</b></i>
 <br>
 che arrestano il programma fino all'evento indicato dal nome della funzione oppure allo scadere del <i>delay</i>.
-<br>
-<br>
-
-

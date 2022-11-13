@@ -1,3 +1,7 @@
+# Now library is TouchGFX compatible - Ora la libreria è compatibile con TouchGFX
+<br>
+<br>
+
 _**Piu' sotto, al termine della lingua inglese trovi il testo in italiano. </i>**_
 _**Below English text you'll find the Italian version</i>**_
 
@@ -6,10 +10,12 @@ _**Below English text you'll find the Italian version</i>**_
 
 # ILI9XXX/XPT2046-STM32
 
-"ILI9XXX/XPT2046-STM32" repository contains the source code for a set of functions for an STM32 microcontroller, handling ILI9341 240x320 and ILI9488 320x480 touch display.<br>
-<br>
+"ILI9XXX/XPT2046-STM32" repository contains the source code for a set of functions for an STM32 microcontroller handling a ILI9341 based 240x320 and ILI9488 based 320x480 touch display.<br>
+Library allows to handle the display using either TouchGFX or directly drawing on screen through library functions.
+
 Developed software is based on HAL over STM32CubeIDE.<br>
-|Software has been tested over||
+
+|Software has been tested over:||
 |---|---|
 |STM32F411CE (Weact Studio board)|https://github.com/WeActTC/MiniSTM32F4x1|
 |STM32G432KB (Nucleo32 STM board)|https://www.st.com/en/evaluation-tools/nucleo-g431kb.html|
@@ -27,14 +33,14 @@ Developed software is based on HAL over STM32CubeIDE.<br>
 ## Project Folders
 
 (I suggest you to follow this reading order) 
-- ["How to" create CubeIDE project using this software](./1-HOWTO)
-- [(Software folder) "How to" add this library to the created project](./2-SOURCE)
-- ["How to" handle display backlight](./3-BACKLIGHT)
-- ["How to" run the project, test it, and learn using its functions](./4-HELLO_WORLD)
+- ["How to" create CubeIDE project using this software (source folder)](./1-HOWTO)
+- ["How to" handle display backlight](./2-BACKLIGHT)
+- [(Direct handling) "How to" add this library to the created project](./3B-DIRECT)
+- [(TouchGFX) "How to" add this library to the created project](./3A-TOUCHGFX)
 
-Youtube video showing project characteristics and performance: https://youtu.be/020k2vbLAPc<br>
+Youtube video showing TouchGFX integration characteristics and performance: https://youtu.be/g1siKaPox88<br>
+Youtube video showing performing tests of library: https://youtu.be/020k2vbLAPc<br>
 Youtube video with a detailled analysis of SPI communication to displays: https://youtu.be/oWx1-WmTwag<br>
-
 
 ---
 > Please Note:
@@ -50,7 +56,6 @@ Youtube video with a detailled analysis of SPI communication to displays: https:
 
 ## NOTES
 
-202207011: I am still working on these repositories. Consider them uncomplete until this note is deleted.
 
 ---
 
@@ -59,9 +64,11 @@ Youtube video with a detailled analysis of SPI communication to displays: https:
 
 # ILI9XXX/XPT2046-STM32
 
-La repository "ILI9XXX/XPT2046-STM32" contiene il codice relativi ad un set di funzioni per STM32 per la gestione di un display LCD a colori da 1,8 pollici controllato dal driver SPI ST7735S.
+La repository "ILI9XXX/XPT2046-STM32" contiene il codice relativi ad un set di funzioni per STM32 per la gestione di display LCD touch da 240x320 basato su ILI9341 e da 320x480 basato su ILI9488.<br>
+La libreria di funzioni permette di gestire il display in un progetto basato su TouchGFX oppure scrivendo direttamente sul display tramite le funzioni disponibili.<br>
 
-Il sowtware sviluppato si basa su HAL attraverso STM32CubeIDE.
+Il software sviluppato, si basa su HAL attraverso STM32CubeIDE.<br>
+
 |Il software è stato testato su||
 |---|---|
 |STM32F411CE (scheda Weact Studio)|https://github.com/WeActTC/MiniSTM32F4x1|
@@ -79,13 +86,14 @@ Il sowtware sviluppato si basa su HAL attraverso STM32CubeIDE.
 
 ## Cartelle del progetto 
 
-- [Guida per creare un progetto CubeIDE per usare questa libreria](./1-HOWTO)
-- [(Il Codice è qui) Guida per aggiungere la libreria al progetto creato](./2-SOURCE)
-- [Guida alla gestione della retroilluminazione](./3-BACKLIGHT)
-- [Guida per eseguire il progetto, testarlo, e conoscere le sue funzioni](./4-HELLO_WORLD)
+- [Guida per creare un progetto CubeIDE per usare questa libreria (il codice è qui)](./1-HOWTO)
+- [Guida alla gestione della retroilluminazione](./2-BACKLIGHT)
+- [(gestione diretta) Guida per aggiungere la libreria al progetto creato](./3B-DIRECT)
+- [(TouchGFX) Guida per aggiungere la libreria al progetto creato](./3A-TOUCHGFX)
 
-Video Youtube con le carateristiche e le prestazioni del progetto: https://youtu.be/020k2vbLAPc<br>
-Video Youtube con l'analisi dettagliata della comunicazione SPI con i display: https://youtu.be/oWx1-WmTwag<br>
+Video Youtube con le carateristiche e le prestazioni dell'integrazione TouchGFX: https://youtu.be/g1siKaPox88<br>
+Video Youtube con le carateristiche e le prestazioni dellla libreria: https://youtu.be/020k2vbLAPc<br>
+Video Youtube con una analisi di dettaglio sulla comunicazione con i display: https://youtu.be/oWx1-WmTwag<br>
 
 ---
 > Il software e gli schemi di progetto come i layout PCB in questa serie di repository 
@@ -101,7 +109,6 @@ La serie di font usata è fornita da STMicroelectronics. Licenza d'uso all'inter
 
 ## NOTE
 
-20220711: Sto ancora aggiornando le repository. Considerale incomplete finche' non rimuovero' questa nota. 
 
 ---
 

@@ -1,11 +1,13 @@
 /*
  * 	z_displ_ILI9488.c
- * 	rel. TouchGFX.1.0
+ * 	rel. TouchGFX.1.1
  *
  *  Created on: May 30, 2022
  *      Author: mauro
  *
  *  licensing: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/c097f0e7d569845c1cf98e8d930f2224e427fd54/LICENSE
+ *
+ *	To install and use this library follow instruction on: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32
  *
  */
 
@@ -33,7 +35,6 @@ static uint8_t *dispBuffer=dispBuffer1;
 
 
 
-
 /******************************************
  * @brief	enable display, disabling touch
  * 			device selected if CS low
@@ -47,6 +48,82 @@ void Displ_Select(void) {
 		}
 	}
 }
+
+
+
+
+/**************************
+ * @BRIEF	engages SPI port communicating with displayDC_Status
+ * 			depending on the macro definition makes transmission in Polling/Interrupt/DMA mode
+ * @PARAM	DC_Status 	indicates if sending command or data
+ * 			data		buffer data to send
+ * 			dataSize	number of bytes in "data" to be sent
+ * 			isTouchGFXBuffer 1 only when called by touchgfxDisplayDriverTransmitBlock (for byte endian conversion). All other cases 0
+ **************************/
+void Displ_Transmit(GPIO_PinState DC_Status, uint8_t* data, uint16_t dataSize, uint8_t isTouchGFXBuffer ){
+
+	while (!Displ_SpiAvailable) {};  // waiting for a free SPI port. Flag is set to 1 by transmission-complete interrupt callback
+
+	HAL_GPIO_WritePin(DISPL_DC_GPIO_Port, DISPL_DC_Pin, DC_Status);
+	Displ_Select();
+
+	if (isTouchGFXBuffer){
+		uint32_t *limit=(uint32_t*)(data+dataSize);
+		for (uint32_t *data32=(uint32_t*)data; data32<limit; data32++) {
+			*data32=__REV16(*data32);
+		}
+	}
+
+
+#ifdef DISPLAY_SPI_INTERRUPT_MODE
+		Displ_SpiAvailable=0;
+		HAL_SPI_Transmit_IT(&DISPL_SPI_PORT , data, dataSize);
+#else
+#ifdef DISPLAY_SPI_DMA_MODE
+		if (dataSize<DISPL_DMA_CUTOFF) {
+#endif
+			Displ_SpiAvailable=0;
+			HAL_SPI_Transmit(&DISPL_SPI_PORT , data, dataSize, HAL_MAX_DELAY);
+			Displ_SpiAvailable=1;
+
+#ifdef DISPLAY_USING_TOUCHGFX
+			if (isTouchGFXBuffer){
+				DisplayDriver_TransferCompleteCallback();
+			}
+#endif
+#ifdef DISPLAY_SPI_DMA_MODE
+		} else {
+			Displ_SpiAvailable=0;
+			HAL_SPI_Transmit_DMA(&DISPL_SPI_PORT , data, dataSize);
+		}
+#endif
+#endif
+	}
+
+
+
+
+/**********************************
+ * @BRIEF	transmit a byte in a SPI_COMMAND format
+ **********************************/
+void Displ_WriteCommand(uint8_t cmd){
+	Displ_Transmit(SPI_COMMAND, &cmd, sizeof(cmd),0);
+}
+
+
+
+
+/**********************************
+ * @BRIEF	transmit a set of data in a SPI_DATA format
+ * @PARAM 	data		buffer data to send
+ * 			dataSize	number of bytes in "data" to be sent
+ * 			isTouchGFXBuffer 1 only when called by touchgfxDisplayDriverTransmitBlock (for byte endian conversion). All other cases 0
+ **********************************/
+void Displ_WriteData(uint8_t* buff, size_t buff_size, uint8_t isTouchGFXBuffer){
+	if (buff_size==0) return;
+	Displ_Transmit(SPI_DATA, buff, buff_size, isTouchGFXBuffer);
+}
+
 
 
 
@@ -116,16 +193,16 @@ void ILI9XXX_Init()
 
 	Displ_WriteCommand(ILI9XXX_PIXEL_FORMAT);
 #ifdef Z_RGB666
-	Displ_WriteData((uint8_t *)"\x66",1);		// RGB666
+	Displ_WriteData((uint8_t *)"\x66",1,0);		// RGB666
 #endif
 #ifdef Z_RGB565
-	Displ_WriteData((uint8_t *)"\x55",1);		// RGB565
+	Displ_WriteData((uint8_t *)"\x55",1,0);		// RGB565
 #endif
 	Displ_WriteCommand(ILI9XXX_RGB_INTERFACE);
-	Displ_WriteData((uint8_t *)"\x80",1);        // disable MISO pin
+	Displ_WriteData((uint8_t *)"\x80",1,0);        // disable MISO pin
 
 	Displ_WriteCommand(ILI9XXX_RGB_INTERFACE);
-	Displ_WriteData((uint8_t *)"\x80",1);        // disable MISO pin
+	Displ_WriteData((uint8_t *)"\x80",1,0);        // disable MISO pin
 
 	Displ_WriteCommand(ILI9XXX_SLEEP_OUT);
 	HAL_Delay(120);
@@ -151,28 +228,13 @@ void Displ_SetAddressWindow(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) 
 
 	((uint32_t *)data)[0]=(((x2 & 0xFF)<<24) | ((x2 & 0xFF00)<<8) | ((x1 & 0xFF)<<8) | ((x1 & 0xFF00)>>8) );
 	Displ_WriteCommand(ILI9XXX_COLUMN_ADDR);
-	Displ_WriteData(data, 4);
+	Displ_WriteData(data, 4,0);
 
 	((uint32_t *)data)[0]=(((y2 & 0xFF)<<24) | ((y2 & 0xFF00)<<8) | ((y1 & 0xFF)<<8) | ((y1 & 0xFF00)>>8) );
 	Displ_WriteCommand(ILI9XXX_PAGE_ADDR);
-	Displ_WriteData(data, 4);
+	Displ_WriteData(data, 4,0);
 	Displ_WriteCommand(ILI9XXX_MEMWR);
 }
-
-
-
-
-
-/*****************************************
- * WARNING: non tested, never used
- *****************************************/
-void ILI9488_DrawImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t *data, uint32_t size){
-	Displ_SetAddressWindow(x, y, w+x-1, h+y-1);
-	Displ_WriteData(data,size);
-}
-
-
-
 
 
 
@@ -228,7 +290,7 @@ void Displ_Orientation(Displ_Orientat_e orientation){
 			break;
 	}
 	Displ_WriteCommand(ILI9XXX_MADCTL);
-	Displ_WriteData(data,1);
+	Displ_WriteData(data,1,0);
 	current_orientation = orientation;  //stores active orientation into a global variable for touch routines
 }
 
@@ -255,103 +317,6 @@ void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi) {
 		DisplayDriver_TransferCompleteCallback();
 #endif
 	}
-}
-
-
-
-
-/**************************
- * @BRIEF	engages SPI port communicating with displayDC_Status
- * 			depending on the macro definition makes transmission in Polling/Interrupt/DMA mode
- * @PARAM	DC_Status 	indicates if sending command or data
- * 			data		buffer data to send
- * 			dataSize	number of bytes in "data" to be sent
-***************************/
-void Displ_Transmit(GPIO_PinState DC_Status, uint8_t* data, uint16_t dataSize ){
-
-	while (!Displ_SpiAvailable) {};  // waiting for a free SPI port. Flag is set to 1 by transmission-complete interrupt callback
-
-	HAL_GPIO_WritePin(DISPL_DC_GPIO_Port, DISPL_DC_Pin, DC_Status);
-	Displ_Select();
-
-
-#ifdef DISPLAY_USING_TOUCHGFX
-		if ((DC_Status==SPI_DATA) && (dataSize>100)) {
-			uint32_t *limit=(uint32_t*)(data+dataSize);
-			for (uint32_t *data32=(uint32_t*)data; data32<limit; data32++) {
-				*data32=__REV16(*data32);
-			}
-		}
-#endif
-
-
-#ifdef DISPLAY_SPI_INTERRUPT_MODE
-		Displ_SpiAvailable=0;
-		HAL_SPI_Transmit_IT(&DISPL_SPI_PORT , data, dataSize);
-#else
-#ifdef DISPLAY_SPI_DMA_MODE
-		if (dataSize<DISPL_DMA_CUTOFF) {
-#endif
-			Displ_SpiAvailable=0;
-			HAL_SPI_Transmit(&DISPL_SPI_PORT , data, dataSize, HAL_MAX_DELAY);
-			Displ_SpiAvailable=1;
-#ifdef DISPLAY_SPI_DMA_MODE
-		}
-		else {
-			Displ_SpiAvailable=0;
-			HAL_SPI_Transmit_DMA(&DISPL_SPI_PORT , data, dataSize);
-		}
-#endif
-#endif
-	}
-
-
-
-
-
-/* 
- *
- */
-void Displ_WriteCommand(uint8_t cmd){
-	Displ_Transmit(SPI_COMMAND, &cmd, sizeof(cmd));
-}
-
-
-
-
-/* 
- *
- */
-void Displ_WriteData(uint8_t* buff, size_t buff_size){
-	if (buff_size==0) return;
-	Displ_Transmit(SPI_DATA, buff, buff_size);
-}
-
-
-
-
-
-/***********************
- * @brief	print a single pixel
- * @params	x, y	pixel position on display
- * 			color	... to be printed
- ***********************/
-void Displ_Pixel(uint16_t x, uint16_t y, uint16_t color) {
-    if((x >= _width) || (y >= _height))
-        return;
-    Displ_FillArea(x, y, 1, 1, color);
-
-}
-
-
-
-
-/*****************
- * @brief	clear display with a color.
- * @param	bgcolor
- *****************/
-void Displ_CLS(uint16_t bgcolor){
-	Displ_FillArea(0, 0, _width, _height, bgcolor);
 }
 
 
@@ -429,16 +394,16 @@ void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t col
 #ifdef Z_RGB565 // transferring RGB666 format dispBuffer
 	times=(area>>(BUFLEVEL-1));  					//how many times buffer must be sent via SPI. It is (BUFFLEVEL-1) because area is 16-bit while dispBuffer is 8-bit
 	for  (k=0;k<times;k++) {
-		Displ_WriteData(dispBuffer,SIZEBUF);
+		Displ_WriteData(dispBuffer,SIZEBUF,0);
 	}
-	Displ_WriteData(dispBuffer,(area<<1)-(times<<BUFLEVEL));
+	Displ_WriteData(dispBuffer,(area<<1)-(times<<BUFLEVEL),0);
 #endif
 #ifdef Z_RGB666 // transferring RGB666 format dispBuffer
 	times=(area/datasize);  					//how many times buffer must be sent via SPI.
 	for  (k=0;k<times;k++) {
-		Displ_WriteData(dispBuffer,datasize);
+		Displ_WriteData(dispBuffer,datasize,0);
 	}
-	Displ_WriteData(dispBuffer,(area-times*datasize));      //transfer last data frame
+	Displ_WriteData(dispBuffer,(area-times*datasize),0);      //transfer last data frame
 #endif
 
 //BUFFER SWAP
@@ -449,6 +414,41 @@ void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t col
 
 
 
+#ifndef DISPLAY_USING_TOUCHGFX
+
+/*****************************************
+ * WARNING: non tested, never used
+ *****************************************/
+void ILI9488_DrawImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t *data, uint32_t size){
+	Displ_SetAddressWindow(x, y, w+x-1, h+y-1);
+	Displ_WriteData(data,size,0);
+}
+
+
+
+
+/***********************
+ * @brief	print a single pixel
+ * @params	x, y	pixel position on display
+ * 			color	... to be printed
+ ***********************/
+void Displ_Pixel(uint16_t x, uint16_t y, uint16_t color) {
+    if((x >= _width) || (y >= _height))
+        return;
+    Displ_FillArea(x, y, 1, 1, color);
+
+}
+
+
+
+
+/*****************
+ * @brief	clear display with a color.
+ * @param	bgcolor
+ *****************/
+void Displ_CLS(uint16_t bgcolor){
+	Displ_FillArea(0, 0, _width, _height, bgcolor);
+}
 
 
 
@@ -487,9 +487,6 @@ void Displ_drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color) {
         Displ_Pixel(x0 - y, y0 - x, color);
     }
 }
-
-
-
 
 
 
@@ -899,7 +896,7 @@ void Displ_WChar(uint16_t x, uint16_t y, char ch, sFONT font, uint8_t size, uint
 #endif
 
 	Displ_SetAddressWindow(x, y, x+wsize-1, y+font.Height-1);
-	Displ_WriteData(dispBuffer,bufSize);
+	Displ_WriteData(dispBuffer,bufSize,0);
 	dispBuffer = (dispBuffer==dispBuffer1 ? dispBuffer2 : dispBuffer1); // swapping buffer
 
 }
@@ -1032,7 +1029,7 @@ void Displ_CString(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, const cha
 }
 
 
-
+#endif
 
 
 
@@ -1114,7 +1111,7 @@ uint32_t  Displ_BackLight(uint8_t cmd) {
 
 
 /************************
- * @brief	TouchGFX integration: returns "to display" communication status
+ * @brief	TouchGFX integration: returns status of communication to the display
  * @return	1 = there is a transmission running
  * 			0 = no transmission
  ************************/
@@ -1132,5 +1129,8 @@ int touchgfxDisplayDriverTransmitActive(){
 void touchgfxDisplayDriverTransmitBlock(const uint8_t* pixels, uint16_t x, uint16_t y, uint16_t w, uint16_t h){
 	//START WRITING TO DISPLAY
 		Displ_SetAddressWindow(x, y, x+w-1, y+h-1);
-		Displ_WriteData((uint8_t* )pixels,((w*h)<<1));
+		Displ_WriteData((uint8_t* )pixels,((w*h)<<1),1);
 }
+
+
+

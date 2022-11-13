@@ -142,8 +142,8 @@ void Touch_ShowData(void)
  * until touch is released
  ****************************************/
 void Touch_TestDrawing() {
-	uint16_t px=0,py;
-	sTouchData posTouch;
+	uint16_t px=0,py,npx,npy;
+	uint8_t isTouch;
 
 	for (uint8_t k=0;k<4;k++){
 
@@ -168,14 +168,14 @@ void Touch_TestDrawing() {
 		Touch_WaitForTouch(0);
 
 		while (1) {
-			posTouch=Touch_GetXYtouch();
-			if (!posTouch.isTouch) //if there is no touch: stop drawing
+			Touch_GetXYtouch(&npx,&npy,&isTouch);
+			if (!isTouch) //if there is no touch: stop drawing
 				break;
 			if (px!=0)
 				DrawCross(px,py,DD_BLUE);
-			DrawCross(posTouch.Xpos,posTouch.Ypos,WHITE);
-			px=posTouch.Xpos;
-			py=posTouch.Ypos;
+			DrawCross(npx,npy,WHITE);
+			px=npx;
+			py=npy;
 			HAL_Delay(30);
 		}
 	}

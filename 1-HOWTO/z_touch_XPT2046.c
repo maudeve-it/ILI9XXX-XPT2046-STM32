@@ -1,34 +1,29 @@
 /*
  * z_touch_XPT2046.c
- * 	rel. TouchGFX.1.0
+ * 	rel. TouchGFX.1.1
  *
  *  Created on: 2 giu 2022
  *      Author: mauro
  *
  *  licensing: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/c097f0e7d569845c1cf98e8d930f2224e427fd54/LICENSE
  *
- */
+ *	Install and use this library following instruction on: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32
+ *
+*/
 
 
 /*
  *
- * copy the below lines of code and replace sampleTouch into STM32TouchController.cpp file
+ * change "return" inside sampleTouch() into STM32TouchController.cpp file
+ * as below
+ * and add also the below include
  *
- *
+
+#include "main.h"
+
 bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
 {
-	sTouchData XYpos;
-
-	if (Touch_GotATouch(1)) {
-		XYpos=Touch_GetXYtouch();
-		if (XYpos.isTouch) {
-			x = XYpos.Xpos;
-			y = XYpos.Ypos;
-			return true;
-		} else
-			return false;
-	}
-	return false;
+	return ((bool) Touch_TouchGFXSampleTouch(&x, &y));
 }
 */
 
@@ -44,18 +39,29 @@ volatile uint8_t Touch_PenDown=0;						// set to 1 by pendown interrupt callback
 
 
 
-
-void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin){
-	HAL_GPIO_EXTI_Callback(GPIO_Pin);
+void Touch_HandlePenDownInterrupt (){
+		Touch_PenDown=1;
+#ifdef DISPLAY_USING_TOUCHGFX
+		touchgfxSignalVSync();
+#endif
 }
 
 
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin){
-	if (GPIO_Pin==TOUCH_INT_Pin)
-//		if (!HAL_GPIO_ReadPin(TOUCH_INT_GPIO_Port, GPIO_Pin))
-			Touch_PenDown=1;
+	if (GPIO_Pin==TOUCH_INT_Pin){
+		Touch_HandlePenDownInterrupt();
+	}
+}
 
+
+
+void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin){
+	HAL_GPIO_EXTI_Callback(GPIO_Pin);
+}
+
+void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin){
+	HAL_GPIO_EXTI_Callback(GPIO_Pin);
 }
 
 
@@ -117,7 +123,7 @@ uint16_t Touch_PollAxis(uint8_t axis) {
 	HAL_NVIC_ClearPendingIRQ(TOUCH_INT_EXTI_IRQn);
 	HAL_NVIC_EnableIRQ(TOUCH_INT_EXTI_IRQn);
 //	HAL_NVIC_ClearPendingIRQ(TOUCH_INT_EXTI_IRQn);
-	Touch_PenDown=0;    //reset interrupt flag, anyway.
+//	Touch_PenDown=0;    //reset interrupt flag, anyway.
 
 	return poll16;
 }
@@ -129,12 +135,13 @@ uint16_t Touch_PollAxis(uint8_t axis) {
 /*********************************************************************************
  * @brief			polls touch screen and returning its XY screen position
  * 					that's regardless touch recording flag (interrupt received)
- * @return	xypos	isTouch 	is 1 if detected a touch, otherwise 0;
- * 					Xpos,Ypos	in case isTouch=1 contain touch coordinates
+ * @return	x,y		in case isTouch=1 contain touch coordinates
+ * 			isTouch is 1 if detected a touch, otherwise 0;
  *********************************************************************************/
-sTouchData Touch_GetXYtouch(void) {
+void Touch_GetXYtouch(uint16_t *x, uint16_t *y, uint8_t *isTouch){
+
 const uint8_t pollingLevel=4;
-sTouchData XYposition;
+//sTouchData XYposition;
 uint8_t k;
 
 uint32_t touchx,touchy,touch;
@@ -149,8 +156,8 @@ uint32_t touchx,touchy,touch;
 		touch += Touch_PollAxis(Z_AXIS);
 	touch >>= pollingLevel;  //takes the average
 	if (touch<=Z_THRESHOLD) {
-		XYposition.isTouch=0;
-		return XYposition;	// no touch: return 0
+		*isTouch=0;
+		return;	// no touch: return 0
 	}
 
 	// reading X
@@ -159,8 +166,8 @@ uint32_t touchx,touchy,touch;
 		touch += Touch_PollAxis(X_AXIS);
 	touch >>= pollingLevel;  //takes the average
 	if (touch<=X_THRESHOLD) {
-		XYposition.isTouch=0;
-		return XYposition;	// no touch: return 0
+		*isTouch=0;
+		return;	// no touch: return 0
 	}
 	touchx=(AX*touch+BX);
 
@@ -178,26 +185,26 @@ uint32_t touchx,touchy,touch;
 	switch (current_orientation)
 	{
 	case TOUCH0:
-		XYposition.Xpos=touchx;
-		XYposition.Ypos=touchy;
+		*x=touchx;
+		*y=touchy;
 		break;
 	case TOUCH90:
-		XYposition.Xpos=touchy;
-		XYposition.Ypos=TOUCH_0_WIDTH-touchx;
+		*x=touchy;
+		*y=(TOUCH_0_WIDTH-touchx);
 		break;
 	case TOUCH180:
-		XYposition.Xpos=TOUCH_0_WIDTH-touchx;
-		XYposition.Ypos=(TOUCH_0_HEIGHT - touchy);
+		*x=(TOUCH_0_WIDTH-touchx);
+		*y=(TOUCH_0_HEIGHT - touchy);
 		break;
 	case TOUCH270:
-		XYposition.Xpos=(TOUCH_0_HEIGHT- touchy);
-		XYposition.Ypos=touchx;
+		*x=(TOUCH_0_HEIGHT- touchy);
+		*y=touchx;
 		break;
 	}
 
 // set flag indicating there was a touch
-	XYposition.isTouch=1;
-	return XYposition;
+	*isTouch=1;
+	return;
 }
 
 
@@ -263,7 +270,10 @@ uint8_t Touch_WaitForUntouch(uint16_t delay) {
 
 /***********************************************************
  * @brief			check if interrupt registered a touch
- * 					resetting touch flag anyway if asked by parameter
+ * 					resetting touch flag if asked by parameter
+ * 					if you just need to get touch, reset the flag anytime
+ * 					If handle the whole touch time (e.g. handling key-repeat,
+ * 						reset flag only when you get "no-touch" reading sensor
  * @params	reset	reset touch flag if non 0
  * @returns		1	if recorded a touch
  * 				0	if no touch recorded
@@ -291,16 +301,70 @@ uint8_t result = Touch_PenDown;
  * 			0		if no touch or touch outside area defined
  ***********************************************************/
 uint8_t Touch_In_XY_area(uint16_t xpos,uint16_t ypos,uint16_t width,uint16_t height) {
-sTouchData posXY;
-	posXY=Touch_GetXYtouch();
-	if (!posXY.isTouch)
+//sTouchData posXY;
+uint16_t x,y;
+uint8_t isTouch;
+	Touch_GetXYtouch(&x, &y, &isTouch);
+	if (!isTouch)
 		return 0;
-	if (posXY.Xpos>=xpos)
-		if (posXY.Xpos<xpos+width)
-			if (posXY.Ypos>=ypos)
-				if (posXY.Ypos<ypos+height)
+	if (x>=xpos)
+		if (x<xpos+width)
+			if (y>=ypos)
+				if (y<ypos+height)
 					return 1;
 	return 0;
 }
 
 
+
+#ifdef DISPLAY_USING_TOUCHGFX
+
+/***********************************************************
+ * @brief	Linking function to TouchGFX
+ * 			Handles key repeat (controlled by PAUSE_TO_KEY_REPEAT)
+ * @return	a field structure having information about touch position
+ * @usage	in STM32TouchController.cpp add this line
+ *			#include "main.h"
+			into STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
+			change
+			"return false;"
+			into:
+ *			"return ((bool) Touch_TouchGFXSampleTouch(&x, &y));"
+ *
+ * 			that's enough for touch integration
+ ***********************************************************/
+uint8_t Touch_TouchGFXSampleTouch(int32_t *x, int32_t *y){
+	//	sTouchData result;
+	uint8_t isTouch=0;				// preset to no touch
+	uint16_t xx=0,yy=0;  			// need to convert library coordinates type (uint16_t) to TouchGFX one (int32_t)
+	static uint8_t flipTouch=0;		// switches 0/1, on every function call, until sensor is touched allowing to return key repeat
+	static uint32_t touchTime=0; 	// tick value get on the first touch. 0 means display untouched.
+
+	if (Touch_GotATouch(0)){				// polls interrupt flag not resetting it
+		Touch_GetXYtouch(&xx,&yy,&isTouch);	// get touch sensor position
+		if (!isTouch){				// received a "no touch"
+			touchTime=0;				// set display as untouched
+			Touch_GotATouch(1);			// reset interrupt touch flag
+		} else {					// display touched
+			if (touchTime==0){				// if previously untouched
+				touchTime=HAL_GetTick();	// store tick value at touch time
+				flipTouch=1;				// set switch to send touch now
+			} else {						// not a new touch
+				if ((DELAY_TO_KEY_REPEAT > 0) && ((HAL_GetTick()-touchTime)>DELAY_TO_KEY_REPEAT)) {	// if timeout to key repeat is over (0 means no key repeat)
+					flipTouch=!flipTouch;	// alternate every time function is called
+				} else
+					flipTouch=0;			// return a "no touch"
+			}
+			if (flipTouch) { 	// return position only if the switching flag is on
+				*x=xx;
+				*y=yy;
+			} else {			// otherwise return "no touch" from display
+				isTouch = 0;
+			}
+		}
+	}
+	return isTouch;
+}
+
+#endif
+  

@@ -14,18 +14,31 @@
 
 
 /***** USER/PROJECT PARAMETERS *****/
+
 /**************** PORT PARAMETERS *****************
  ** properly set the below the 2 defines to address
  ********  the SPI port defined on CubeMX *********/
 
 #define TOUCH_SPI_PORT 	hspi1
 #define TOUCH_SPI 		SPI1
+
+
+/**********   KEY REPEAT FOR TOUCHGFX   ***********
+ * used only in TouchGFX integration
+ * sets timeout (ms) before starting
+ * key repeat, reading touch sensor
+ * set it to 0 to disable key repeat
+ **************************************************/
+#define DELAY_TO_KEY_REPEAT 500
+
+
 /***** END OF "USER/PROJECT PARAMETERS" *****/
 
 
 
 /**************** DEVICE PARAMETERS ***************/
 /* you should need to change nothing from here on */
+
 
 /**************************************************
  * this is the command to send to XPT2046 asking to
@@ -152,7 +165,11 @@ uint8_t Touch_In_XY_area(uint16_t xpos,uint16_t ypos,uint16_t width,uint16_t hei
 uint8_t Touch_GotATouch(uint8_t reset);
 uint8_t Touch_WaitForUntouch(uint16_t delay);
 uint8_t Touch_WaitForTouch(uint16_t delay);
-sTouchData Touch_GetXYtouch();
+void Touch_GetXYtouch(uint16_t *x, uint16_t *y, uint8_t *isTouch);
 
+
+#ifdef DISPLAY_USING_TOUCHGFX
+uint8_t Touch_TouchGFXSampleTouch(int32_t *x, int32_t *y);
+#endif
 
 #endif /* __XPT2046_H */
