@@ -45,7 +45,7 @@ If you use SPI in "DMA mode", enable both Interrupt and DMA following the below 
 
 |SPI pin|Pinname to assign|Speed relevance|
 |---|---|---|
-|NSS|DISPL_CS|X|
+|MISO|TOUCH_MISO|X|
 |MOSI|DISPL_MOSI|X|
 |SCK|DISPL_SCK|X|
 
@@ -159,7 +159,7 @@ Se usi SPI in "DMA mode" abilita sia Interrupt sia DMA e segui la tabella sotto
 
 |Pin SPI|Nome da assegnare|Rilevanza velocità|
 |---|---|---|
-|NSS|DISPL_CS|X|
+|MISO|TOUCH_MISO|X|
 |MOSI|DISPL_MOSI|X|
 |SCK|DISPL_SCK|X|
 
