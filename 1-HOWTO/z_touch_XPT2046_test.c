@@ -165,6 +165,7 @@ void Touch_TestDrawing() {
 		Displ_CLS(DD_BLUE);
 		Displ_CString(0,10,_width,Font12.Height+10,"Touch and drag over display",Font12,1,WHITE,DD_BLUE);
 
+		Touch_GotATouch(1);
 		Touch_WaitForTouch(0);
 
 		while (1) {
