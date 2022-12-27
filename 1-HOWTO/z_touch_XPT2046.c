@@ -1,6 +1,6 @@
 /*
  * z_touch_XPT2046.c
- * 	rel. TouchGFX.1.1
+ * 	rel. TouchGFX.1.20
  *
  *  Created on: 2 giu 2022
  *      Author: mauro
