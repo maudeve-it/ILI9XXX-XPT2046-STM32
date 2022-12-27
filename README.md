@@ -1,5 +1,3 @@
-rel. 1.2: added TouchGFX handling for RGB666 displays (ILI9488v1.0)
-<br>
 <br>
 
 _**Piu' sotto, al termine della lingua inglese trovi il testo in italiano. </i>**_
