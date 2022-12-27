@@ -1,8 +1,8 @@
 /*
- * 	z_displ_ILI9488.c
- * 	rel. TouchGFX.1.1
+ * 	z_displ_ILI94XX.c
+ * 	rel. TouchGFX.1.2
  *
- *  Created on: May 30, 2022
+ *  Created on: Dec 27, 2022
  *      Author: mauro
  *
  *  licensing: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/c097f0e7d569845c1cf98e8d930f2224e427fd54/LICENSE
@@ -28,8 +28,20 @@ volatile uint8_t Displ_SpiAvailable=1;  			// 0 if SPI is busy or 1 if it is fre
 int16_t _width;       								///< (oriented) display width
 int16_t _height;      								///< (oriented) display height
 
+// if using TouchGFX buffer are not used (size set to 2 bytes for software convenience)
+// unless using ILI9488V1.0 (RGB666) which needs dispBuffer1 for color format conversion
+// if not using TouchGFX double buffering is needed
+#ifdef DISPLAY_USING_TOUCHGFX
+static uint8_t dispBuffer2[2];
+#ifdef Z_RGB666
+static uint8_t dispBuffer1[SIZEBUF];
+#else
+static uint8_t dispBuffer1[2];
+#endif // Z_RGB666
+#else
 static uint8_t dispBuffer1[SIZEBUF];
 static uint8_t dispBuffer2[SIZEBUF];
+#endif //DISPLAY_USING_TOUCHGFX
 static uint8_t *dispBuffer=dispBuffer1;
 
 
@@ -68,10 +80,29 @@ void Displ_Transmit(GPIO_PinState DC_Status, uint8_t* data, uint16_t dataSize, u
 	Displ_Select();
 
 	if (isTouchGFXBuffer){
+#ifdef Z_RGB565
+//if color format is RGB565 just swap even and odd bytes correcting endianess for ILI driver
 		uint32_t *limit=(uint32_t*)(data+dataSize);
 		for (uint32_t *data32=(uint32_t*)data; data32<limit; data32++) {
 			*data32=__REV16(*data32);
 		}
+#else
+//if display color format is RGB666: convert RGB565 received by TouchGFX and swap bytes
+
+		uint8_t *buf8Pos=dispBuffer1; 							//using a local pointer
+
+		uint16_t *limit=(uint16_t*)(data+dataSize);
+		for (uint16_t *data16=(uint16_t*)data; (data16<limit) & ((buf8Pos-dispBuffer1)<(SIZEBUF-3)); data16++) {
+
+			*(buf8Pos++)=((*data16 & 0xF800)>>8);  // R color
+			*(buf8Pos++)=((*data16 & 0x07E0)>>3);  // G color
+			*(buf8Pos++)=((*data16 & 0x001F)<<3);  // B color
+		}
+
+		data=dispBuffer1; 				//data (pointer to data to transfer via SPI) has point to converted buffer
+		dataSize=(buf8Pos-dispBuffer1);	//and dataSize has contain the size of the converted buffer
+
+#endif //Z_RGB565
 	}
 
 
@@ -81,7 +112,7 @@ void Displ_Transmit(GPIO_PinState DC_Status, uint8_t* data, uint16_t dataSize, u
 #else
 #ifdef DISPLAY_SPI_DMA_MODE
 		if (dataSize<DISPL_DMA_CUTOFF) {
-#endif
+#endif //DISPLAY_SPI_DMA_MODE
 			Displ_SpiAvailable=0;
 			HAL_SPI_Transmit(&DISPL_SPI_PORT , data, dataSize, HAL_MAX_DELAY);
 			Displ_SpiAvailable=1;
@@ -90,14 +121,14 @@ void Displ_Transmit(GPIO_PinState DC_Status, uint8_t* data, uint16_t dataSize, u
 			if (isTouchGFXBuffer){
 				DisplayDriver_TransferCompleteCallback();
 			}
-#endif
+#endif //DISPLAY_USING_TOUCHGFX
 #ifdef DISPLAY_SPI_DMA_MODE
 		} else {
 			Displ_SpiAvailable=0;
 			HAL_SPI_Transmit_DMA(&DISPL_SPI_PORT , data, dataSize);
 		}
-#endif
-#endif
+#endif //DISPLAY_SPI_DMA_MODE
+#endif //DISPLAY_SPI_INTERRUPT_MODE
 	}
 
 
@@ -131,8 +162,7 @@ void Displ_WriteData(uint8_t* buff, size_t buff_size, uint8_t isTouchGFXBuffer){
 /**********************************
  * @brief	ILIXXX initialization sequence
  **********************************/
-void ILI9XXX_Init()
-{
+void ILI9XXX_Init(){
 	Displ_Select();
 
 	HAL_GPIO_WritePin(DISPL_RST_GPIO_Port, DISPL_RST_Pin, GPIO_PIN_RESET);
@@ -1131,6 +1161,3 @@ void touchgfxDisplayDriverTransmitBlock(const uint8_t* pixels, uint16_t x, uint1
 		Displ_SetAddressWindow(x, y, x+w-1, y+h-1);
 		Displ_WriteData((uint8_t* )pixels,((w*h)<<1),1);
 }
-
-
-

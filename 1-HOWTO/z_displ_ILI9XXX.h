@@ -98,25 +98,27 @@
 #define BKLIT_CHANNEL				TIM_CHANNEL_2	//channel used
 #define BKLIT_CCR					CCR2			//Capture-compare register used
 #define BKLIT_STBY_LEVEL 			1				//Display backlight level when in stand-by (levels are CNT values)
-#define BKLIT_INIT_LEVEL 			50				//Display backlight level on startup
+#define BKLIT_INIT_LEVEL 			100				//Display backlight level on startup
 
 
 /*****************     STEP 6      *****************
  ************* frame buffer DEFINITION *************
+ * IF NO TOUCHGFX: 
  * BUFLEVEL defines size of the 2 SPI buffers:
  * buffer size is 2^BUFLEVEL so 2 means 4 bytes buffer
  * and 10 means 1 kbyte (each).
- * IT MUST BE 10 OR MORE:
- * -	10 needed for 1 char in Font24 size
- * If TouchGFX, library buffers are not used,
- * keep BUFLEVEL to 1
+ * it must be not below 10!
+ * If TOUCHGFX:
+ * buffers are not used if displays handle RGB565, if 
+ * display uses RGB666 one buffer will be used for 
+ * color format translation. In this case set
+ * BUFLEVEL following this table:
+ * TouchGFX buffers>10KB need BUFLEVEL 15
+ * TouchGFX buffers>5KB  need BUFLEVEL 14
+ * TouchGFX buffers>2700bytes need BUFLEVEL 13
+ * TouchGFX buffers>1300bytes need BUFLEVEL 12
 ***************************************************/
-#define BUFLEVEL 11
-
-#ifdef DISPLAY_USING_TOUCHGFX
-#undef 	BUFLEVEL
-#define BUFLEVEL 1
-#endif
+#define BUFLEVEL 12
 
 /*|||||||| END OF USER/PROJECT PARAMETERS ||||||||*/
 

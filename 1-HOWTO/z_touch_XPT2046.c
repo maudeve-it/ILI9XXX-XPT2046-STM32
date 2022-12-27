@@ -122,8 +122,6 @@ uint16_t Touch_PollAxis(uint8_t axis) {
 //enable back interrupt after reading the sensor
 	HAL_NVIC_ClearPendingIRQ(TOUCH_INT_EXTI_IRQn);
 	HAL_NVIC_EnableIRQ(TOUCH_INT_EXTI_IRQn);
-//	HAL_NVIC_ClearPendingIRQ(TOUCH_INT_EXTI_IRQn);
-//	Touch_PenDown=0;    //reset interrupt flag, anyway.
 
 	return poll16;
 }
@@ -322,14 +320,12 @@ uint8_t isTouch;
 /***********************************************************
  * @brief	Linking function to TouchGFX
  * 			Handles key repeat (controlled by PAUSE_TO_KEY_REPEAT)
- * @return	a field structure having information about touch position
+ * @return	1 if detected a touch, otherwise 0
  * @usage	in STM32TouchController.cpp add this line
- *			#include "main.h"
-			into STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
-			change
-			"return false;"
-			into:
- *			"return ((bool) Touch_TouchGFXSampleTouch(&x, &y));"
+ *			#include "main.h",
+ *			then, into STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
+ *			change "return false;"
+ *			into:  "return ((bool) Touch_TouchGFXSampleTouch(&x, &y));"
  *
  * 			that's enough for touch integration
  ***********************************************************/
@@ -367,4 +363,3 @@ uint8_t Touch_TouchGFXSampleTouch(int32_t *x, int32_t *y){
 }
 
 #endif
-  
