@@ -74,8 +74,8 @@ in main.c you now need to initialize display before entering in the main loop, t
   /* USER CODE END 2 */
   ...
   ```
+PLEASE NOTE: set parameter in Displ_Init() function as per orientation of your display graphics.
 <br>
-PLEASE NOTE: set parameter in Displ_Init() function as per orientation of your display graphics
 <br>
 Then, in the main loop, add the cycling activation of TouchGFX.<br>
 You may ask a continuous TouchGFX refresh as here below:<br>
@@ -210,8 +210,9 @@ in main.c ora devi inizializzare il display prima di entrare nel main loop, in q
   /* USER CODE END 2 */
   ...
   ```
-
-<br>poi, nel loop principale, aggiungi l'attivazione ciclica di TouchGFX.<br>
+NOTA BENE: il parametro della funzione Displ_Init() deve corrispondere all'orientamento assegnato della grafica del display.
+<br>
+<br>Poi, nel loop principale, aggiungi l'attivazione ciclica di TouchGFX.<br>
 Puoi chiedere un aggiornamento continuo di TouchGFX come qui sotto:<br>
 (gestione semplice ma con un maggiore sovraccarico del uC)<br>
 
