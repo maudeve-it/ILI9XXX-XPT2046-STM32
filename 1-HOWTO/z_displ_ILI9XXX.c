@@ -1,6 +1,6 @@
 /*
  * 	z_displ_ILI94XX.c
- * 	rel. TouchGFX.1.2
+ * 	rel. TouchGFX.1.20
  *
  *  Created on: Dec 27, 2022
  *      Author: mauro
