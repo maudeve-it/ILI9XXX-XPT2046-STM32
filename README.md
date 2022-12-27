@@ -1,4 +1,4 @@
-# Now library is TouchGFX compatible - Ora la libreria è compatibile con TouchGFX
+rel. 1.2: added TouchGFX handling for RGB666 displays (ILI9488v1.0)
 <br>
 <br>
 
