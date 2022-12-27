@@ -64,6 +64,7 @@ Youtube video with a detailled analysis of SPI communication to displays: https:
 
 <br>
 <br>
+
 ### rel. 1.2: aggiunta la gestione TouchGFX per i display RGB666 (come ILI9488 V1.0)
 
 # ILI9XXX/XPT2046-STM32
