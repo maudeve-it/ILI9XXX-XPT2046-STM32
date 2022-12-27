@@ -1,9 +1,12 @@
-# Now library is TouchGFX compatible - Ora la libreria è compatibile con TouchGFX
-<br>
 <br>
 
 _**Piu' sotto, al termine della lingua inglese trovi il testo in italiano. </i>**_
 _**Below English text you'll find the Italian version</i>**_
+
+<br>
+<br>
+
+### rel. 1.20: added TouchGFX handling for RGB666 displays (e.g. ILI9488 V1.0)
 
 <br>
 <br>
@@ -61,6 +64,8 @@ Youtube video with a detailled analysis of SPI communication to displays: https:
 
 <br>
 <br>
+
+### rel. 1.20: aggiunta la gestione TouchGFX per i display RGB666 (come ILI9488 V1.0)
 
 # ILI9XXX/XPT2046-STM32
 
