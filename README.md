@@ -7,7 +7,7 @@ _**Below English text you'll find the Italian version</i>**_
 
 <br>
 <br>
-##rel. 1.2: added TouchGFX handling for RGB666 displays (ILI9488v1.0)
+## rel. 1.2: added TouchGFX handling for RGB666 displays (ILI9488v1.0)
 <br>
 <br>
 
