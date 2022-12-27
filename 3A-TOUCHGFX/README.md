@@ -32,7 +32,7 @@ into "z_displ_ILI9XXX.h" file you have to setup this configuration:
 - step 3 - Port Speed: here you must assign bitrate SPI prescaler when transferring data to display or to/from touch sensor. Consider that touch uses baudrates  below 2MBps 
 - step 4 - SPI communication mode: uncomment the macro definition related to enabled communication mode (Polling mode, Interrupt mode or DMA mode). You must uncomment no less and no more than ONE definition here
 - step 5 - Backlight Mode: see [BACKLIGHT page](../BACKLIGHT)  
-- step 6 - Buffer size: TouchGFX don't use library buffers which will be disabled, so parameter set here is not used 
+- step 6 - Buffer size: Used converting from RGB565 to RGB666 with ILI9488 V1.0 displays. Follow instructions into .h file  
 
 into "z_touch_XPT2046.h" file you have to setup this configuration:
 - step 1 - Port Parameters: here you have to set two macro constant with the SPI port name connecting touch sensor
@@ -167,7 +167,7 @@ Il progetto è quasi pronto. Devi mettere a punti i parametri nel file "z_displ_
 - step 3 - Port Speed: qui devi assegnare il valore al bitrate SPI prescaler quando trasferisce dati al display o al/dal sensore touch. Considera che il sensore touch comunica sotto i 2MBps 
 - step 4 - SPI communication mode: togli il commento alla definizione definition relativa al tipo di comunicazione attivato (Polling mode, Interrupt mode o DMA mode). Devi togliere il commento ad una riga (NON di più e NON di meno) 
 - step 5 - Backlight Mode: vedi la [pagina BACKLIGHT](../BACKLIGHT)  
-- step 6 - Dimensione Buffer: TouchGFX non usa i buffer della libreria, che vengono disabilitati, il parametro impostato qui non viene usato.  
+- step 6 - Dimensione Buffer: Usati per convertire dal protocollo RGB565 ad RGB666 con ILI9488 V1.0: segui istruzioni nel file .ho 
 
 in "z_touch_XPT2046.h" devi impostare i seguenti parametri:
 - step 1 - Port Parameters: qui devi impostare due costanti macro con il nome della porta SPI a cui è connesso il sensore touch
