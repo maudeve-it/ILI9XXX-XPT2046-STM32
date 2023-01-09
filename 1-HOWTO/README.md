@@ -107,6 +107,7 @@ _**PLEASE NOTE</i>**_<br>
 - ["How to" handle display backlight](../2-BACKLIGHT)
 - for Direct Handling projects: [(Direct handling) "How to" add this library to the created project](../3B-DIRECT)
 - for TouchGFX projects: [(TouchGFX) "How to" add this library to the created project](../3A-TOUCHGFX)
+- for both type of projects:  ["How to" calibrate touch sensor](../4-CALIBRATION)
 
 
 <br>
@@ -222,3 +223,4 @@ _**NOTA BENE:</i>**_<br>
 - [Guida alla gestione della retroilluminazione](../2-BACKLIGHT)
 - per progetti con Gestione Diretta: [(gestione diretta) Guida per aggiungere la libreria al progetto creato](../3B-DIRECT)
 - per progetti TouchGFX: [(TouchGFX) Guida per aggiungere la libreria al progetto creato](../3A-TOUCHGFX)
+- per entrambi i tipi di progetti:  [Guida per la calibrazione del sensore touch](../4-CALIBRATION)

@@ -143,6 +143,15 @@ So, just delete the two "#error" lines, the two warnings, and re-compile the pro
 They will not appear anymore.<rb>
 
 
+
+## touch sensor calibration
+
+if you see that TouchGFX graphics works fine over the display but there is no reply touching sensor there could be a problem of calibration.
+Check that here: ["How to" calibrate touch sensor](../4-CALIBRATION)
+
+
+
+
 ---
 
 # Dunque...
@@ -278,3 +287,9 @@ Queste sono già disponibili nella libreria.<br>
 Quindi, semplicemente cancella le due righe "#error", i due avvisi, e ricompila il progetto.<br>
 Non appariranno più.<br>
 
+
+
+## calibrazione del sensore touch
+
+Se verifichi the la parte grafica del progetto funziona correttamente ma non ottieni risposta dal sensore touchm ci potrebbe essere la necessità di calibrarlo.
+Puoi seguire queste indicazioni: [Guida per la calibrazione del sensore touch](../4-CALIBRATION)

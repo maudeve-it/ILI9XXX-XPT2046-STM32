@@ -21,7 +21,7 @@ Follow the below instructions if you like directly handling the display through 
 Otherwise, if you want to use the STM TouchGFX package, do not proceed here and go to [(TouchGFX) "How to" add this library to the created project](../3A-TOUCHGFX)
 
 
-##### Parameters setup
+## Parameters setup
 you must "tune" the software parameters in two files:<br>
 - z_displ_ILI9XXX.h<br>
 - z_touch_XPT2046.h<br>
@@ -39,7 +39,7 @@ into "z_touch_XPT2046.h" file you have to setup this configuration:
 - step 1 - Port Parameters: here you have to set two macro constant with the SPI port name connecting touch sensor
 
 
-##### main.c setup
+## main.c setup
 
 in main.c you now need to initialize display before entering in the main loop, this way:<br>
 <br>
@@ -53,7 +53,7 @@ in main.c you now need to initialize display before entering in the main loop, t
   /* USER CODE END 2 */
   ...
   ```
-##### running test functions
+## running test functions
 
 Here some test function you can run copying the "_test" files into the project.
 You can use them to:
@@ -79,7 +79,7 @@ Below, three demo/test functions put in the same main loop, but I suggest you to
 ---
 
 
-##### using library functions in your projects
+## using library functions in your projects
 
 Passing the test, display and the library are fully integrated in your software.
 Now you can use the library as per your needs:
@@ -104,6 +104,17 @@ There are two more functions:
 -	<i><b>Touch_WaitForUntouch(delay)</b></i>
 <br>
 hanging program until event in the function name or <i>delay</i> expired
+
+
+
+## touch sensor calibration
+
+If you see that graphics works fine over the display but there is a bad reply (or no reply) touching sensor there could be a problem of calibration.
+Check that here: ["How to" calibrate touch sensor](../4-CALIBRATION)
+
+
+
+
 <br>
 <br>
 
@@ -123,7 +134,7 @@ Segui le istruzioni sotto se vuoi gestire direttamente il display attraverso le 
 Se invece vuoi usare il pacchetto STM TouchGFX, non procedere qui e passa a [(TouchGFX) Guida per aggiungere la libreria al progetto creato](./2A-TOUCHGFX)
 
 
-##### Configurazione Parametri
+## Configurazione Parametri
 Devi "mettere a punto" i parametri del software in due file:
 - z_displ_ILI9XXX.h
 - z_touch_XPT2046.h
@@ -141,7 +152,7 @@ in "z_touch_XPT2046.h" devi impostare i seguenti parametri:
 - step 1 - Port Parameters: qui devi impostare due costanti macro con il nome della porta SPI a cui è connesso il display 
 
 
-##### impostazione di main.c 
+## impostazione di main.c 
 
 in main.c ora devi inizializzare il display prima di entrare nel main loop, in questo modo:
 
@@ -156,7 +167,7 @@ in main.c ora devi inizializzare il display prima di entrare nel main loop, in q
   ...
   ```
 
-##### eseguire le funzioni di test
+## eseguire le funzioni di test
 
 Qui sotto alcune funzioni di test disponibili installando i "_test" file.
 Puoi usarle per:
@@ -182,7 +193,7 @@ Qui mostro tre funzioni di test chiamate nello stesso main loop, ma suggerisco d
 ---
 
 
-##### usare la libreria nei tuoi progetti
+## usare la libreria nei tuoi progetti
 
 Superando i test hai la prova che il display e la libreria sono pienamente integrati nel progetto.
 Ora puoi usare la libreria secondo le necessità:
@@ -207,3 +218,10 @@ Ci sono alrtre due funzioni:
 -	<i><b>Touch_WaitForUntouch(delay)</b></i>
 <br>
 che arrestano il programma fino all'evento indicato dal nome della funzione oppure allo scadere del <i>delay</i>.
+
+
+
+## calibrazione del sensore touch
+
+Se verifichi the la parte grafica del progetto funziona correttamente ma non ottieni risposta dal sensore touchm ci potrebbe essere la necessità di calibrarlo.
+Puoi seguire queste indicazioni: [Guida per la calibrazione del sensore touch](../4-CALIBRATION)
