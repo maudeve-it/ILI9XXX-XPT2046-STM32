@@ -15,6 +15,7 @@ so I'm adding here this page trying to help to set the touch sensor calibration.
 These kind of displays are made of 2 parts:<br>
 - the graphic display handled by an ILI driver (ILI9488, ILI9386 and so on)<br>
 - the touch sensor handled by the XPT2084 driver<br>
+
 The touch sensor is a transparent module simply "glued" over the graphic display.<br>
 The touch driver reads value returned by the sensor and that values have to be converted into the corresponding grahpic positition, matching touch with de display.<br>
 The convertion is made by software and the converting parameters could need to change depending on the display/touch-sensor combination
@@ -86,6 +87,7 @@ ho pensato di aggiungere questa pagina per aiutare a calibrare il sensore touch.
 Questo tipo di display sono composti di due parti:<br>
 - il display grafico gestito da un driver ILI (ILI9488, ILI9386 e così via)<br>
 - il sensore touch gestito dal driver XPT2084<br>
+
 Il sensore touch e' un modulo trasparente semplicemente "incollato" sopra il display grafico.<br>
 Il driver touch legge i valori restituiti dal sensore e quei valori devono essere convertiti nella corrispondente posizione grafica, allineando il sensore touch con il display.<br>
 La conversione è svolta via software ed i parametri per la conversione possono richiedere di essere adattatiin funzione della combinazione display/sensore-touch
