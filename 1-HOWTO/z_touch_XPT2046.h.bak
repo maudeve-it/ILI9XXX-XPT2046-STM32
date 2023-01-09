@@ -66,11 +66,9 @@
 
 
 /**********************************************************************************
- ***************************** CALIBRATION PARAMETERS *****************************
- **********************************************************************************
  * parameters for the linear conversion from a touch sensor reading, to
  * the XY display position
- * using the formula:
+ * use the formula:
  * Xdispl = AX * Xtouch + BX
  * Ydispl = AY * Ytouch + BY
  *
