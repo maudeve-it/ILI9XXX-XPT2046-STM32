@@ -40,7 +40,7 @@ Developed software is based on HAL over STM32CubeIDE.<br>
 - ["How to" handle display backlight](./2-BACKLIGHT)
 - [(Direct handling) "How to" add this library to the created project](./3B-DIRECT)
 - [(TouchGFX) "How to" add this library to the created project](./3A-TOUCHGFX)
-- ["How to" calibrate touch sensor](../4-CALIBRATION)
+- ["How to" calibrate touch sensor](./4-CALIBRATION)
 
 
 Youtube video showing TouchGFX integration characteristics and performance: https://youtu.be/g1siKaPox88<br>
@@ -97,7 +97,7 @@ Il software sviluppato, si basa su HAL attraverso STM32CubeIDE.<br>
 - [Guida alla gestione della retroilluminazione](./2-BACKLIGHT)
 - [(gestione diretta) Guida per aggiungere la libreria al progetto creato](./3B-DIRECT)
 - [(TouchGFX) Guida per aggiungere la libreria al progetto creato](./3A-TOUCHGFX)
-- [Guida per la calibrazione del sensore touch](../4-CALIBRATION)
+- [Guida per la calibrazione del sensore touch](./4-CALIBRATION)
 
 Video Youtube con le carateristiche e le prestazioni dell'integrazione TouchGFX: https://youtu.be/g1siKaPox88<br>
 Video Youtube con le carateristiche e le prestazioni dellla libreria: https://youtu.be/020k2vbLAPc<br>

@@ -141,5 +141,5 @@ Registra i nuovi valori nel file "z_touch_XPT2046.h" (nella sezione "CALIBRATION
 Verifica la nuova calibrazione con la funzione Touch_TestDrawing().
 Puoi anche provare a modificare direttamente i parametri di calibrazione, per l'allineamento di precisione finale.
 
-Quando l'allineamento touch/grafica ti soddisfa, manitieni il file z_touch_XPT2046.h file per i tuopi prossimi progetti con il sensore.
+Quando l'allineamento touch/grafica ti soddisfa, manitieni il file z_touch_XPT2046.h file per i tuoi prossimi progetti con il sensore.
 
