@@ -27,7 +27,7 @@ The convertion is made by software and the converting parameters could need to c
 
 ## Checking touch sensor calibration
 
-Create a new project with a "Direct Handling" of the display (even if your final project is based on TouchGFX) following all instruction in: [(Direct handling) "How to" add this library to the created project](../3B-DIRECT)<br> 
+Create a new project with a "Direct Handling" of the display (even if your final project is based on TouchGFX) following all instruction in: [(Direct handling) "How to" add this library to the created project](../3B-DIRECT), adding also the touch test function file.<br> 
 In the main loop just run function "TestDrawing" this way:<br>
 
   ```sh
@@ -99,7 +99,7 @@ La conversione è svolta via software ed i parametri per la conversione possono 
 
 ## Verificare la calibrazione del sensore touch
 
-Crea un nuovo progetto con la "Gestione Diretta" del display (anche se il tuo progetto finale è basato su TouchGFX) seguendo tutte le istruzioni in: [(gestione diretta) Guida per aggiungere la libreria al progetto creato](../3B-DIRECT)<br> 
+Crea un nuovo progetto con la "Gestione Diretta" del display (anche se il tuo progetto finale è basato su TouchGFX) seguendo tutte le istruzioni in: [(gestione diretta) Guida per aggiungere la libreria al progetto creato](../3B-DIRECT), aggiungendo anche il file con le funzioni touch di test.<br> 
 Nel main loop richiama semplicemente la funzione "TestDrawing", in questo modo:<br>
 
   ```sh
