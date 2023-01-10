@@ -17,7 +17,7 @@ These type of displays is made of 2 parts:<br>
 - the touch sensor handled by the XPT2084 driver<br>
 
 The touch sensor is a transparent module simply "glued" over the graphic display.<br>
-The touch driver reads value returned by the sensor and that values have to be converted into the corresponding grahpic positition, matching touch with the display.<br>
+The touch driver reads value returned by the sensor and that values have to be converted into the corresponding graphic positition, matching touch with the display.<br>
 The convertion is made by software and the converting parameters could need to change depending on the display/touch-sensor combination
 
 
