@@ -83,9 +83,9 @@ Ho ricevuto alcune richieste di aiuto nel risolvere il problema di progetti che 
 ho pensato di aggiungere questa pagina per aiutare a calibrare il sensore touch.
 
 
-## Perché è necessario calubrare il sensore
+## Perché è necessario calibrare il sensore
 
-Questo tipo di display sono composti di due parti:<br>
+Questo tipo di display è composto di due parti:<br>
 - il display grafico gestito da un driver ILI (ILI9488, ILI9386 e così via)<br>
 - il sensore touch gestito dal driver XPT2084<br>
 
