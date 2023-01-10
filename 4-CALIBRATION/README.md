@@ -21,7 +21,7 @@ The touch driver reads value returned by the sensor and that values have to be c
 The convertion is made by software and the converting parameters could need to change depending on the display/touch-sensor combination
 
 
-> <br><em>by the way: <br>touch sensor is quite stiff and fragile and it is easy breaking it, especially while prototyping working with displays simply inserted into the breadboard.<br>
+> <br><em>by the way: <br>touch sensor is quite stiff and fragile and it is easy breaking it, especially while prototyping, working with displays simply inserted into the breadboard.<br>
 > In that case it is very easy removing the broken sensor, cutting the flex connector and making it a simply display wihout touch sensor<br></em><br> 
 
 
