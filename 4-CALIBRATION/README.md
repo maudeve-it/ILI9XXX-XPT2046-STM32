@@ -40,8 +40,8 @@ In the main loop just run function "TestDrawing" this way:<br>
   ...
   ```
 
-Compile and run the project. Touch the sensor and move your finger while touching.
-If a white cross (over a blue background) doesn't follow your finger, sensor must be calibrated.
+Compile and run the project. Touch the sensor and move your finger while touching.<br>
+If you don't see a white cross (over a blue background) following your finger, sensor must be calibrated.
 
 
 
@@ -113,8 +113,8 @@ Nel main loop richiama semplicemente la funzione "TestDrawing", in questo modo:<
   ...
   ```
 
-Complila ed esegui il progetto. Tocca il sensore e muovi il dito mentre tocchi.
-Se una croce bianca (su fondo blu) non segue il tuo dito, il sensore deve essere ricalibrato.
+Complila ed esegui il progetto. Tocca il sensore e muovi il dito mentre tocchi.<br>
+Se non vedi una croce bianca (su fondo blu) che segue il tuo dito, il sensore deve essere ricalibrato.
 
 
 
