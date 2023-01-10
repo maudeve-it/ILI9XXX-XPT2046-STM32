@@ -22,7 +22,7 @@ The convertion is made by software and the converting parameters could need to c
 
 
 > <br><em>by the way: <br>touch sensor is quite stiff and fragile and it is easy breaking it, especially while prototyping, working with displays simply inserted into the breadboard.<br>
-> In that case it is very easy removing the broken sensor, cutting the flex connector and making it a simply display wihout touch sensor<br></em><br> 
+> In that case it is very easy removing the broken sensor, cutting the flex connector and making it a working display wihout the touch sensor.<br></em><br> 
 
 
 ## Checking touch sensor calibration
@@ -91,11 +91,11 @@ Questo tipo di display è composto di due parti:<br>
 
 Il sensore touch e' un modulo trasparente semplicemente "incollato" sopra il display grafico.<br>
 Il driver touch legge i valori restituiti dal sensore e quei valori devono essere convertiti nella corrispondente posizione grafica, allineando il sensore touch con il display.<br>
-La conversione è svolta via software ed i parametri per la conversione possono richiedere di essere adattatiin funzione della combinazione display/sensore-touch
+La conversione è svolta via software ed i parametri per la conversione possono richiedere di essere adattati in funzione della combinazione display/sensore-touch
 
 
 > <br><em>tra l'altro: il sensore touch è piuttosto rigido e fragile ed è facile romperlo, soprattutto nei prototipi dove il display è semplicemente agganciato alla breadboard.<br>
->In questi casi è molto semplice rimuovere il sensore rotto e, tagliando il connettore flessibile, si ottiene un semplice e funzionante display grafico senza la funzione touch))<br></em><br> 
+>In questi casi è molto semplice rimuovere il sensore rotto e, tagliando il connettore flessibile, si ottiene un semplice e funzionante display grafico senza la funzione touch.<br></em><br> 
 
 
 ## Verificare la calibrazione del sensore touch
