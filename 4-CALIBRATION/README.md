@@ -12,7 +12,7 @@ so I'm adding here this page trying to help to set the touch sensor calibration.
 
 ## Why needing the touch sensor calibration
 
-These kind of displays are made of 2 parts:<br>
+These type of displays is made of 2 parts:<br>
 - the graphic display handled by an ILI driver (ILI9488, ILI9386 and so on)<br>
 - the touch sensor handled by the XPT2084 driver<br>
 
