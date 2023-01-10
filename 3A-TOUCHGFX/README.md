@@ -52,7 +52,7 @@ into "z_touch_XPT2046.h" file you have to setup this configuration:
 now in TouchGFX generator, set these parameters:
 |Parameter|Value|
 |---|---|
-|Framebuffer PixelFormat|RGB565|
+|Framebuffer PixelFormat|RGB565 <b>(*)</b>|
 |Width|<set display size>|   
 |Height|<set display size>|
 |Framebuffer Strategy|Partial Buffer|
@@ -60,7 +60,7 @@ all other parameters as per default<br>
 
 Save and generate (or update) software.<br>
 
-> <br><em>PLEASE NOTE: <br>even if you are using a display working in RGB666 (e.g. ILI9488 board V1.0), set TouchGFX to RGB565.<br>
+> <br><em><b>(*)</b> <br>even if you are using a display working in RGB666 (e.g. ILI9488 board V1.0), set TouchGFX to RGB565.<br>
 > TouchGFX doesn't work with RGB666 and will send frames in RGB565: library will make convertion from RBG565 to RGB666 needed by the display.<br></em><br> 
 
 <br><br>
@@ -148,7 +148,7 @@ When you first compile your project, it may stop on these two errors: <br>
 It is just a reminder for you to develop the interface routines to Touch GFX.<br>
 They are already available in the library.<br>
 So, just delete the two "#error" lines, the two warnings, and re-compile the project.<br>
-They will not appear anymore.<rb>
+They will not appear anymore.<br>
 
 <br><br>
 
@@ -187,8 +187,8 @@ Il progetto è quasi pronto. Devi mettere a punti i parametri nel file "z_displ_
 - step 6 - Dimensione Buffer: Usati per convertire dal protocollo RGB565 ad RGB666 con ILI9488 V1.0: segui istruzioni nel file .ho 
 
 in "z_touch_XPT2046.h" devi impostare i seguenti parametri:
-- step 1 - Port Parameters: qui devi impostare due costanti macro con il nome della porta SPI a cui è connesso il sensore touch
-
+- step 1 - Port Parameters: qui devi impostare due costanti macro con il nome della porta SPI a cui è connesso il sensore touch<br>
+<br><br>
 
 
 
@@ -204,7 +204,7 @@ in "z_touch_XPT2046.h" devi impostare i seguenti parametri:
 ora, in TouchGFX generator, imposta questi parametri:
 |Parametro|Valore|
 |---|---|
-|Framebuffer PixelFormat|RGB565|
+|Framebuffer PixelFormat|RGB565 <b>(*)</b>|
 |Width|<imposta la dimensione del display>|
 |Height|<imposta la dimensione del display>|
 |Framebuffer Strategy|Partial Buffer|
@@ -212,6 +212,13 @@ tutti gli altri parametri come default<br>
 
 Salva e genera (o aggiorna) il software.<br>
 
+
+> <br><em><b>(*)</b> <br>even if you are using a display working in RGB666 (e.g. ILI9488 board V1.0), set TouchGFX to RGB565.<br>
+> TouchGFX doesn't work with RGB666 and will send frames in RGB565: library will make convertion from RBG565 to RGB666 needed by the display.<br></em><br> 
+
+<br><br>
+
+	
 
 ## impostazione di main.c 
 
@@ -271,12 +278,15 @@ Puoi chiedere un aggiornamento continuo di TouchGFX come qui sotto:<br>
 ...
   ```
 
+<br>
 
 
 ## usare TouchGFX nel tup progetto
 
-E' tutto. Inizia ad usare TouchGFX designer per impostare la tua GUI!
+E' tutto. Inizia ad usare TouchGFX designer per impostare la tua GUI!<br>
 
+
+<br><br>
 
 
 ## avvisi del compilatore
@@ -295,6 +305,7 @@ Queste sono già disponibili nella libreria.<br>
 Quindi, semplicemente cancella le due righe "#error", i due avvisi, e ricompila il progetto.<br>
 Non appariranno più.<br>
 
+<br><br>
 
 
 ## calibrazione del sensore touch
