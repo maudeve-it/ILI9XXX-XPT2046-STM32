@@ -60,7 +60,7 @@ all other parameters as per default<br>
 
 Save and generate (or update) software.<br>
 
-> <br><em><b>(*)</b> <br>even if you are using a display working in RGB666 (e.g. ILI9488 board V1.0), set TouchGFX to RGB565.<br>
+> <br><em><b>(*)</b> <br>even if you are using a display needing RGB666 (e.g. ILI9488 board V1.0), set TouchGFX to RGB565.<br>
 > TouchGFX doesn't work with RGB666 and will send frames in RGB565: library will make convertion from RBG565 to RGB666 needed by the display.<br></em><br> 
 
 <br><br>
@@ -213,8 +213,8 @@ tutti gli altri parametri come default<br>
 Salva e genera (o aggiorna) il software.<br>
 
 
-> <br><em><b>(*)</b> <br>even if you are using a display working in RGB666 (e.g. ILI9488 board V1.0), set TouchGFX to RGB565.<br>
-> TouchGFX doesn't work with RGB666 and will send frames in RGB565: library will make convertion from RBG565 to RGB666 needed by the display.<br></em><br> 
+> <br><em><b>(*)</b> <br>anche se stai usando un display che richiede RGB666 (e.g. ILI9488 board V1.0), imposta TouchGFX per RGB565.<br>
+> TouchGFX non lavora in RGB666 e manderà i frame in RGB565: la libreria convertirà da RBG565 al formato RGB666 richiesto dal display.<br></em><br> 
 
 <br><br>
 
