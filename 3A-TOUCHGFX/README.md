@@ -37,7 +37,7 @@ into "z_displ_ILI9XXX.h" file you have to setup this configuration:
 into "z_touch_XPT2046.h" file you have to setup this configuration:
 - step 1 - Port Parameters: here you have to set two macro constant with the SPI port name connecting touch sensor
 
-
+<br>
 
 ## TouchGFX package setup
 
@@ -58,6 +58,12 @@ now in TouchGFX generator, set these parameters:
 all other parameters as per default<br>
 
 Save and generate (or update) software.<br>
+
+> <br><em>PLEASE NOTE: <br>even if you are using a display working with the RGB666 pixel format (e.g. ILI9488 board V1.0) set TouchGFX to RGB565;<br>
+> TouchGFX doesn't work with RGB666 and will send frames in RGB565. Library will convert from RBG565 to RGB666 needed by the display.<br></em><br> 
+
+<br>
+
 
 
 ## main.c setup
