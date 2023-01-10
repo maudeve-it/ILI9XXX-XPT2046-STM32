@@ -17,7 +17,8 @@ Now that you have chosen the backlight handling mode and set it as per these ins
 
 You are ready to go integrating TouchGFX!<br>
 Follow the below instructions if you like handling the display through this GUI systems.<br>
-Otherwise, if you want to directly draw on the display through the library functions, do not proceed here and go to [(Direct handling) "How to" add this library to the created project](./3B-DIRECT)
+Otherwise, if you want to directly draw on the display through the library functions, do not proceed here and go to [(Direct handling) "How to" add this library to the created project](./3B-DIRECT)<br>
+<br>
 <br>
 
 ## Parameters setup
@@ -37,7 +38,7 @@ into "z_displ_ILI9XXX.h" file you have to setup this configuration:
 into "z_touch_XPT2046.h" file you have to setup this configuration:
 - step 1 - Port Parameters: here you have to set two macro constant with the SPI port name connecting touch sensor
 
-<br>
+<br><br>
 
 ## TouchGFX package setup
 
@@ -62,7 +63,7 @@ Save and generate (or update) software.<br>
 > <br><em>PLEASE NOTE: <br>even if you are using a display working in RGB666 (e.g. ILI9488 board V1.0), set TouchGFX to RGB565.<br>
 > TouchGFX doesn't work with RGB666 and will send frames in RGB565: library will make convertion from RBG565 to RGB666 needed by the display.<br></em><br> 
 
-<br>
+<br><br>
 
 
 
@@ -125,12 +126,13 @@ otherwise you can submit TouchGFX activation only to the events that need to be 
 ...
   ```
 
-
+<br><br>
+	
 ## using TouchGFX  in your projects
 
 That's all, start using TouchGFX designer to setup your GUI!
 
-
+<br><br>
 
 ## compiler warnings
 
@@ -148,7 +150,7 @@ They are already available in the library.<br>
 So, just delete the two "#error" lines, the two warnings, and re-compile the project.<br>
 They will not appear anymore.<rb>
 
-
+<br><br>
 
 ## touch sensor calibration
 
