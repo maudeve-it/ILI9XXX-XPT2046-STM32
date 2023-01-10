@@ -66,10 +66,10 @@ At the end of calibration display will show a calibrated set of parameters for t
 
 Register the new values into "z_touch_XPT2046.h" file (in the "CALIBRATION PARAMETERS" section)
 
-Test the new cailbration with the Touch_TestDrawing() finction.
+Test the new cailbration with the Touch_TestDrawing() function above indicated.
 You could also try to directly change the calibration parameters for a final fine tuning.
 
-When you are satisfied with the touch/grapichs alignement, keep the z_touch_XPT2046.h file for the next projects with your sensor.<br>
+When you are satisfied with the touch/graphics alignement, keep the z_touch_XPT2046.h file for the next projects with your sensor.<br>
 <br>
 <br>
 
