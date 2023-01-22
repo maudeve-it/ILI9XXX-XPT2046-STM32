@@ -101,6 +101,7 @@ void Touch_UnSelect(void) {
 uint16_t Touch_PollAxis(uint8_t axis) {
 	uint8_t poll[2] = {0,0};
 	uint32_t poll16;
+	uint8_t PenDownStatus=Touch_PenDown;
 	
 	while (!Displ_SpiAvailable) {};  // waiting for a free SPI port. Flag is set to 1 by transmission-complete interrupt callback
 
@@ -122,6 +123,7 @@ uint16_t Touch_PollAxis(uint8_t axis) {
 //enable back interrupt after reading the sensor
 	HAL_NVIC_ClearPendingIRQ(TOUCH_INT_EXTI_IRQn);
 	HAL_NVIC_EnableIRQ(TOUCH_INT_EXTI_IRQn);
+	Touch_PenDown=PenDownStatus;	// restore Touch_PendDown value entering this routine
 
 	return poll16;
 }
