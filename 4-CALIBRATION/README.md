@@ -8,7 +8,9 @@ _**Below English text you'll find the Italian version</i>**_
 # Needing to calibrate sensor
 
 I received some requests to help in fixing up a project that doesn't reply (or have a bad reply) to the touch, 
-so I'm adding here this page trying to help to set the touch sensor calibration. 
+so I'm adding this page trying to help to set the touch sensor calibration. 
+
+The calibration procedure showed below can be seen also inside this YouTube video: https://youtu.be/KS5u2-6yruU  
 
 ## Why needing the touch sensor calibration
 
@@ -81,6 +83,8 @@ When you are satisfied with the touch/graphics alignement, keep the z_touch_XPT2
 
 Ho ricevuto alcune richieste di aiuto nel risolvere il problema di progetti che hanno una cattiva (o nulla) risposta al tocco ed 
 ho pensato di aggiungere questa pagina per aiutare a calibrare il sensore touch.
+
+La procedura di calibrazione mostrata sotto può essere vista anche all'interno di questo video YouTube: https://youtu.be/KS5u2-6yruU  
 
 
 ## Perché è necessario calibrare il sensore
