@@ -128,11 +128,11 @@ La serie di font usata è fornita da STMicroelectronics. Licenza d'uso all'inter
 ---
 
 ## Soluzione a qualche problema
--	(direct handling e TouchGFX)<br>
+-	(gestione diretta e TouchGFX)<br>
 	Display funziona correttamente in polling mode and interrupt mode ma non in DMA mode:<br> 
 	https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/issues/2
 
--	(direct handling e TouchGFX)<br>
+-	(gestione diretta e TouchGFX)<br>
 	La grafica del display è corretta ma non risponde al tocco:<br> 
 	https://youtu.be/KS5u2-6yruU?t=251
 	
