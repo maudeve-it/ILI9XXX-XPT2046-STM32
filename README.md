@@ -75,7 +75,13 @@ Youtube video with a detailled analysis of SPI communication to displays: https:
 
 
 ---
+---
 
+<br>
+---
+
+<br>
+<br>
 <br>
 <br>
 
