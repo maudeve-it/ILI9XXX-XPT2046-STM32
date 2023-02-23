@@ -73,11 +73,9 @@ Youtube video with a detailled analysis of SPI communication to displays: https:
 	https://youtu.be/KS5u2-6yruU?t=810
 
 
-
----
----
-
 <br>
+
+---
 ---
 
 <br>
