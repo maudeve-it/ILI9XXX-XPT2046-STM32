@@ -98,7 +98,7 @@ Then enable the corresponding interrupt in the "NVIC session" of "System Core" c
 
 _**PLEASE NOTE</i>**_<br>
 
-- In a "TouchGFX" project you need only  "z_displ_ILI9XXX.h"y, "z_displ_ILI9XXX.c", "z_touch_XPT2046.h" and "z_touch_XPT2046.c"<br>
+- In a "TouchGFX" project you need only  "z_displ_ILI9XXX.h", "z_displ_ILI9XXX.c", "z_touch_XPT2046.h" and "z_touch_XPT2046.c"<br>
 - In a "Direct handling" project you need "_test" files (.c and .h) only if you want to use graphics test/demo functions, you don't need to add it in the production project.<br>
 - Adding "z_touch_XPT2046_test", compiler will ask you to enable printf library into project properties (follow warnings instructions) <br>
 <br>
