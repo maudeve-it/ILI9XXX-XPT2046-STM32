@@ -72,6 +72,10 @@ Youtube video with a detailled analysis of SPI communication to displays: https:
 	Non-synchronous display:<br> 
 	https://youtu.be/KS5u2-6yruU?t=810
 
+-	(direct handling and TouchGFX)<br>
+	Working with H7:<br> 
+	https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/issues/3
+
 
 <br>
 
@@ -144,6 +148,10 @@ La serie di font usata è fornita da STMicroelectronics. Licenza d'uso all'inter
 	Display non sincrono:<br> 
 	https://youtu.be/KS5u2-6yruU?t=810
 
+-	(gestione diretta e TouchGFX)<br>
+	Usare la libreria con un H7:<br> 
+	https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/issues/3
+	
 
 
 ---
