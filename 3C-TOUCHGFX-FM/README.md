@@ -3,10 +3,8 @@ _**Below English text you'll find the Italian version</i>**_
 
 <br>
 
-# TouchGFX Button Mode
 
-
-## So...
+# So...
 
 Now that you have created a new CubeIDE project as per these instructions:
 
@@ -18,12 +16,19 @@ Now that you have chosen the backlight handling mode and set it as per these ins
 
 
 You are ready to go integrating TouchGFX!<br>
-Follow the below instructions if you like handling the display through this GUI systems using only buttons as input widgets, having  a minor impact on the overall performances.<br>
+Follow the below instructions if you like handling the display through this GUI systems, AND you want/need handling all TouchGFX widgets (with the limitations imposed by these displays).<br>
 Otherwise:
 - if you want to directly draw on the display through the library functions, do not proceed here and go to [(Direct handling) "How to" add this library to the created project](../3B-DIRECT)<br>
-- if you want/need to use all TouchGFX widgets (with the limitations imposed by these displays) go to [(TouchGFX full mode) "How to" add this library to the created project](../3C-TOUCHGFX-FM)<br>
-
+- if you like handling the display through TouchGFX using only buttons as input widgets, having  a minor impact on the overall performances, go to [(TouchGFX button mode) "How to" add this library to the created project](../3A-TOUCHGFX)<br>
 <br>
+<br>
+
+## Warnings
+When I say that "all TouchGFX widgets are available", I don't mean that all widgets/transitions will give good results. I'm repeating, one more time here, that you must take in consideration limits imposed by the hw you are using: a small display, with a resistive touch sensor, not returning vsync to the uC, communicating via a single SPI port.<br>
+TouchGFX provides a rich set of features (and much more can be developed by you), they cover a wide range of displays and uC, and all of that features are available for the usage.<br>
+But if I'm not working with an OctoSPI or at least a Chrome-art hw support, I wuould not use a video widget on my projects. <br>
+And I never used also the keyboard widget on these displays: that's not an iPhone display. <br>
+On the other hand, fortunately, Crome-art is not a mandatory feature to come to good projects with a good UI.<br>
 <br>
 
 ## Parameters setup
@@ -37,14 +42,13 @@ into "z_displ_ILI9XXX.h" file you have to setup this configuration:
 - step 3 - Port Parameters: here you have to set two macro constant with the SPI port name connecting display (see below "z_touch_XPT2046.h" also)
 - step 4 - Port Speed: here you must assign bitrate SPI prescaler when transferring data to display or to/from touch sensor. Consider that touch uses baudrates  below 2MBps 
 - step 5 - SPI communication mode: uncomment the macro definition related to enabled communication mode (Polling mode, Interrupt mode or DMA mode). You must uncomment no less and no more than ONE definition here
-- step 6 - Backlight Mode: see [BACKLIGHT page](../BACKLIGHT)  
-- step 7 - TouchGFX Time base timer: unused in "button mode", be sure that these parameters refer to an unused timer   
+- step 6 - Backlight Mode: see [BACKLIGHT page](../BACKLIGHT)
+- step 7 - TouchGFX Time base timer: you have to specify here the timer you set with a loop of 1/60 s handling touchgfxSignalVsync()
 - step 8 - Buffer size: Used converting from RGB565 to RGB666 with ILI9488 V1.0 displays. Follow instructions into .h file  
 
 into "z_touch_XPT2046.h" file you have to setup this configuration:
 - step 1 - Port Parameters: here you have to set two macro constant with the SPI port name connecting touch sensor
-- step 2 - Delay to Key Repeat: touching a TouchGFX button for a time longer then what indicated here (ms) a key repeat feature starts. Set this value to 0 disabling the feature. Do not set negative values: it will enable library handling TouchGFX in "full mode" (see related info page) <br>
-<br><br>
+- step 2 - Delay to Key Repeat: that must be set to -1
 
 <br><br>
 
@@ -83,9 +87,9 @@ in main.c you now need to initialize display before entering in the main loop, t
   ```sh
   ...
   /* USER CODE BEGIN 2 */			// "USER CODE BEGIN 2" is after all system initializations and before entering the main loop. Good place to initialize display
-  Displ_Init(Displ_Orientat_0);		// initialize the display and set the initial display orientation (here is orientaton: 0°) - THIS FUNCTION MUST PRECEED ANY OTHER DISPLAY FUNCTION CALL.  
-  touchgfxSignalVSync();		// asks TouchGFX to start initial display drawing
-  Displ_BackLight('I');  			// initialize backlight and turn it on at init level
+  Displ_Init(Displ_Orientat_90);		// initialize display controller - set orientation parameter as per TouchGFX setup
+  Displ_BackLight('I');  			// initialize backlight
+  HAL_TIM_Base_Start_IT(&TGFX_T);		// starting timer driving touchgfxSignalVSync()
   /* USER CODE END 2 */
   ...
   ```
@@ -95,27 +99,8 @@ in main.c you now need to initialize display before entering in the main loop, t
 > <br><em>PLEASE NOTE:<br> set parameter in Displ_Init() function as per orientation of your display graphics.<br></em><br>
 
 <br>
-Then, in the main loop, add the cycling activation of TouchGFX.<br>
-You may ask a continuous TouchGFX refresh as here below:<br>
-
-  ```sh
-  ...
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  while (1) 			// into the main loop you can add the test functions
-  {
-  	touchgfxSignalVSync();		// asks TouchGFX to get events and redraw screen
-  
-    /* USER CODE END WHILE */
-
-	  MX_TouchGFX_Process();
-    /* USER CODE BEGIN 3 */
-  }
-  /* USER CODE END 3 */
-...
-  ```
+In the main loop, you do not need ad anything related to the library:<br>
 <br>
-but it is beter to submit TouchGFX activation only to the events requiring it, see below: <br>
 
   ```sh
   ...
@@ -123,8 +108,6 @@ but it is beter to submit TouchGFX activation only to the events requiring it, s
   /* USER CODE BEGIN WHILE */
   while (1) 			// into the main loop you can add the test functions
   {
-	if ("event occourred needing a display update")
-		touchgfxSignalVSync();		// asks TouchGFX to get events and redraw screen
   
     /* USER CODE END WHILE */
 
@@ -135,33 +118,6 @@ but it is beter to submit TouchGFX activation only to the events requiring it, s
 ...
   ```
 
-<br>
-... and the <i>typical</i> case of an event requiring TouchGFX update is a touch on the display.<br>
-Library provides a function for fast display polling: Touch_GotATouch(param).<br>
-It returns the status of a flag set by interrupt activated by a display touch.<br>
-It accepts a parameter (see function code for details) that can be set to "2" specifically for the touchgfxSignalVSync() call.<br>
-So main loop can (should) be set this way:<br>
-
-  ```sh
-  ...
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  while (1) 			// into the main loop you can add the test functions
-  {
-  	...
-	if (Touch_GotATouch(2))
-		touchgfxSignalVSync();		// asks TouchGFX to handle touch and redraw screen
-	if ("other events needing a display update")
-		touchgfxSignalVSync();		// asks TouchGFX to get events and redraw screen
-	...  
-    /* USER CODE END WHILE */
-
-	  MX_TouchGFX_Process();
-    /* USER CODE BEGIN 3 */
-  }
-  /* USER CODE END 3 */
-...
-  ```
 
 <br><br>
 	
@@ -182,7 +138,7 @@ When you first compile your project, it may stop on these two errors: <br>
 ...
   ```
 
-It is just a reminder for you to develop the interface routines to Touch GFX.<br>
+It is just a reminder for you to develop the interface routines to TouchGFX.<br>
 They are already available in the library.<br>
 So, just delete the two "#error" lines, the two warnings, and re-compile the project.<br>
 They will not appear anymore.<br>
@@ -208,18 +164,18 @@ Ora che hai scelto la gestione della retroilluminazione, seguendo queste istruzi
 
 - [Guida alla gestione della retroilluminazione](./2-BACKLIGHT)
 
-You are ready to go integrating TouchGFX!<br>
-Follow the below instructions if you like handling the display through this GUI systems using only buttons as input widgets, having  a minor impact on the overall performances.<br>
-Otherwise:
-- if you want to directly draw on the display through the library functions, do not proceed here and go to [(Direct handling) "How to" add this library to the created project](../3B-DIRECT)<br>
-- if you want/need to use all TouchGFX widgets (with the limitations imposed by these displays) go to [(TouchGFX full mode) "How to" add this library to the created project](../3C-TOUCHGFX-FM)<br>
+Puoi finalmente configurare gli ultimi parametri ed eseguire il programma!<br>
+Segui le istruzioni sotto se vuoi gestire direttamente il display attraverso le funzioni grafiche della libreria.<br>
+Se invece vuoi usare il pacchetto STM TouchGFX, non procedere qui e passa a [(gestione diretta) Guida per aggiungere la libreria al progetto creato](./2B-DIRECT)
+<br>
 
-Sei pronto a configurare gli ultimi parametri ed eseguire il programma!<br>
-Segui le istruzioni sotto se vuoi gestire il display attraverso TouchGFX utilizzando solo bottoni come widget di ingresso, con un impatto ridotto sulle prestazioni complessive.<br>
-Altrimenti:<br>
-- se vuoi gestire il display direttamente attraverso le funzioni grafiche della libreria, non proseguire e passa a: [(Direct handling) "How to" add this library to the created project](../3B-DIRECT)<br>
-- se invece vuoi/devi utilizzare tutti i widget di input TouchGFX (con le limitazioni introdotte da questi display) passa a [(TouchGFX full mode) "How to" add this library to the created project](../3C-TOUCHGFX-FM)<br>
-
+## Avvisi
+Quando indico che tutti i widget TouchGFX sono disponibili, non intendo dire che tutti danno buoni risultati. Ripeto qui che occorre tenere in considerazione i limiti imposti dall'hardware in uso: display di dimensioni ridotte, sensore touch resistivo, assenza di vsync, comunicazione con una porta SPI semplice.<br>
+TouchGFX mette a disposizione un ricco set di strumenti (ed altri possono essere sviluppati) che coprono un ampio spettro di display e uC. E tutti questi strumenti sono disponibili all'uso.<br>
+Ma se nel mio progetto non ho a disposizione un OctoSPI ed almeno il supporto hw di Chrome-art, io non userei il widget per i video nei miei progetti. <br>
+Ma non userei nemmeno il widget "keyboard" in progetti con i display che consideriamo qui: non sono il display di un iPhone. <br>
+D'altraparte, fortunatamente, non e' obbligatorio disporre di Chrome-art per arrivare ad un buon progetto con una buona UI.<br>
+<br>
 
 ## Configurazione Parametri
 Il progetto è quasi pronto. Devi mettere a punti i parametri nel file "z_displ_ST7735.h":
@@ -228,13 +184,13 @@ Il progetto è quasi pronto. Devi mettere a punti i parametri nel file "z_displ_
 - step 3 - Port Parameters: qui devi impostare due costanti macro con il nome della porta SPI a cui è connesso il display (vedi anche "z_touch_XPT2046.h", sotto)
 - step 4 - Port Speed: qui devi assegnare il valore al bitrate SPI prescaler quando trasferisce dati al display o al/dal sensore touch. Considera che il sensore touch comunica sotto i 2MBps 
 - step 5 - SPI communication mode: togli il commento alla definizione definition relativa al tipo di comunicazione attivato (Polling mode, Interrupt mode o DMA mode). Devi togliere il commento ad una riga (NON di più e NON di meno) 
-- step 6 - Backlight Mode: vedi la [pagina BACKLIGHT](../BACKLIGHT)  
-- step 7 - TouchGFX Time base timer: non usato in "button mode", assicurati che questi parametri facciano riferimento ad un timer non utilizzato   
+- step 6 - Backlight Mode: vedi la [pagina BACKLIGHT](../BACKLIGHT)
+- step 7 - TouchGFX Time base timer: qui devi indicare il timer che hai impostato con un ciclo di 1/60 s per gestire touchgfxSignalVsync()
 - step 8 - Dimensione Buffer: Usati per convertire dal protocollo RGB565 ad RGB666 con ILI9488 V1.0: segui istruzioni nel file .ho 
 
 in "z_touch_XPT2046.h" devi impostare i seguenti parametri:
 - step 1 - Port Parameters: qui devi impostare due costanti macro con il nome della porta SPI a cui è connesso il sensore touch<br>
-- step 2 - Delay to Key Repeat: toccando un bottone per un tempo superiore a quanto indicato qui (ms) attiverai la ripetizione automatica del tasto dopo. Metti 0 per disabilitare la ripetizione del tasto. Non mettere valori degativi: mettendo un valore negativo attivi la gestione TouchGFX "full mode" (vedi pagina di configurazione relativa) <br>
+- step 2 - Delay to Key Repeat: DEVE essere impostato a -1
 <br><br>
 
 
@@ -275,9 +231,9 @@ in main.c ora devi inizializzare il display prima di entrare nel main loop, in q
   ```sh
   ...
   /* USER CODE BEGIN 2 */			// "USER CODE BEGIN 2" is after all system initializations and before entering the main loop. Good place to initialize display
-  Displ_Init(Displ_Orientat_0);		// initialize the display and set the initial display orientation (here is orientaton: 0°) - THIS FUNCTION MUST PRECEED ANY OTHER DISPLAY FUNCTION CALL.  
-  touchgfxSignalVSync();		// asks TouchGFX to start initial display drawing
-  Displ_BackLight('I');  			// initialize backlight and turn it on at init level
+  Displ_Init(Displ_Orientat_90);		// initialize display controller - set orientation parameter as per TouchGFX setup
+  Displ_BackLight('I');  			// initialize backlight
+  HAL_TIM_Base_Start_IT(&TGFX_T);		// starting timer driving touchgfxSignalVSync()
   /* USER CODE END 2 */
   ...
   ```
@@ -287,15 +243,15 @@ in main.c ora devi inizializzare il display prima di entrare nel main loop, in q
 
 > <br><em>NOTA BENE: il parametro della funzione Displ_Init() deve corrispondere all'orientamento assegnato della grafica del display.<br></em><br>
 
-<br>Poi, nel loop principale, aggiungi l'attivazione ciclica di TouchGFX.<br>
-Puoi chiedere un aggiornamento continuo di TouchGFX come qui sotto:<br>
+<br>
+Nel main loop, non è necessario aggiungere niente relativo alla gestione della libreria:<br><br>
+
   ```sh
   ...
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1) 			// into the main loop you can add the test functions
-  {
-  	touchgfxSignalVSync();		// asks TouchGFX to get events and redraw screen
+  
   
     /* USER CODE END WHILE */
 
@@ -306,52 +262,6 @@ Puoi chiedere un aggiornamento continuo di TouchGFX come qui sotto:<br>
 ...
   ```
 <br>
-è però meglio attivare TouchGFX solo a fronte di eventi che ne richiedano l'intervento, vedi qui:<br>
-  ```sh
-  ...
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  while (1) 			// into the main loop you can add the test functions
-  {
-	if ("e' accaduto un evento che richiede l'aggiornamento del display")
-		touchgfxSignalVSync();		// asks TouchGFX to get events and redraw screen
-  
-    /* USER CODE END WHILE */
-
-	  MX_TouchGFX_Process();
-    /* USER CODE BEGIN 3 */
-  }
-  /* USER CODE END 3 */
-...
-  ```
-
-
-<br>
-... e il <i>tipico</i> caso di un evento che richiede l'aggiornamento di TouchGFX è il tocco del display.<br>
-La libreria fornisce una funzione per una veloce interrogazione del display: Touch_GotATouch(param).<br>
-La funzione restituisce lo stato di un flag settato dall'interrupt attivato dal sensore touch.<br>
-La funzione accetta un parametro (vedi il codice per i dettagli) che puo' essere definito a "2" specificatamente per la chimata a touchgfxSignalVSync().<br>
-Quindi il main loop potrebbe (dovrebbe) essere scritto così:<br>
-  ```sh
-  ...
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  while (1) 			// into the main loop you can add the test functions
-  {
-  	...
-	if (Touch_GotATouch(2))
-		touchgfxSignalVSync();		// asks TouchGFX to handle touch and redraw screen
-	if ("other events needing a display update")
-		touchgfxSignalVSync();		// asks TouchGFX to get events and redraw screen
-	...  
-    /* USER CODE END WHILE */
-
-	  MX_TouchGFX_Process();
-    /* USER CODE BEGIN 3 */
-  }
-  /* USER CODE END 3 */
-...
-  ```
 
 
 ## usare TouchGFX nel tup progetto
@@ -375,7 +285,7 @@ Quando compili il progetto per la prima volta, potrebbe fermarsi su questi due e
 
 Si tratta semplicemente di un avviso per ricordarti di sviluppare le routine di interfaccia a TouchGFX.<br>
 Queste sono già disponibili nella libreria.<br>
-Quindi, semplicemente cancella le due righe "#error", i due avvisi, e ricompila il progetto.<br>
+Quindi, semplicemente cancella/commenta le due righe "#error", i due avvisi, e ricompila il progetto.<br>
 Non appariranno più.<br>
 
 <br><br>

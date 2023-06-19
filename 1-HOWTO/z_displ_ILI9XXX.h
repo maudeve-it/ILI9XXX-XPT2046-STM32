@@ -1,26 +1,30 @@
 /*
  * 	z_displ_ILI9488.h
- *	rel. TouchGFX.1.20
+ *	rel. TouchGFX.1.30
  *
- *
- *  Created on: 28 dic 2022
+ *  Created on: 05 giu 2023
  *      Author: mauro
  *
  *  licensing: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/c097f0e7d569845c1cf98e8d930f2224e427fd54/LICENSE
  *
- *	To install and use this library follow instruction on: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32
+ *	Installing and using this library follow instruction on: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32
  *
  *  These are the init instruction to put in you main() USER CODE BEGIN 2
  *
  *  (if Direct Handling)
- *  Displ_Init(Displ_Orientat_0);			// (mandatory) initialize display controller - set orientation parameter as per your needs
+ *  Displ_Init(Displ_Orientat_0);			// initialize display controller - set orientation parameter as per your needs
  *  Displ_CLS(BLACK);						// clear the screen - BLACK or any other color you prefer
- *  Displ_BackLight('I');  					// (mandatory) initialize backlight
+ *  Displ_BackLight('I');  					// initialize backlight
  *
- *  (if using TouchGFX)
- *  Displ_Init(Displ_Orientat_0);			// (mandatory) initialize display controller - set orientation parameter as per TouchGFX setup
+ *  (if using TouchGFX - button mode)
+ *  Displ_Init(Displ_Orientat_0);			// initialize display controller - set orientation parameter as per TouchGFX setup
  * 	touchgfxSignalVSync();					// ask display syncronization
- *  Displ_BackLight('I');  					// (mandatory) initialize backlight
+ *  Displ_BackLight('I');  					// initialize backlight
+ *
+ *  (if using TouchGFX - full mode)
+ *  Displ_Init(Displ_Orientat_0);			// initialize display controller - set orientation parameter as per TouchGFX setup
+ *  Displ_BackLight('I');  					// initialize backlight
+ *  HAL_TIM_Base_Start_IT(&TGFX_T);			// start TouchGFX tick timer
  *
  */
 
@@ -31,7 +35,7 @@
 
 /*||||||||||| USER/PROJECT PARAMETERS |||||||||||*/
 
-/*****************     STEP 0      *****************
+/*****************     STEP 1      *****************
  ************ Enable TouchGFX interface ************
  * uncommenting the below #define to enable
  * functions interfacing TouchGFX
@@ -39,7 +43,7 @@
 #define DISPLAY_USING_TOUCHGFX
 
 
-/******************    STEP 1    *****************
+/******************    STEP 2    *****************
  * which display are you using?
  *************************************************/
 //#define ILI9341
@@ -47,26 +51,26 @@
 #define ILI9488_V2
 
 
-/******************    STEP 2    ******************
+/******************    STEP 3    ******************
  **************** PORT PARAMETERS *****************
  ** properly set the below th 2 defines to address
  ********  the SPI port defined on CubeMX *********
  **************************************************/
-#define DISPL_SPI_PORT 	hspi1
-#define DISPL_SPI 		SPI1
+#define DISPL_SPI_PORT 	hspi2
+#define DISPL_SPI 		SPI2
 
 
-/******************    STEP 3     ******************
+/******************    STEP 4     ******************
  ***************** SPI PORT SPEED  *****************
  * define HERE the prescaler value to assign SPI port 
  * when transferring data to/from DISPLAY or TOUCH
  * Keep in mind that Touch SPI Baudrate should be no more than 1 Mbps
  ***************************************************/
-#define DISPL_PRESCALER SPI_BAUDRATEPRESCALER_2     //prescaler assigned to display SPI port
+#define DISPL_PRESCALER SPI_BAUDRATEPRESCALER_4     //prescaler assigned to display SPI port
 #define TOUCH_PRESCALER SPI_BAUDRATEPRESCALER_256	//prescaler assigned to touch device SPI port
 
 
-/*****************     STEP 4      *****************
+/*****************     STEP 5      *****************
  ************* SPI COMMUNICATION MODE **************
  *** enable SPI mode want, uncommenting ONE row ****
  **** (Setup the same configuration on CubeMX) *****
@@ -76,7 +80,7 @@
 #define DISPLAY_SPI_DMA_MODE // (mixed: polling/DMA, see below)
 
 
-/*****************     STEP 5      *****************
+/*****************     STEP 6      *****************
  ***************** Backlight timer *****************
  * if you want dimming backlight UNCOMMENT the
  * DISPLAY_DIMMING_MODE below define and properly
@@ -93,24 +97,41 @@
  * Set all other defines below 
  ***************************************************/
 #define DISPLAY_DIMMING_MODE						// uncomment this define to enable dimming function otherwise there is an on/off switching function
-#define BKLIT_TIMER 				TIM3			//timer used (PWMming DISPL_LED pin)
-#define BKLIT_T 					htim3			//timer used
-#define BKLIT_CHANNEL				TIM_CHANNEL_2	//channel used
-#define BKLIT_CCR					CCR2			//Capture-compare register used
-#define BKLIT_STBY_LEVEL 			1				//Display backlight level when in stand-by (levels are CNT values)
+#define BKLIT_TIMER 				TIM2			//timer used (PWMming DISPL_LED pin)
+#define BKLIT_T 					htim2			//timer used
+#define BKLIT_CHANNEL				TIM_CHANNEL_1	//channel used
+#define BKLIT_CCR					CCR1			//Capture-compare register used (same number as channel)
+#define BKLIT_STBY_LEVEL 			50				//Display backlight level when in stand-by (levels are CNT values)
 #define BKLIT_INIT_LEVEL 			100				//Display backlight level on startup
 
 
-/*****************     STEP 6      *****************
+/*****************     STEP 7      *****************
+ ***************** TouchGFX Time base timer *****************
+ * If using library in TouchGFX-full-mode
+ * (see GitHub page indicated on top for details)
+ * you have to set #define DELAY_TO_KEY_REPEAT -1
+ * in "z_touch_XPT2046.h" and setup a timer as a 
+ * time base for TouchGFX. 
+ * It has to be set to generate a
+ * HAL_TIM_PeriodElapsedCallback 60 times per second
+ * That timer has to be assigned to the below macros.
+ * if not in TouchGFX-full-mode: assign macros to 
+ * an unused timer
+ ***************************************************/
+#define TGFX_TIMER			TIM3
+#define TGFX_T				htim3
+
+
+/*****************     STEP 8      *****************
  ************* frame buffer DEFINITION *************
  * IF NO TOUCHGFX: 
- * BUFLEVEL defines size of the 2 SPI buffers:
- * buffer size is 2^BUFLEVEL so 2 means 4 bytes buffer
- * and 10 means 1 kbyte (each).
- * it must be not below 10!
+ * BUFLEVEL defines size of each one of the 2 SPI 
+ * buffers: buffer size is 2^BUFLEVEL so 2 means 
+ * 4 bytes buffer and 10 means 1 kbyte (each).
+ * It must be not below 10!
  * If TOUCHGFX:
- * buffers are not used if displays handle RGB565, if 
- * display uses RGB666 one buffer will be used for 
+ * buffers are not used if display handles RGB565. 
+ * If display uses RGB666 one buffer will be used for 
  * color format translation. In this case set
  * BUFLEVEL following this table:
  * TouchGFX buffers>10KB need BUFLEVEL 15
@@ -118,10 +139,9 @@
  * TouchGFX buffers>2700bytes need BUFLEVEL 13
  * TouchGFX buffers>1300bytes need BUFLEVEL 12
 ***************************************************/
-#define BUFLEVEL 12
+#define BUFLEVEL 13
 
 /*|||||||| END OF USER/PROJECT PARAMETERS ||||||||*/
-
 
 
 /*|||||||||||||| DEVICE PARAMETERS |||||||||||||||||*/
@@ -133,6 +153,7 @@
 #ifdef ILI9488_V2
 #define ILI9488
 #endif
+
 
 /***************   color depth      ****************
  *** choose one of the two color depth available *** 
@@ -246,13 +267,16 @@ typedef enum {
 #define ILI9341_POWERA				0xCB
 #define ILI9341_POWERB				0xCF
 
-
 /**********************************************************
- * macro changing SPI baudrate prescaler
- * (used before any changes between display<->touch devices
+ * macro setting SPI baudrate prescaler
  **********************************************************/
-#define SET_SPI_BAUDRATE(_P_SCALER_) 	DISPL_SPI->CR1 &= (uint16_t) ~SPI_CR1_BR_Msk; \
-										DISPL_SPI->CR1 |= _P_SCALER_
+#define SET_DISPL_SPI_BAUDRATE			DISPL_SPI->CR1 &= (uint16_t) ~SPI_CR1_BR_Msk; \
+										DISPL_SPI->CR1 |= DISPL_PRESCALER
+
+#define SET_TOUCH_SPI_BAUDRATE			TOUCH_SPI->CR1 &= (uint16_t) ~SPI_CR1_BR_Msk; \
+										TOUCH_SPI->CR1 |= TOUCH_PRESCALER
+/**********************************************************/
+
 
 #define _swap_int16_t(a, b)  { int16_t t = a; a = b; b = t; }
 
@@ -276,7 +300,7 @@ void Displ_Orientation(Displ_Orientat_e orientation);
 void Displ_Pixel(uint16_t x, uint16_t y, uint16_t color);
 void Displ_WChar(uint16_t x, uint16_t y, char ch, sFONT font, uint8_t size, uint16_t color, uint16_t bgcolor);
 void Displ_WString(uint16_t x, uint16_t y, const char* str, sFONT font, uint8_t size, uint16_t color, uint16_t bgcolor);
-#endif
+#endif /* ! DISPLAY_USING_TOUCHGFX */
 void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color);
 void Displ_Orientation(Displ_Orientat_e orientation);
 void Displ_Init(Displ_Orientat_e orientation);

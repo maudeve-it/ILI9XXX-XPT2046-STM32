@@ -87,7 +87,8 @@ That should be enough, you should have already done this step:
 - ["How to" create a CubeIDE project for this library](../1-HOWTO)
 
 now you can move to these sections:
-- for TouchGFX projects: [(TouchGFX) "How to" add this library to the created project](../3A-TOUCHGFX)
+- for TouchGFX "full mode" projects: [(TouchGFX) "How to" add this library to the created project](../3C-TOUCHGFX-FM)
+- for TouchGFX "button mode" projects: [(TouchGFX) "How to" add this library to the created project](../3A-TOUCHGFX)
 - for Direct Handling projects: [(Direct handling) "How to" add this library to the created project](../3B-DIRECT)
 
 
@@ -184,8 +185,9 @@ Dovrebbe bastare, dovresti aver già fatto anche questo step:
 - [Guida per creare un progetto CubeIDE per questa libreria](../1-HOWTO)
 
 ora puoi andare alle sezioni:
+- per progetti TouchGFX "full mode": [(TouchGFX) "How to" add this library to the created project](../3C-TOUCHGFX-FM)
+- per progetti TouchGFX "button mode": [(TouchGFX) Guida per aggiungere la libreria al progetto creato](../3A-TOUCHGFX)
 - per progetti con Gestione Diretta: [(gestione diretta) Guida per aggiungere la libreria al progetto creato](../3B-DIRECT)
-- per progetti TouchGFX: [(TouchGFX) Guida per aggiungere la libreria al progetto creato](../3A-TOUCHGFX)
 
 
 

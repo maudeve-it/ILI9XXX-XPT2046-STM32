@@ -1,9 +1,13 @@
 /*
+ * 	z_touch_XPT2046.h
+ *	rel. TouchGFX.1.30
  *
- *  Created on: 2 giu 2022
+ *  Created on: 05 giu 2023
  *      Author: mauro
  *
  *  licensing: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/c097f0e7d569845c1cf98e8d930f2224e427fd54/LICENSE
+ *
+ *  Installing and using this library follow instruction on: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32
  *
  *	WARNING WARNING WARNING:
  *	in main.h put the #insert of this file BELOW the #insert of z_displ_ILIxxxx.h
@@ -13,32 +17,36 @@
 #define __XPT2046_H
 
 
-/***** USER/PROJECT PARAMETERS *****/
+/*||||||||||| USER/PROJECT PARAMETERS |||||||||||*/
 
-/**************** PORT PARAMETERS *****************
+/*****************     STEP 1      *****************
+ **************** PORT PARAMETERS *****************
  ** properly set the below the 2 defines to address
  ********  the SPI port defined on CubeMX *********/
 
-#define TOUCH_SPI_PORT 	hspi1
-#define TOUCH_SPI 		SPI1
+#define TOUCH_SPI_PORT 	hspi2
+#define TOUCH_SPI 		SPI2
 
 
-/**********   KEY REPEAT FOR TOUCHGFX   ***********
+/*****************     STEP 2      *****************
+ **********   KEY REPEAT FOR TOUCHGFX   ***********
  * used only in TouchGFX integration
- * sets timeout (ms) before starting
- * key repeat, reading touch sensor
- * set it to 0 to disable key repeat
+ * - set a value above 0 defining the timeout (ms)
+ *   before starting key repeat, reading touch sensor
+ * - set 0 disabling key repeat (single pulse)
+ * - set -1 for a continuous touch needed by
+ *   "dragging" widgets
+ * (see GitHub page indicated on top for details)
  **************************************************/
-#define DELAY_TO_KEY_REPEAT 500
+#define DELAY_TO_KEY_REPEAT -1
+
+/*|||||||| END OF USER/PROJECT PARAMETERS ||||||||*/
 
 
-/***** END OF "USER/PROJECT PARAMETERS" *****/
 
 
-
-/**************** DEVICE PARAMETERS ***************/
+/*|||||||||||||| DEVICE PARAMETERS |||||||||||||||||*/
 /* you should need to change nothing from here on */
-
 
 /**************************************************
  * this is the command to send to XPT2046 asking to
@@ -75,6 +83,7 @@
  * Ydispl = AY * Ytouch + BY
  *
  **********************************************************************************/
+
 #ifdef ILI9341
 #define T_ROTATION_0
 #define AX 0.00801f
@@ -98,6 +107,8 @@
 #define AY 0.0166f
 #define BY -41.38f
 #endif
+
+
 
 
 /**********************************************************************************
@@ -144,21 +155,28 @@
 #endif
 
 
-/***** END OF "DEVICE PARAMETERS" *****/
 
-
+/*|||||||||||||| INTERFACE PARAMETERS |||||||||||||||||*/
 
 /**********************************************************************************
- * program declarations and definitions
+ * next parameters are used only in TouchGFX: in Touch_TouchGFXSampleTouch() and
+ * Touch_GotATouch(), helping in using dragging widgets like scrolling lists
+ * You can try to change the below parameters only if your display looses quality or over-used
  **********************************************************************************/
+#define TOUCHGFX_TIMING 60		//delay between 2 consecutive Touch_GotATouch(2)readings		(0=disabled)
+#define TOUCHGFX_SENSITIVITY 1  //square of X pixels size having the same value					(1 disabled)
+#define TOUCHGFX_MOVAVG 1		//makes position based on average of the last X readings		(1 disabled)
+#define TOUCHGFX_REPEAT_IT 0	// after a long touch (dragging) repeat X times last position	(0=disabled)
+#if DELAY_TO_KEY_REPEAT==-1
+#define TOUCHGFX_REPEAT_NO 0	// after a REPEAT_IT repeat X times a no touch					(0=disabled)
+#else
+#define TOUCHGFX_REPEAT_NO 5	// after a REPEAT_IT repeat X times a no touch					(0=disabled)
+#endif
+
+/*||||||||||| END OF INTERFACE PARAMETERS ||||||||||||*/
 
 
-typedef struct {
-	uint8_t	isTouch;
-	uint16_t Xpos;
-	uint16_t Ypos;
-}sTouchData;
-
+/*|||||||||||||| FUNCTION DECLARATIONS |||||||||||||||||*/
 
 void HAL_GPIO_EXTI_Falling_Callback(uint16_t GPIO_Pin);
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
@@ -167,11 +185,12 @@ uint8_t Touch_In_XY_area(uint16_t xpos,uint16_t ypos,uint16_t width,uint16_t hei
 uint8_t Touch_GotATouch(uint8_t reset);
 uint8_t Touch_WaitForUntouch(uint16_t delay);
 uint8_t Touch_WaitForTouch(uint16_t delay);
+uint8_t Touch_PollTouch();
 void Touch_GetXYtouch(uint16_t *x, uint16_t *y, uint8_t *isTouch);
-
 
 #ifdef DISPLAY_USING_TOUCHGFX
 uint8_t Touch_TouchGFXSampleTouch(int32_t *x, int32_t *y);
-#endif
+#endif /* DISPLAY_USING_TOUCHGFX */
 
 #endif /* __XPT2046_H */
+

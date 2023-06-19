@@ -1,8 +1,8 @@
 /*
  * 	z_displ_ILI94XX.c
- * 	rel. TouchGFX.1.20
+ * 	rel. TouchGFX.1.30
  *
- *  Created on: Dec 27, 2022
+ *  Created on: 5 giu 2023
  *      Author: mauro
  *
  *  licensing: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/c097f0e7d569845c1cf98e8d930f2224e427fd54/LICENSE
@@ -18,13 +18,12 @@ extern SPI_HandleTypeDef DISPL_SPI_PORT;
 
 #ifdef DISPLAY_DIMMING_MODE
 extern TIM_HandleTypeDef BKLIT_T;
+extern TIM_HandleTypeDef TGFX_T;
 #endif
 
 extern volatile uint8_t Touch_PenDown;				// set to 1 by pendown interrupt callback, reset to 0 by sw
-
 Displ_Orientat_e current_orientation;				// it records the active display orientation. Set by Displ_Orientation
 volatile uint8_t Displ_SpiAvailable=1;  			// 0 if SPI is busy or 1 if it is free (transm cplt)
-
 int16_t _width;       								///< (oriented) display width
 int16_t _height;      								///< (oriented) display height
 
@@ -55,7 +54,7 @@ void Displ_Select(void) {
 	if (TOUCH_SPI==DISPL_SPI){														// if SPI port shared (display <-> touch)
 		if (HAL_GPIO_ReadPin(DISPL_CS_GPIO_Port, DISPL_CS_Pin)) {					// if display not yet selected
 			HAL_GPIO_WritePin(TOUCH_CS_GPIO_Port, TOUCH_CS_Pin, GPIO_PIN_SET); 		// unselect touch
-			SET_SPI_BAUDRATE(DISPL_PRESCALER);   									//change SPI port speed as per display needs
+			SET_DISPL_SPI_BAUDRATE;				   									//change SPI port speed as per display needs
 			HAL_GPIO_WritePin(DISPL_CS_GPIO_Port, DISPL_CS_Pin, GPIO_PIN_RESET);	// select display
 		}
 	}
@@ -76,8 +75,8 @@ void Displ_Transmit(GPIO_PinState DC_Status, uint8_t* data, uint16_t dataSize, u
 
 	while (!Displ_SpiAvailable) {};  // waiting for a free SPI port. Flag is set to 1 by transmission-complete interrupt callback
 
-	HAL_GPIO_WritePin(DISPL_DC_GPIO_Port, DISPL_DC_Pin, DC_Status);
 	Displ_Select();
+	HAL_GPIO_WritePin(DISPL_DC_GPIO_Port, DISPL_DC_Pin, DC_Status);
 
 	if (isTouchGFXBuffer){
 #ifdef Z_RGB565
@@ -99,8 +98,8 @@ void Displ_Transmit(GPIO_PinState DC_Status, uint8_t* data, uint16_t dataSize, u
 			*(buf8Pos++)=((*data16 & 0x001F)<<3);  // B color
 		}
 
-		data=dispBuffer1; 				//data (pointer to data to transfer via SPI) has point to converted buffer
-		dataSize=(buf8Pos-dispBuffer1);	//and dataSize has contain the size of the converted buffer
+		data=dispBuffer1; 				//data (pointer to data to transfer via SPI) has to point to converted buffer
+		dataSize=(buf8Pos-dispBuffer1);	//and dataSize has to contain the converted buffer size
 
 #endif //Z_RGB565
 	}
@@ -116,7 +115,6 @@ void Displ_Transmit(GPIO_PinState DC_Status, uint8_t* data, uint16_t dataSize, u
 			Displ_SpiAvailable=0;
 			HAL_SPI_Transmit(&DISPL_SPI_PORT , data, dataSize, HAL_MAX_DELAY);
 			Displ_SpiAvailable=1;
-
 #ifdef DISPLAY_USING_TOUCHGFX
 			if (isTouchGFXBuffer){
 				DisplayDriver_TransferCompleteCallback();
@@ -279,7 +277,9 @@ void Displ_Init(Displ_Orientat_e orientation){
 		HAL_GPIO_WritePin(TOUCH_CS_GPIO_Port, TOUCH_CS_Pin, GPIO_PIN_SET);		// unselect touch (will be selected at writing time)
 	} else {																	// otherwise leave both port permanently selected
 		HAL_GPIO_WritePin(DISPL_CS_GPIO_Port, DISPL_CS_Pin, GPIO_PIN_RESET); 	// select display
+		SET_DISPL_SPI_BAUDRATE;
 		HAL_GPIO_WritePin(TOUCH_CS_GPIO_Port, TOUCH_CS_Pin, GPIO_PIN_RESET);	// select touch
+		SET_TOUCH_SPI_BAUDRATE;
 	}
 	ILI9XXX_Init();
 	Displ_Orientation(orientation);
@@ -341,11 +341,11 @@ void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi){
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi) {
 	if (hspi->Instance==DISPL_SPI) {
 		Displ_SpiAvailable=1;
-//		Touch_PenDown=0;    //reset touch interrupt flag: writing onto display will trigger the display interrupt pin
 
-#ifdef DISPLAY_USING_TOUCHGFX
+	#ifdef DISPLAY_USING_TOUCHGFX
 		DisplayDriver_TransferCompleteCallback();
-#endif
+	#endif
+
 	}
 }
 
@@ -443,7 +443,6 @@ void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t col
 
 
 
-
 #ifndef DISPLAY_USING_TOUCHGFX
 
 /*****************************************
@@ -468,18 +467,6 @@ void Displ_Pixel(uint16_t x, uint16_t y, uint16_t color) {
     Displ_FillArea(x, y, 1, 1, color);
 
 }
-
-
-
-
-/*****************
- * @brief	clear display with a color.
- * @param	bgcolor
- *****************/
-void Displ_CLS(uint16_t bgcolor){
-	Displ_FillArea(0, 0, _width, _height, bgcolor);
-}
-
 
 
 
@@ -517,6 +504,27 @@ void Displ_drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color) {
         Displ_Pixel(x0 - y, y0 - x, color);
     }
 }
+
+
+
+
+
+/*****************
+ * @brief	clear display with a color.
+ * @param	bgcolor
+ *****************/
+void Displ_CLS(uint16_t bgcolor){
+	Displ_FillArea(0, 0, _width, _height, bgcolor);
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1085,6 +1093,9 @@ uint32_t  Displ_BackLight(uint8_t cmd) {
 #endif
 
 	switch (cmd) {
+	case 'Q':
+		__NOP();
+		break;
 #ifndef DISPLAY_DIMMING_MODE
 	case 'F':
 	case '1':
@@ -1126,8 +1137,6 @@ uint32_t  Displ_BackLight(uint8_t cmd) {
 		BKLIT_TIMER->BKLIT_CCR=BKLIT_INIT_LEVEL;
 		break;
 #endif
-	case 'Q':
-		break;
 	default:
 		break;
 	}
@@ -1140,11 +1149,12 @@ uint32_t  Displ_BackLight(uint8_t cmd) {
 
 
 
-/************************
- * @brief	TouchGFX integration: returns status of communication to the display
+/*********************************************************
+ * @brief	TouchGFX integration: returns status of
+ * 			communication to the display
  * @return	1 = there is a transmission running
  * 			0 = no transmission
- ************************/
+ *********************************************************/
 int touchgfxDisplayDriverTransmitActive(){
 	// using the flag indicating SPI port availability
 	// already used to drive communication via DMA
@@ -1152,12 +1162,30 @@ int touchgfxDisplayDriverTransmitActive(){
 }
 
 
-/************************
- * @brief	TouchGFX integration: write to display the block indicated by parameters
- *
- ************************/
+
+
+
+/*********************************************************
+ * @brief	TouchGFX integration: write to display the
+ * 			block indicated by parameters
+ *********************************************************/
 void touchgfxDisplayDriverTransmitBlock(const uint8_t* pixels, uint16_t x, uint16_t y, uint16_t w, uint16_t h){
 	//START WRITING TO DISPLAY
 		Displ_SetAddressWindow(x, y, x+w-1, y+h-1);
 		Displ_WriteData((uint8_t* )pixels,((w*h)<<1),1);
+}
+
+
+
+
+
+/*********************************************************
+ * @brief	TouchGFX integration: this is the callback
+ * 			function run by timer interrupt implementing
+ * 			the tick timer for TouchGFX
+ *********************************************************/
+void HAL_TIM_PeriodElapsedCallback (TIM_HandleTypeDef * htim){
+	if (htim==&TGFX_T){
+		  touchgfxSignalVSync();
+	}
 }

@@ -4,6 +4,8 @@ _**Below English text you'll find the Italian version</i>**_
 
 <br>
 
+# Direct Display Handling Mode
+
 
 ## So...
 
@@ -17,8 +19,10 @@ Now that you have chosen the backlight handling mode and set it as per these ins
 
 
 You finally can setup the last program parameters and run it!<br>
-Follow the below instructions if you like directly handling the display through the graphics functions in the library.
-Otherwise, if you want to use the STM TouchGFX package, do not proceed here and go to [(TouchGFX) "How to" add this library to the created project](../3A-TOUCHGFX)
+Follow the below instructions if you like directly handling the display through the graphics functions in the library.<br>
+Otherwise:
+- if you like handling the display through TouchGFX using only buttons as input widgets, having  a minor impact on the overall performances, go to [(TouchGFX button mode) "How to" add this library to the created project](../3A-TOUCHGFX)<br>
+- if you want/need to use all TouchGFX widgets (with the limitations imposed by these displays) go to [(TouchGFX full mode) "How to" add this library to the created project](../3C-TOUCHGFX-FM)<br>
 
 
 ## Parameters setup
@@ -27,16 +31,18 @@ you must "tune" the software parameters in two files:<br>
 - z_touch_XPT2046.h<br>
 
 into "z_displ_ILI9XXX.h" file you have to setup this configuration:
-- step 0 - TouchGFX parameter: ok, if you are here reading, it means you have to add a comment to parameter in section 0, disabling TouchGFX handling
-- step 1 - define the display you are using (ILI9346 or ILI9488 V1.0 or V2.0) uncommenting the related #define
-- step 2 - Port Parameters: here you have to set two macro constant with the SPI port name connecting display (see below "z_touch_XPT2046.h" also)
-- step 3 - Port Speed: here you must assign bitrate SPI prescaler when transferring data to display or to/from touch sensor. Consider that touch uses baudrates  below 2MBps 
-- step 4 - SPI communication mode: uncomment the macro definition related to enabled communication mode (Polling mode, Interrupt mode or DMA mode). You must uncomment no less and no more than ONE definition here
-- step 5 - Backlight Mode: see [BACKLIGHT page](../BACKLIGHT)  
-- step 6 - Buffer size: TouchGFX don't use library buffers which will be disabled, so parameter set here is not used 
+- step 1 - TouchGFX parameter: ok, if you are here reading, it means you have to add a comment to parameter in section 0, disabling TouchGFX handling
+- step 2 - define the display you are using (ILI9346 or ILI9488 V1.0 or V2.0) uncommenting the related #define
+- step 3 - Port Parameters: here you have to set two macro constant with the SPI port name connecting display (see below "z_touch_XPT2046.h" also)
+- step 4 - Port Speed: here you must assign bitrate SPI prescaler when transferring data to display or to/from touch sensor. Consider that touch uses baudrates  below 2MBps 
+- step 5 - SPI communication mode: uncomment the macro definition related to enabled communication mode (Polling mode, Interrupt mode or DMA mode). You must uncomment no less and no more than ONE definition here
+- step 6 - Backlight Mode: see [BACKLIGHT page](../BACKLIGHT)
+- step 7 - TouchGFX Time base timer: unused only in "TouchGFX Full Mode", in "Direct Mode" be sure that these parameters refer to an unused timer
+- step 8 - Buffer size: that's defining size of buffers storing data to display. It must be not below 10. See [Youtube video](https://youtu.be/oWx1-WmTwag) for information and comments about buffer size.
 
 into "z_touch_XPT2046.h" file you have to setup this configuration:
 - step 1 - Port Parameters: here you have to set two macro constant with the SPI port name connecting touch sensor
+- step 2 - Delay to Key Repeat: this parameter is used only in "TouchGFX Button Mode". In Direct Mode any value set is meaningless.
 
 
 ## main.c setup
@@ -120,6 +126,9 @@ Check that here: ["How to" calibrate touch sensor](../4-CALIBRATION)
 
 ---
 
+# Gestione Diretta del Display
+
+
 ## Dunque...
 Ora che hai creato un nuovo progetto con CubeIDE project seguendo queste istruzioni:
 
@@ -129,9 +138,18 @@ Ora che hai scelto la gestione della retroilluminazione, seguendo queste istruzi
 
 - [Guida alla gestione della retroilluminazione](./2-BACKLIGHT)
 
-Puoi finalmente configurare gli ultimi parametri ed eseguire il programma!
+You finally can setup the last program parameters and run it!<br>
+Follow the below instructions if you like directly handling the display through the graphics functions in the library.
+Otherwise:
+- if you like handling the display through TouchGFX using only buttons as input widgets, having  a minor impact on the overall performances, go to [(TouchGFX button mode) "How to" add this library to the created project](../3A-TOUCHGFX)<br>
+- if you want/need to use all TouchGFX widgets (with the limitations imposed by these displays) go to [(TouchGFX full mode) "How to" add this library to the created project](../3C-TOUCHGFX-FM)<br>
+
+
+Puoi finalmente configurare gli ultimi parametri ed eseguire il programma!<br>
 Segui le istruzioni sotto se vuoi gestire direttamente il display attraverso le funzioni grafiche della libreria.<br>
-Se invece vuoi usare il pacchetto STM TouchGFX, non procedere qui e passa a [(TouchGFX) Guida per aggiungere la libreria al progetto creato](./2A-TOUCHGFX)
+Altrimenti:<br>
+- se vuoi gestire il display attraverso TouchGFX usando solo bottoni come widgets di ingresso, ottenendo un minore impatto sulle prestazioni complessive, passa a: [(TouchGFX button mode) "How to" add this library to the created project](../3A-TOUCHGFX)<br>
+- se vuoi/devi utilizzare tutti i widgets TouchGFX (con le limitazioni imposte da questi display) passa a: [(TouchGFX full mode) "How to" add this library to the created project](../3C-TOUCHGFX-FM)<br>
 
 
 ## Configurazione Parametri
@@ -140,16 +158,19 @@ Devi "mettere a punto" i parametri del software in due file:
 - z_touch_XPT2046.h
 
 in "z_displ_ILI9XXX.h" devi impostare questa configurazione:
-- step 0 - TouchGFX: se stai leggendo qui devi commentare la macro nella sezione 0, disabilitando la gestione TouchGFX  
-- step 1 - Definisci il display che stai usando (ILI9346 or ILI9488 V1.0 or V2.0) togliendo ail commento al #define relativo
-- step 2 - Port Parameters: qui devi impostare due costanti macro con il nome della porta SPI a cui è connesso il display (vedi anche "z_touch_XPT2046.h", sotto)
-- step 3 - Port Speed: qui devi assegnare il valore al bitrate SPI prescaler quando trasferisce dati al display o al/dal sensore touch. Considera che il sensore touch comunica sotto i 2MBps 
-- step 4 - SPI communication mode: togli il commento alla definizione definition relativa al tipo di comunicazione attivato (Polling mode, Interrupt mode o DMA mode). Devi togliere il commento ad una riga (NON di più e NON di meno) 
-- step 5 - Backlight Mode: vedi la [pagina BACKLIGHT](../BACKLIGHT)  
-- step 6 - Buffer size: definisci il "Buffer Level" che preferisci (assegna un valore tra 10 e 16 included) vedi [il video youtube](https://youtu.be/oWx1-WmTwag) per informazioni e commenti sulle sue dimensioni.  
+- step 1 - TouchGFX: se stai leggendo qui devi commentare la macro nella sezione 0, disabilitando la gestione TouchGFX  
+- step 2 - Definisci il display che stai usando (ILI9346 or ILI9488 V1.0 or V2.0) togliendo ail commento al #define relativo
+- step 3 - Port Parameters: qui devi impostare due costanti macro con il nome della porta SPI a cui è connesso il display (vedi anche "z_touch_XPT2046.h", sotto)
+- step 4 - Port Speed: qui devi assegnare il valore al bitrate SPI prescaler quando trasferisce dati al display o al/dal sensore touch. Considera che il sensore touch comunica sotto i 2MBps 
+- step 5 - SPI communication mode: togli il commento alla definizione definition relativa al tipo di comunicazione attivato (Polling mode, Interrupt mode o DMA mode). Devi togliere il commento ad una riga (NON di più e NON di meno) 
+- step 6 - Backlight Mode: vedi la [pagina BACKLIGHT](../BACKLIGHT)  
+- step 7 - Timer per la temporizzazione di TouchGFX: usato solo in "TouchGFX Full Mode", in Direct Mode assicurati che questo parametro non sia associato ad un timer in uso
+- step 8 - Buffer size: definisci il "Buffer Level" che preferisci (assegna un valore tra 10 e 16) vedi [il video youtube](https://youtu.be/oWx1-WmTwag) per informazioni e commenti sulle sue dimensioni.  
 
 in "z_touch_XPT2046.h" devi impostare i seguenti parametri:
-- step 1 - Port Parameters: qui devi impostare due costanti macro con il nome della porta SPI a cui è connesso il display 
+- step 1 - Port Parameters: qui devi impostare due costanti macro con il nome della porta SPI a cui è connesso il display
+- step 2 - Delay to Key Repeat: questo parametro è utilizzato solo in "TouchGFX Button Mode". Qualunque valore impostato non e' significativo qui
+
 
 
 ## impostazione di main.c 
