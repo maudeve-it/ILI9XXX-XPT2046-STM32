@@ -128,7 +128,7 @@ Set-up a basic timer just having a loop 60 times per second, generating a "perio
 ---
 
 
-### Wiring/collegamenti
+### Wiring/collegamenti (single port)
 
 <img src="https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32/blob/main/1-HOWTO/wiring.png" width="540" height="429">
 
