@@ -119,7 +119,7 @@ Set-up a basic timer just having a loop 60 times per second, generating a "perio
 - ["How to" handle display backlight](../2-BACKLIGHT)
 - for Direct Handling projects: [(Direct handling) "How to" add this library to the created project](../3B-DIRECT)
 - for TouchGFX "button mode" projects: [(TouchGFX) "How to" add this library to the created project](../3A-TOUCHGFX)
-- for TouchGFX "full mode" projects: [(TouchGFX) Guida per aggiungere la libreria al progetto creato](../3C-TOUCHGFX-FM)
+- for TouchGFX "full mode" projects: [(TouchGFX) "How to" add this library to the created project](../3C-TOUCHGFX-FM)
 - next, for all type of projects:  ["How to" calibrate touch sensor](../4-CALIBRATION)
 
 
