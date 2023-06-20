@@ -54,7 +54,7 @@ Displays used<br>
 
 
 Youtube video showing TouchGFX integration characteristics and performance: https://youtu.be/g1siKaPox88<br>
-Youtube video showing "How to" setup a full "full mode" TouchGFX project: https://youtu.be/bG6XCDyCNzo
+Youtube video showing "How to" setup a full "full mode" TouchGFX project: https://youtu.be/bG6XCDyCNzo<br>
 Youtube video showing performing tests of library: https://youtu.be/020k2vbLAPc<br>
 Youtube video with a detailled analysis of SPI communication to displays: https://youtu.be/oWx1-WmTwag<br>
 
@@ -148,7 +148,7 @@ Il software sviluppato, si basa su HAL attraverso STM32CubeIDE.<br>
 - [Guida per la calibrazione del sensore touch](./4-CALIBRATION)
 
 Video Youtube con le carateristiche e le prestazioni dell'integrazione TouchGFX: https://youtu.be/g1siKaPox88<br>
-Video Youtube su come impostare un progetto TouchGFX "full mode": https://youtu.be/bG6XCDyCNzo
+Video Youtube su come impostare un progetto TouchGFX "full mode": https://youtu.be/bG6XCDyCNzo<br>
 Video Youtube con le carateristiche e le prestazioni dellla libreria: https://youtu.be/020k2vbLAPc<br>
 Video Youtube con una analisi di dettaglio sulla comunicazione con i display: https://youtu.be/oWx1-WmTwag<br>
 
