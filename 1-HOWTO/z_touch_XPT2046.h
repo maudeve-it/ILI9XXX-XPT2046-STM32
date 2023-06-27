@@ -9,17 +9,15 @@
  *
  *  Installing and using this library follow instruction on: https://github.com/maudeve-it/ILI9XXX-XPT2046-STM32
  *
- *	WARNING:
+ *  WARNING:
  *	in main.h put the #insert of this file BELOW the #insert of z_displ_ILIxxxx.h
  *
+ *  If using TouchGFX,
  *  you have also to add the below include:
- *
 #include "main.h"
- *
  *  into STM32TouchController.cpp file
  *  changing also sampleTouch()
  *  as shown here:
- *
 bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
 {
 	return ((bool) Touch_TouchGFXSampleTouch(&x, &y));
