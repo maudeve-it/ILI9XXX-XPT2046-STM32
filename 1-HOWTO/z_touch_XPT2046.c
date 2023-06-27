@@ -12,18 +12,6 @@
 */
 
 
-/*
- * Using this library with TouchGFX
- * you have to add the below include:
-#include "main.h"
- *  into STM32TouchController.cpp file
- * changing also "return" inside sampleTouch()
- * as shown here:
-bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
-{
-	return ((bool) Touch_TouchGFXSampleTouch(&x, &y));
-}
-*/
 
 
 #include "main.h"

@@ -26,6 +26,8 @@
  *  Displ_BackLight('I');  					// initialize backlight
  *  HAL_TIM_Base_Start_IT(&TGFX_T);			// start TouchGFX tick timer
  *
+ *  see also z_touch_XPT2046.h
+ *
  */
 
 
