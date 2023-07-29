@@ -18,8 +18,8 @@ extern SPI_HandleTypeDef DISPL_SPI_PORT;
 
 #ifdef DISPLAY_DIMMING_MODE
 extern TIM_HandleTypeDef BKLIT_T;
-extern TIM_HandleTypeDef TGFX_T;
 #endif
+extern TIM_HandleTypeDef TGFX_T;
 
 extern volatile uint8_t Touch_PenDown;				// set to 1 by pendown interrupt callback, reset to 0 by sw
 Displ_Orientat_e current_orientation;				// it records the active display orientation. Set by Displ_Orientation
