@@ -90,8 +90,9 @@ add the include:<br>
   ```
 
 <br>
-Change sampleTouch() as shown here:<br>
+In the same file change sampleTouch() as shown here:<br>
 <br>
+
   (STM32TouchController.cpp)
   ```sh
   ...
