@@ -321,6 +321,7 @@ in main.c ora devi inizializzare il display prima di entrare nel main loop, in q
 
 <br>Poi, nel loop principale, aggiungi l'attivazione ciclica di TouchGFX.<br>
 Puoi chiedere un aggiornamento continuo di TouchGFX come qui sotto:<br>
+
   ```sh
   ...
   /* Infinite loop */
@@ -339,6 +340,7 @@ Puoi chiedere un aggiornamento continuo di TouchGFX come qui sotto:<br>
   ```
 <br>
 è però meglio attivare TouchGFX solo a fronte di eventi che ne richiedano l'intervento, vedi qui:<br>
+
   ```sh
   ...
   /* Infinite loop */
@@ -357,13 +359,13 @@ Puoi chiedere un aggiornamento continuo di TouchGFX come qui sotto:<br>
 ...
   ```
 
-
 <br>
 ... e il <i>tipico</i> caso di un evento che richiede l'aggiornamento di TouchGFX è il tocco del display.<br>
 La libreria fornisce una funzione per una veloce interrogazione del display: Touch_GotATouch(param).<br>
 La funzione restituisce lo stato di un flag settato dall'interrupt attivato dal sensore touch.<br>
 La funzione accetta un parametro (vedi il codice per i dettagli) che puo' essere definito a "2" specificatamente per la chimata a touchgfxSignalVSync().<br>
 Quindi il main loop potrebbe (dovrebbe) essere scritto così:<br>
+
   ```sh
   ...
   /* Infinite loop */
