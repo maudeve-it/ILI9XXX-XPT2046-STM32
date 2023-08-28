@@ -74,6 +74,38 @@ Save and generate (or update) software.<br>
 <br><br>
 
 
+<br><br>
+
+## Touch sensor integration
+
+Open TouchGFX->target folder in your project.<br>
+Open STM32TouchController.cpp inside this folder.<br>
+add the include:<br>
+<br>
+  (STM32TouchController.cpp)
+  ```sh
+  ...
+  #include "main.h"
+  ...
+  ```
+
+<br>
+Change sampleTouch() as shown here:<br>
+<br>
+  (STM32TouchController.cpp)
+  ```sh
+  ...
+bool STM32TouchController::sampleTouch(int32_t& x, int32_t& y)
+{
+	return ((bool) Touch_TouchGFXSampleTouch(&x, &y));
+}
+  ...
+  ```
+
+<br>
+
+
+
 
 ## main.c setup
 
