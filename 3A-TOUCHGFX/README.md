@@ -314,12 +314,12 @@ in main.c ora devi inizializzare il display prima di entrare nel main loop, in q
   ...
   ```
 
-	
 <br>
 
 > <br><em>NOTA BENE: il parametro della funzione Displ_Init() deve corrispondere all'orientamento assegnato della grafica del display.<br></em><br>
 
-<br>Poi, nel loop principale, aggiungi l'attivazione ciclica di TouchGFX.<br>
+<br>
+Poi, nel loop principale, aggiungi l'attivazione ciclica di TouchGFX.<br>
 Puoi chiedere un aggiornamento continuo di TouchGFX come qui sotto:<br>
 
   ```sh
