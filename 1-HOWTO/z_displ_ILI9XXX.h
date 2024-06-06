@@ -37,12 +37,22 @@
 
 /*||||||||||| USER/PROJECT PARAMETERS |||||||||||*/
 
+/******************    STEP 0    ******************
+ *** if mapping flash on the uC addresses space ***
+ ********** uncomment the below #define ***********
+ ******** end assign it the correct value *********
+ ***** If external flash handled by TOUCHGFX,******
+ ************* let #define commented **************
+ **************************************************/
+#define EXT_FLASH_BASEADDRESS 0X90000000 // mapped flash base address
+
+
 /*****************     STEP 1      *****************
  ************ Enable TouchGFX interface ************
  * uncommenting the below #define to enable
  * functions interfacing TouchGFX
  ***************************************************/
-#define DISPLAY_USING_TOUCHGFX
+//#define DISPLAY_USING_TOUCHGFX
 
 
 /******************    STEP 2    *****************
@@ -141,7 +151,7 @@
  * TouchGFX buffers>2700bytes need BUFLEVEL 13
  * TouchGFX buffers>1300bytes need BUFLEVEL 12
 ***************************************************/
-#define BUFLEVEL 13
+#define BUFLEVEL 11
 
 /*|||||||| END OF USER/PROJECT PARAMETERS ||||||||*/
 
@@ -297,11 +307,11 @@ void Displ_fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t 
 void Displ_drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color);
 void Displ_Init(Displ_Orientat_e orientation);
 void Displ_Line(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
-void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color);
 void Displ_Orientation(Displ_Orientat_e orientation);
 void Displ_Pixel(uint16_t x, uint16_t y, uint16_t color);
 void Displ_WChar(uint16_t x, uint16_t y, char ch, sFONT font, uint8_t size, uint16_t color, uint16_t bgcolor);
 void Displ_WString(uint16_t x, uint16_t y, const char* str, sFONT font, uint8_t size, uint16_t color, uint16_t bgcolor);
+void Displ_DrawImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t *data);
 #endif /* ! DISPLAY_USING_TOUCHGFX */
 void Displ_FillArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color);
 void Displ_Orientation(Displ_Orientat_e orientation);

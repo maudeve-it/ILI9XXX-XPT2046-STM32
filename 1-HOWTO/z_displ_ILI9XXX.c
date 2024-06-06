@@ -456,6 +456,40 @@ void ILI9488_DrawImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t *
 
 
 
+
+
+
+void Displ_DrawImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t *data){
+#ifdef Z_RGB565
+	uint32_t size=((uint32_t)w*(uint32_t)h)<<1;
+#endif
+#ifdef Z_RGB666
+	uint32_t size=((uint32_t)w*(uint32_t)h)*3;
+#endif
+
+	Displ_SetAddressWindow(x, y, w+x-1, h+y-1);
+
+#ifdef EXT_FLASH_BASEADDRESS
+	if (((uint32_t)data>=EXT_FLASH_BASEADDRESS) && ((uint32_t)data<EXT_FLASH_BASEADDRESS+EXT_FLASH_SIZE)) {
+		data-=EXT_FLASH_BASEADDRESS;
+		while (size>SIZEBUF){
+			Flash_Read((uint32_t)data, dispBuffer , SIZEBUF);
+			Displ_WriteData(dispBuffer,SIZEBUF,0);
+			data+=SIZEBUF;
+			size-=SIZEBUF;
+			dispBuffer = (dispBuffer==dispBuffer1 ? dispBuffer2 : dispBuffer1); // swapping buffer
+		}
+		Flash_Read((uint32_t)data, dispBuffer , size);
+		data=dispBuffer;
+	}
+#endif
+	Displ_WriteData(data,size,0);
+	dispBuffer = (dispBuffer==dispBuffer1 ? dispBuffer2 : dispBuffer1); // swapping buffer
+}
+
+
+
+
 /***********************
  * @brief	print a single pixel
  * @params	x, y	pixel position on display
